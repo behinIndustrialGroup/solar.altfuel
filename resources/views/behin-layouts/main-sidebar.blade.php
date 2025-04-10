@@ -14,7 +14,7 @@
                     <img src="{{ url('public/behin/behin-dist/dist/img/avatar5.png') }}"
                         class="img-circle elevation-2" alt="User Image">
                 </div>
-                <div class="info">
+                <div class="info" style="color: black">
                     <a href="#" class="d-block">{{ auth()->user()->name ?? ''}}</a>
                 </div>
             </div>

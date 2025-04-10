@@ -54,7 +54,7 @@ use App\CustomClasses\Access;
             </a>
         </li>
 
-        @include('TodoListViews::partial-views.todo-list-icon')
+        {{-- @include('TodoListViews::partial-views.todo-list-icon') --}}
 
         @include('UserProfileViews::partial-views.user-profile-icon')
 

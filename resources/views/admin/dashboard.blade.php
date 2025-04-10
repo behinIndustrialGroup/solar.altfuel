@@ -8,9 +8,9 @@
                 <!-- small box -->
                 <div class="small-box bg-primary">
                     <div class="inner">
-                        <h3>{{ trans('پذیرش دستگاه') }}</h3>
+                        <h3>{{ trans('شروع فرایند') }}</h3>
 
-                        <p>{{ trans('ثبت پذیرش دستگاه جدید') }}</p>
+                        <p>{{ trans('شروع فرایند جدید') }}</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
@@ -19,7 +19,7 @@
                             class="fa fa-arrow-circle-left"></i></a>
                 </div>
             </div>
-        @endauth
+        @endif
         @if (auth()->user()->access('منو >>کارتابل>>کارتابل'))
             <div class="col-sm-3 ">
                 <!-- small box -->
@@ -36,23 +36,7 @@
                             class="fa fa-arrow-circle-left"></i></a>
                 </div>
             </div>
-        @endauth
-
-        <div class="col-sm-3 ">
-            <!-- small box -->
-            <div class="small-box bg-success">
-                <div class="inner">
-                    <h3>{{ trans('لیست کارها') }}</h3>
-
-                    <p>{{ trans('لیست کارهایی که ابلاغ شده است') }}</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="{{ route('todoList.index') }}" class="small-box-footer">{{ trans('مشاهده') }} <i
-                        class="fa fa-arrow-circle-left"></i></a>
-            </div>
-        </div>
+        @endif
         @if (auth()->user()->access('منو >>گزارشات کارتابل>>خلاصه'))
             <div class="col-sm-3 ">
                 <!-- small box -->

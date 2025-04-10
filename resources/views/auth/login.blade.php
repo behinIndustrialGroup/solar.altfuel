@@ -37,6 +37,7 @@
                 <div class="col-12">
                     <button type="submit" class="btn btn-primary col-sm-12" onclick="submit()">ورود</button>
                 </div>
+
                 {{-- <hr>
             <div class="center-align" style="text-align: center">
                 <a href="{{ route('register') }}" class="text-center">صفحه ثبت نام</a>
@@ -50,6 +51,9 @@
                         referrerpolicy='origin'
                         src='https://trustseal.enamad.ir/logo.aspx?id=573760&Code=xxw9WMjEmu7Jif319UJnJYlBcrY3BgYa'
                         alt='' style='cursor:pointer' code='xxw9WMjEmu7Jif319UJnJYlBcrY3BgYa'></a>
+                <div class="col-sm-12 text-center p-0 m-0" style="font-size: 10px">
+                    <p>نسخه {{ config('app.version') }}</p>
+                </div>
             </div>
 
         </div>

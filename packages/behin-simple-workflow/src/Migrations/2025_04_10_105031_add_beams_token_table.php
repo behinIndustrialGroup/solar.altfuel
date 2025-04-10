@@ -14,8 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->timestamp('pm_user_access_token_exp_date')->nullable();
+            $table->string('beams_token')->nullable()->after('role_id');
         });
+
     }
 
     /**
@@ -26,7 +27,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('pm_user_access_token_exp_date');
+            $table->dropColumn('beams_token');
         });
     }
 };
