@@ -9,7 +9,7 @@
     <link rel="icon" href="{{ url('public/behin/logo.ico') . '?' . config('app.version') }}">
     <link rel="manifest" href="{{ url('manifest.json') . '?' . config('app.version') }}">
 
-    <title>@yield('title')</title>
+    <title>{{ env('APP_NAME') }} - @yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
