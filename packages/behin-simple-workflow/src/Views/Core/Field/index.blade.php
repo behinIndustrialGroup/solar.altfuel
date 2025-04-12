@@ -96,7 +96,7 @@
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Persian.json"
             },
-            "pagging": -1
+            "pageLength": -1,
         });
     </script>
 @endsection
