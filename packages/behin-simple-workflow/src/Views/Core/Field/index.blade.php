@@ -9,7 +9,7 @@
     <form action="{{ route('simpleWorkflow.fields.store') }}" method="POST" class="row">
         @csrf
         <div class="col-sm-4">
-            <input type="text" name="name" class="form-control text-center">
+            <input type="text" name="name" class="form-control text-center" dir="ltr">
         </div>
         <div class="col-sm-4">
             <select name="type" id="" class="form-control">
@@ -95,7 +95,8 @@
         $('#table').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Persian.json"
-            }
+            },
+            "pagging": -1
         });
     </script>
 @endsection
