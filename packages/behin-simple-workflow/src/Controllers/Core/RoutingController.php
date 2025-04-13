@@ -150,6 +150,13 @@ class RoutingController extends Controller
                 // همه باید وضعیت انجام شده تغییر کنند
             }
         }
+        if($newInbox = InboxController::caseIsInUserInbox($caseId)){
+            return response()->json([
+                'status' => 200,
+                'msg' => trans('Saved'),
+                'url' => route('simpleWorkflow.inbox.view', ['inboxId' => $newInbox->id])
+            ]);
+        }
         return response()->json([
             'status' => 200,
             'msg' => trans('Saved')

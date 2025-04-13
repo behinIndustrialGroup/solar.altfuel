@@ -145,6 +145,9 @@
                     if (response.status == 200) {
                         show_message('{{ trans('fields.Saved') }}')
                         // window.close();
+                        if(response.url){
+                            window.location.href = response.url;
+                        }
                         window.location.href = '{{ route('simpleWorkflow.inbox.index') }}';
                     } else {
                         show_error(response.msg);

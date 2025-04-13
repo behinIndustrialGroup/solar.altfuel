@@ -45,6 +45,10 @@ class InboxController extends Controller
         return $inbox;
     }
 
+    public static function caseIsInUserInbox($caseId){
+        return Inbox::where('case_id', $caseId)->whereIn('status', ['new', 'opened', 'inProgress', 'draft'])->where('actor', Auth::id())->first();
+    }
+
     public static function editCaseName($inboxId, $caseName)
     {
         $inbox = InboxController::getById($inboxId);
