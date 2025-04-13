@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Contracts\Translation\Loader;
 use Illuminate\Contracts\Translation\Translator as TranslatorContract;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\NamespacedItemResolver;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
@@ -141,6 +142,25 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     public function get($key, array $replace = [], $locale = null, $fallback = true)
     {
         $locale = $locale ?: $this->locale;
+        $string = explode('.', $key);
+        if (count($string) == 2) {
+            $group = $string[0];
+            $key = $string[1];
+            $translation = DB::table('ltm_translations')->where('key', $key)->first();
+            if (!$translation) {
+                DB::table('ltm_translations')->insert([
+                    'status' => 0,
+                    'group' => $group,
+                    'locale' => config('app.locale'),
+                    'key' => $key,
+                    'value' => $key,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        }
+
+
 
         // For JSON translations, there is only one file per locale, so we will simply load
         // that file and then we will be ready to check the array for the key. These are
@@ -162,14 +182,21 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
 
             foreach ($locales as $languageLineLocale) {
                 if (! is_null($line = $this->getLine(
-                    $namespace, $group, $languageLineLocale, $item, $replace
+                    $namespace,
+                    $group,
+                    $languageLineLocale,
+                    $item,
+                    $replace
                 ))) {
                     return $line;
                 }
             }
 
             $key = $this->handleMissingTranslationKey(
-                $key, $replace, $locale, $fallback
+                $key,
+                $replace,
+                $locale,
+                $fallback
             );
         }
 
@@ -191,7 +218,9 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     public function choice($key, $number, array $replace = [], $locale = null)
     {
         $line = $this->get(
-            $key, $replace, $locale = $this->localeForChoice($locale)
+            $key,
+            $replace,
+            $locale = $this->localeForChoice($locale)
         );
 
         // If the given "number" is actually an array or countable we will simply count the
@@ -204,7 +233,8 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
         $replace['count'] = $number;
 
         return $this->makeReplacements(
-            $this->getSelector()->choose($line, $number, $locale), $replace
+            $this->getSelector()->choose($line, $number, $locale),
+            $replace
         );
     }
 
@@ -264,8 +294,8 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
         foreach ($replace as $key => $value) {
             if ($value instanceof Closure) {
                 $line = preg_replace_callback(
-                    '/<'.$key.'>(.*?)<\/'.$key.'>/',
-                    fn ($args) => $value($args[1]),
+                    '/<' . $key . '>(.*?)<\/' . $key . '>/',
+                    fn($args) => $value($args[1]),
                     $line
                 );
 
@@ -276,9 +306,9 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
                 $value = call_user_func($this->stringableHandlers[get_class($value)], $value);
             }
 
-            $shouldReplace[':'.Str::ucfirst($key ?? '')] = Str::ucfirst($value ?? '');
-            $shouldReplace[':'.Str::upper($key ?? '')] = Str::upper($value ?? '');
-            $shouldReplace[':'.$key] = $value;
+            $shouldReplace[':' . Str::ucfirst($key ?? '')] = Str::ucfirst($value ?? '');
+            $shouldReplace[':' . Str::upper($key ?? '')] = Str::upper($value ?? '');
+            $shouldReplace[':' . $key] = $value;
         }
 
         return strtr($line, $shouldReplace);
@@ -347,8 +377,10 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
      */
     protected function handleMissingTranslationKey($key, $replace, $locale, $fallback)
     {
-        if (! $this->handleMissingTranslationKeys ||
-            ! isset($this->missingTranslationKeyCallback)) {
+        if (
+            ! $this->handleMissingTranslationKeys ||
+            ! isset($this->missingTranslationKeyCallback)
+        ) {
             return $key;
         }
 
@@ -357,7 +389,10 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
 
         $key = call_user_func(
             $this->missingTranslationKeyCallback,
-            $key, $replace, $locale, $fallback
+            $key,
+            $replace,
+            $locale,
+            $fallback
         ) ?? $key;
 
         $this->handleMissingTranslationKeys = true;
@@ -428,7 +463,7 @@ class Translator extends NamespacedItemResolver implements TranslatorContract
     {
         $locales = array_filter([$locale ?: $this->locale, $this->fallback]);
 
-        return call_user_func($this->determineLocalesUsing ?: fn () => $locales, $locales);
+        return call_user_func($this->determineLocalesUsing ?: fn() => $locales, $locales);
     }
 
     /**

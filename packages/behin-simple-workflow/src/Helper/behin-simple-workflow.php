@@ -10,6 +10,7 @@ use Behin\SimpleWorkflow\Controllers\Core\ScriptController;
 use Behin\SimpleWorkflow\Controllers\Core\TaskController;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Morilog\Jalali\Jalalian;
 
@@ -128,3 +129,27 @@ if (!function_exists('convertPersianToEnglish')) {
 }
 
 
+
+if (!function_exists('mtrans')) {
+    function mtrans($string) {
+        $string = explode('.', $string);
+
+        if (count($string) == 2) {
+            $group = $string[0];
+            $key = $string[1];
+            $translation = DB::table('ltm_translations')->where('key', $key)->first();
+            if (!$translation) {
+                DB::table('ltm_translations')->insert([
+                    'status' => 0,
+                    'group' => $group,
+                    'locale' => config('app.locale'),
+                    'key' => $key,
+                    'value' => $key,
+                    'created_at' => now(),
+                    'updated_at' => now()
+                ]);
+            }
+        }
+        return trans($string);
+    }
+}
