@@ -217,6 +217,9 @@ class RoutingController extends Controller
                 // همه باید وضعیت انجام شده تغییر کنند
             }
         }
+        if($newInbox = InboxController::caseIsInUserInbox($caseId)){
+            return redirect()->route('simpleWorkflow.inbox.view', ['inboxId' => $newInbox->id]);
+        }
         return redirect()->route('simpleWorkflow.inbox.index');
     }
 
