@@ -25,6 +25,10 @@ class FormController extends Controller
         foreach($fields as $field){
             $fieldDetails = getFieldDetailsByName($field->fieldName);
             if($fieldDetails){
+                if($fieldDetails->type == 'location'){
+                    $ar[] = $field->fieldName . '_lng';
+                    $ar[] = $field->fieldName . '_lat';
+                }
                 $ar[] = $field->fieldName;
             }else{
                 $childAr = self::getFormFields($field->fieldName);
