@@ -119,7 +119,7 @@ class RoutingController extends Controller
             }
         } else {
             foreach ($taskChildren as $childTask) {
-                Log::info("Parent Task:" . $task->name . " Child Task:" . $childTask->name);
+                // Log::info("Parent Task:" . $task->name . " Child Task:" . $childTask->name);
                 $result = self::executeNextTask($childTask, $caseId);
                 if ($result == 'break') {
                     break;
@@ -193,7 +193,7 @@ class RoutingController extends Controller
         }
 
         $result = self::executeNextTask($nextTask, $caseId);
-        if ($result) {
+        if ($result && $result != 'break') {
             return $result;
         }
         if ($task->type == 'form') {
