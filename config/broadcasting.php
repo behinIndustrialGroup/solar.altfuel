@@ -16,6 +16,6 @@ return [
             'port' => 6001,
             'scheme' => 'http'
         ],
-        'prefix_user' => 'user-mobile-'
+        'prefix_user' => 'user-s3tup-'
     ],
 ];
