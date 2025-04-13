@@ -148,7 +148,7 @@
                         if(response.url){
                             window.location.href = response.url;
                         }
-                        window.location.href = '{{ route('simpleWorkflow.inbox.index') }}';
+                        // window.location.href = '{{ route('simpleWorkflow.inbox.index') }}';
                     } else {
                         show_error(response.msg);
                     }
