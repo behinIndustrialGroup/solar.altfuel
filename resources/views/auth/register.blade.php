@@ -21,7 +21,7 @@
                         <input type="text" class="form-control" name="email" placeholder="موبایل">
                         <div class="input-group-append">
                             <div class="input-group-text">
-                                <span class="fa fa-envelope"></span>
+                                <span class="fa fa-phone"></span>
                             </div>
                         </div>
                     </div>
@@ -66,8 +66,9 @@
                 "{{ route('register') }}",
                 $('#register-form').serialize(),
                 function(response) {
+                    show_message("ثبت نام شما با موفقیت انجام شد")
                     show_message("به صفحه داشبورد منتقل میشوید")
-                    window.location = "{{ url('') }}" + response
+                    window.location = response
                 },
                 function(response) {
                     console.log(response);
