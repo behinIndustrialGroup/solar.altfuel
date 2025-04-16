@@ -20,6 +20,10 @@
                 </div>
             </div>
         @endif
+
+        {{-- ثبت درخواست احداث نیروگاه --}}
+        @include('admin.partial.start-powerhouse-request')
+        
         @if (auth()->user()->access('منو >>کارتابل>>کارتابل'))
             <div class="col-sm-3 ">
                 <!-- small box -->
