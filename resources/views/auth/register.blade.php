@@ -68,7 +68,7 @@
                 function(response) {
                     show_message("ثبت نام شما با موفقیت انجام شد")
                     show_message("به صفحه داشبورد منتقل میشوید")
-                    // window.location = response
+                    window.location = response
                 },
                 function(response) {
                     console.log(response);
