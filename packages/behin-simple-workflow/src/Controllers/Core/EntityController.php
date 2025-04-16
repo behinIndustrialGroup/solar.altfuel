@@ -87,6 +87,7 @@ class EntityController extends Controller
 
         if (Schema::hasTable($entity->db_table_name)) {
             Schema::table($entity->db_table_name, function ($table) use ($ar, $entity) {
+                dd($ar);
                 foreach ($ar as $column) {
                     $name = $column['name'];
                     $type = $column['type'];
