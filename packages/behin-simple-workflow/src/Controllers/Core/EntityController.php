@@ -102,8 +102,6 @@ class EntityController extends Controller
             });
             echo "Table $entity->name updated successfully.";
         } else {
-            dd($ar);
-
             Schema::create($entity->db_table_name, function ($table) use ($ar) {
                 $table->string('id', 10)->primary();
                 foreach ($ar as $column) {
