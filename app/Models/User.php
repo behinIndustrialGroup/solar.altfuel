@@ -12,7 +12,15 @@ use Illuminate\Notifications\Notifiable;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+    public $incrementing = false; 
+    protected static function boot()
+    {
+        parent::boot();
 
+        static::creating(function ($model) {
+            $model->id = $model->id ?? substr(str_shuffle('123456789'), 0, 9);
+        });
+    }
     /**
      * The attributes that are mass assignable.
      *
@@ -47,7 +55,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-    function access($method_name) {
+    function access($method_name)
+    {
         return (new AccessController($method_name))->check();
     }
 }
