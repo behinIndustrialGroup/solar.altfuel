@@ -87,7 +87,6 @@ class EntityController extends Controller
 
         if (Schema::hasTable($entity->db_table_name)) {
             Schema::table($entity->db_table_name, function ($table) use ($ar, $entity) {
-                dd($ar);
                 foreach ($ar as $column) {
                     $name = $column['name'];
                     $type = $column['type'];
@@ -103,6 +102,8 @@ class EntityController extends Controller
             });
             echo "Table $entity->name updated successfully.";
         } else {
+            dd($ar);
+
             Schema::create($entity->db_table_name, function ($table) use ($ar) {
                 $table->string('id', 10)->primary();
                 foreach ($ar as $column) {
