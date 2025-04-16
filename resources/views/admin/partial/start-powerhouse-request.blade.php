@@ -1,7 +1,7 @@
 @if (auth()->user()->access('ثبت درخواست احداث نیروگاه'))
     <div class="col-sm-3 ">
         <!-- small box -->
-        <div class="small-box bg-primary">
+        <div class="small-box bg-danger">
             <div class="inner">
                 <h3>{{ trans('احداث نیروگاه') }}</h3>
 
