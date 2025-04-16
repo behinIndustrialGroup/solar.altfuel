@@ -49,9 +49,10 @@
                     <a href="{{ route('login') }}" class="text-center">صفحه ورود</a>
                 </div>
                 <hr>
-                <div class="center-align" style="text-align: center">
+                {{-- <div class="center-align" style="text-align: center">
                     <a href="{{ route('password.request') }}" class="text-center">فراموشی رمز</a>
-                </div>
+                </div> --}}
+                @include('auth.partial.enamad-and-version')
             </div>
 
         </div>
