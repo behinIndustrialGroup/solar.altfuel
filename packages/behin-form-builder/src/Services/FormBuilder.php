@@ -16,12 +16,12 @@ use MyFormBuilder\Fields\CheckboxField;
 use MyFormBuilder\Fields\DivField;
 use MyFormBuilder\Fields\EntityField;
 use MyFormBuilder\Fields\HelpField;
+use MyFormBuilder\Fields\HiddenField;
 use MyFormBuilder\Fields\LocationField;
 use MyFormBuilder\Fields\TitleField;
 use MyFormBuilder\Renderers\FormRenderer;
 use MyFormBuilder\Fields\SelectMultipleField;
 use MyFormBuilder\Fields\SignatureField;
-use MyFormBuilder\Fields\TimeField;
 
 class FormBuilder
 {
@@ -61,6 +61,15 @@ class FormBuilder
         $attributes = $attributes ?? [];
         // $field = $this->fieldFactory->create('text', $name, $attributes);
         return (new HelpField($name, $attributes))->render();
+        return $this;
+    }
+
+    public function hidden(string $name, array $attributes = null)
+    {
+
+        $attributes = $attributes ?? [];
+        // $field = $this->fieldFactory->create('text', $name, $attributes);
+        return (new HiddenField($name, $attributes))->render();
         return $this;
     }
 
@@ -129,15 +138,6 @@ class FormBuilder
         $attributes = $attributes ?? [];
         // $field = $this->fieldFactory->create('text', $name, $attributes);
         return (new DateField($name, $attributes))->render();
-        return $this;
-    }
-
-    public function time(string $name, array $attributes = null)
-    {
-
-        $attributes = $attributes ?? [];
-        // $field = $this->fieldFactory->create('text', $name, $attributes);
-        return (new TimeField($name, $attributes))->render();
         return $this;
     }
 

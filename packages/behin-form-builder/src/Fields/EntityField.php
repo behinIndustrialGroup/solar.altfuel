@@ -12,11 +12,7 @@ class EntityField extends AbstractField
         $columns = $this->attributes['columns'] ?? ''; // ['id', 'name' ect. 0 => 'id', 1 => 'name' ect.
         $columns = str_replace("\r", "", $columns);
         $columns = explode("\n", $columns);
-        $s = '<div class="form-group table-responsive"';
-        if(isset($this->attributes['style'])){
-            $s .= " style='" . $this->attributes['style'] . "' ";
-        }
-        $s .= '>';
+        $s = '<div class="form-group table-responsive">';
         $s .= '<label>';
         $s .= trans('fields.' . $this->name);
         $s .= '</label>';

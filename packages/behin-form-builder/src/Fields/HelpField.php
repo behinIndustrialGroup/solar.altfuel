@@ -17,11 +17,7 @@ class HelpField extends AbstractField
                 if($value == 'on'){
                     $s .= 'readonly ';
                 }
-            }
-            elseif($key == 'script'){
-
-            }
-            else{
+            }else{
                 $s .= $key . '="' . $value . '" ';
             }
         }
@@ -30,12 +26,12 @@ class HelpField extends AbstractField
         $s .= '<p>';
         $s .= $this->attributes['options'] ?? '';
         $s .= '</p>';
-        if(isset($this->attributes['script'])){
-            $s .= '<script>';
-            $s .= $this->attributes['script'];
-            $s .= '</script>';
-        }
+
         $s .= '</div>';
         return $s;
+        if (!isset($this->attributes['type'])) {
+            $this->attributes['type'] = 'text';
+        }
+        return sprintf('<input %s>', $this->buildAttributes());
     }
 }
