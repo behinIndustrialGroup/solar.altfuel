@@ -38,7 +38,7 @@
                     {!! Form::help($fieldId, [
                         'options' => isset($fieldAttributes?->options) ? $fieldAttributes?->options : null,
                         'class' => '',
-                        'id' => $fieldId,
+                        'id' => $field->id ?? $fieldId,
                         'style' => isset($fieldAttributes?->style) ? $fieldAttributes?->style : null,
                         'script' => isset($fieldAttributes?->script) ? $fieldAttributes?->script : null,
                     ]) !!}
@@ -108,6 +108,18 @@
                     {!! Form::date($fieldId, [
                         'value' => $fieldValue,
                         'class' => 'form-control persian-date',
+                        'id' => $fieldId,
+                        'placeholder' => $fieldAttributes?->placeholder,
+                        'required' => $required,
+                        'readonly' => $readOnly,
+                        'style' => isset($fieldAttributes?->style) ? $fieldAttributes?->style : null,
+                        'script' => isset($fieldAttributes?->script) ? $fieldAttributes?->script : null,
+                    ]) !!}
+                @endif
+                @if ($fieldDetails->type == 'time')
+                    {!! Form::time($fieldId, [
+                        'value' => $fieldValue,
+                        'class' => 'form-control timepicker',
                         'id' => $fieldId,
                         'placeholder' => $fieldAttributes?->placeholder,
                         'required' => $required,
@@ -197,7 +209,7 @@
             </div>
         @else
             @isset($childForm)
-                @include('SimpleWorkflowView::Core.Form.preview', ['form' => $childForm, 'mode' => $field->readOnly])
+                @include('SimpleWorkflowView::Core.Form.preview', ['form' => $childForm, 'mode' => $readOnly])
             @endisset
         @endisset
     @endforeach

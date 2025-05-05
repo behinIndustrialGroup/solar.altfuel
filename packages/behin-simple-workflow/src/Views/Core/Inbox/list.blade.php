@@ -25,6 +25,7 @@
                         <th>{{ trans('fields.Case Number') }}</th>
                         <th>{{ trans('fields.Case Title') }}</th>
                         <th>{{ trans('fields.Status') }}</th>
+                        <th>{{ trans('fields.Deadline') }}</th>
                         <th>{{ trans('fields.Received At') }}</th>
                         <th>{{ trans('fields.Actions') }}</th>
                     </tr>
@@ -34,7 +35,7 @@
                         <tr ondblclick="window.location.href = '{{ route('simpleWorkflow.inbox.view', $row->id) }}'">
                             <td>{{ $index + 1 }}</td>
                             <td>{{ $row->task->process->name }}</td>
-                            <td>{{ $row->task->name }}</td>
+                            <td>{!! $row->task->styled_name !!}</td>
                             <td>{{ $row->case->number ?? '' }}</td>
                             <td>{{ $row->case_name }}</td>
                             <td>
@@ -48,6 +49,9 @@
                                     <span class="badge bg-success">{{ trans('fields.Completed') }}</span>
                                 @endif
                             </td>
+                            <td>
+                                {!! $row->time_status !!}
+                            </td>
                             <td dir="ltr">{{ toJalali($row->created_at)->format('Y-m-d H:i') }}</td>
                             <td>
                                 <a href="{{ route('simpleWorkflow.inbox.view', $row->id) }}"
@@ -58,7 +62,10 @@
                                         class="btn btn-sm btn-danger">{{ trans('fields.Delete') }}
                                         <i class="fa fa-trash"></i></a>
                                 @endif
-                                @if ($row->task->id == '7f62e4ce-a96e-419a-8972-358fd642f39b')
+                                @if (
+                                    $row->task->id == '7f62e4ce-a96e-419a-8972-358fd642f39b' or
+                                    $row->task->id == 'f0892bd7-0e78-4333-8732-103fa9bdfaf2'
+                                )
                                     <a href="{{ route('simpleWorkflow.inbox.delete', $row->id) }}"
                                         class="btn btn-sm btn-danger">{{ trans('fields.Delete') }}
                                         <i class="fa fa-trash"></i></a>

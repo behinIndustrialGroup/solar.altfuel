@@ -41,7 +41,7 @@ class FieldController extends Controller
             'attributes' => null //json_encode($attributes)
         ]);
 
-        return redirect()->route('simpleWorkflow.fields.index')->with('success', 'Fields created successfully.');
+        return redirect()->route('simpleWorkflow.fields.index', ['#createForm'])->with('success', 'Fields created successfully.');
     }
 
     public function edit(Fields $field)

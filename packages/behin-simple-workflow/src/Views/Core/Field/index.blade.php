@@ -9,7 +9,7 @@
     <form action="{{ route('simpleWorkflow.fields.store') }}" method="POST" class="row">
         @csrf
         <div class="col-sm-4">
-            <input type="text" name="name" class="form-control text-center" dir="ltr">
+            <input type="text" name="name" class="form-control text-center">
         </div>
         <div class="col-sm-4">
             <select name="type" id="" class="form-control">
@@ -17,6 +17,7 @@
                 <option value="number">number</option>
                 <option value="text">text</option>
                 <option value="date">date</option>
+                <option value="time">time</option>
                 <option value="select">select</option>
                 <option value="select-multiple">select-multiple</option>
                 <option value="file">file</option>
@@ -95,8 +96,7 @@
         $('#table').DataTable({
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Persian.json"
-            },
-            "pageLength": -1,
+            }
         });
     </script>
 @endsection
