@@ -51,7 +51,7 @@
                 </option>
                 <option value="entity" @if ($field->type == 'entity') selected @endif>{{ trans('Entity') }}</option>
                 <option value="title" @if ($field->type == 'title') selected @endif>{{ trans('Title') }}</option>
-
+                <option value="hidden" @if ($field->type == 'hidden') selected @endif>{{ trans('Hidden') }}</option>
                 <option value="div" @if ($field->type == 'div') selected @endif>{{ trans('Div') }}</option>
                 <option value="button" @if ($field->type == 'button') selected @endif>{{ trans('Button') }}</option>
                 <option value="help" @if ($field->type == 'help') selected @endif>{{ trans('Help') }}</option>

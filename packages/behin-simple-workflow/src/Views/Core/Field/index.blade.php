@@ -27,6 +27,7 @@
                 <option value="signature">signature</option>
                 <option value="entity">entity</option>
                 <option value="title">title</option>
+                <option value="hidden">hidden</option>
                 <option value="div">div</option>
                 <option value="button">button</option>
                 <option value="help">help</option>

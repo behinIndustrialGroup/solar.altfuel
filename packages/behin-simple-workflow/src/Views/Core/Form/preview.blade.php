@@ -43,6 +43,15 @@
                         'script' => isset($fieldAttributes?->script) ? $fieldAttributes?->script : null,
                     ]) !!}
                 @endif
+                @if ($fieldDetails->type == 'hidden')
+                    {!! Form::hidden($fieldId, [
+                        'value' => $fieldValue,
+                        'class' => '',
+                        'id' => $fieldId,
+                        'style' => isset($fieldAttributes?->style) ? $fieldAttributes?->style : null,
+                        'script' => isset($fieldAttributes?->script) ? $fieldAttributes?->script : null,
+                    ]) !!}
+                @endif
                 @if ($fieldDetails->type == 'location')
                     @php
                         $defaultLat = isset($variables)
