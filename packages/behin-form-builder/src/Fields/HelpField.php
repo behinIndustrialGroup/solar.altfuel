@@ -8,17 +8,22 @@ class HelpField extends AbstractField
     {
         $s = '<div class="" ';
         foreach($this->attributes as $key => $value){
+            
             if($key == 'required'){
                 if($value == 'on'){
                     $s .= 'required ';
                 }
             }
-            elseif($key == 'readonly'){
+            if($key == 'readonly'){
                 if($value == 'on'){
                     $s .= 'readonly ';
                 }
-            }else{
-                $s .= $key . '="' . $value . '" ';
+            }
+            if($key == 'style'){
+                $s .= 'style="' . $value . '" ';
+            }
+            if($key == 'id'){
+                $s .= 'id="' . $value . '" ';
             }
         }
         $s .= '>';
