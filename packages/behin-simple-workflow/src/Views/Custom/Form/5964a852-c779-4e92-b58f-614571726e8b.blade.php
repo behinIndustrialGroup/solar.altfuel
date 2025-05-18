@@ -1,6 +1,6 @@
 @php
-    use Behin\SimpleWorkflow\Models\Entities\UserProfile;
+    use Behin\SimpleWorkflow\Models\Entities\Users_profile;
     $customerId = $case->getVariable('user_profile_id');
-    $customer = UserProfile::find($customerId);
+    $customer = Users_profile::find($customerId);
     dd($customer);
 @endphp
