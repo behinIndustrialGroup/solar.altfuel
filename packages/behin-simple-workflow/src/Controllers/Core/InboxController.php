@@ -143,9 +143,9 @@ class InboxController extends Controller
         $variables = VariableController::getVariablesByCaseId($case->id, $process->id);
         
         if ($task->type == 'form') {
-            if (!isset($form->content)) {
-                return redirect()->route('simpleWorkflow.inbox.index')->with('error', trans('Form not found'));
-            }
+            // if (!isset($form->content)) {
+            //     return redirect()->route('simpleWorkflow.inbox.index')->with('error', trans('Form not found'));
+            // }
             // if(!TaskActorController::userIsAssignToTask($task->id, Auth::id())){
             //     return redirect()->route('simpleWorkflow.inbox.index')->with('error', trans('You are not assigned to this task'));
             // }
