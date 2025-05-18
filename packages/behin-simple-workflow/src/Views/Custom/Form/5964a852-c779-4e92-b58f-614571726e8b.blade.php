@@ -25,17 +25,17 @@
 <div>
     <div>
         @if ($customer->type == 'حقیقی')
-            <table>
+            <table class="table">
                 <tr>
                     <td>{{ trans('fields.type') }}</td>
                     <td>{{ $customer->type }}</td>
                 </tr>
                 <tr>
-                    <td>{{ trans('fields.first_name') }}</td>
+                    <td>{{ trans('fields.firstname') }}</td>
                     <td>{{ $customer->first_name }}</td>
                 </tr>
                 <tr>
-                    <td>{{ trans('fields.last_name') }}</td>
+                    <td>{{ trans('fields.lastname') }}</td>
                     <td>{{ $customer->last_name }}</td>
                 </tr>
                 <tr>
