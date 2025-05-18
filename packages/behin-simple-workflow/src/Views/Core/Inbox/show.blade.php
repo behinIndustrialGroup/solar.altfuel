@@ -44,14 +44,25 @@
                 <input type="hidden" name="caseId" id="caseId" value="{{ $case->id }}">
                 <input type="hidden" name="taskId" id="taskId" value="{{ $task->id }}">
                 <input type="hidden" name="processId" id="processId" value="{{ $process->id }}">
-                @include('SimpleWorkflowView::Core.Form.preview', [
-                    'form' => $form,
-                    'task' => $task,
-                    'case' => $case,
-                    'inbox' => $inbox,
-                    'variables' => $variables,
-                    'process' => $process,
-                ])
+                @if (file_exists('SimpleWorkflowView::Core.Form.custom-form.' . $form->id))
+                    @include('SimpleWorkflowView::Core.Form.custom-form.' . $form->id, [
+                        'form' => $form,
+                        'task' => $task,
+                        'case' => $case,
+                        'inbox' => $inbox,
+                        'variables' => $variables,
+                        'process' => $process,
+                    ])
+                @else
+                    @include('SimpleWorkflowView::Core.Form.preview', [
+                        'form' => $form,
+                        'task' => $task,
+                        'case' => $case,
+                        'inbox' => $inbox,
+                        'variables' => $variables,
+                        'process' => $process,
+                    ])
+                @endif
             </form>
         </div>
     </div>
@@ -146,9 +157,9 @@
                     if (response.status == 200) {
                         show_message('{{ trans('fields.Saved') }}')
                         // window.close();
-                        if(response.url){
+                        if (response.url) {
                             window.location.href = response.url;
-                        }else{
+                        } else {
                             window.location.href = '{{ route('simpleWorkflow.inbox.index') }}';
                         }
                     } else {
@@ -160,7 +171,7 @@
 
         function showJumpModal(task_id) {
             send_ajax_get_request(
-                '{{ route('simpleWorkflow.task-jump.show', [$task->id , $inbox->id , $case->id , $process->id] ) }}',
+                '{{ route('simpleWorkflow.task-jump.show', [$task->id, $inbox->id, $case->id, $process->id]) }}',
                 function(response) {
                     open_admin_modal_with_data(response, '', function() {
                         initial_view()
