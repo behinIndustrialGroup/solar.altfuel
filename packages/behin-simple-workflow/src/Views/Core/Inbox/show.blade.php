@@ -45,6 +45,9 @@
                 <input type="hidden" name="taskId" id="taskId" value="{{ $task->id }}">
                 <input type="hidden" name="processId" id="processId" value="{{ $process->id }}">
                 @if (file_exists('SimpleWorkflowView::Custom.Form.' . $form->id))
+                    <div>
+                        test
+                    </div>
                     @include('SimpleWorkflowView::Custom.Form.' . $form->id, [
                         'form' => $form,
                         'task' => $task,
