@@ -44,8 +44,8 @@
                 <input type="hidden" name="caseId" id="caseId" value="{{ $case->id }}">
                 <input type="hidden" name="taskId" id="taskId" value="{{ $task->id }}">
                 <input type="hidden" name="processId" id="processId" value="{{ $process->id }}">
-                @if (file_exists('SimpleWorkflowView::Core.Form.custom-form.' . $form->id))
-                    @include('SimpleWorkflowView::Core.Form.custom-form.' . $form->id, [
+                @if (file_exists('SimpleWorkflowView::Custom.Form.' . $form->id))
+                    @include('SimpleWorkflowView::Custom.Form.' . $form->id, [
                         'form' => $form,
                         'task' => $task,
                         'case' => $case,
