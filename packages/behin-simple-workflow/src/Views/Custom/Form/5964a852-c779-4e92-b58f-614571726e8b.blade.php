@@ -22,3 +22,50 @@
     $usedPanels = Request_panels::where('request_id', $requestId)->get();
     $usedInvertors = Request_invertors::where('request_id', $requestId)->get();
 @endphp
+<div>
+    <div>
+        @if ($customer->type == 'حقیقی')
+            <table>
+                <tr>
+                    <td>{{ trans('fields.type') }}</td>
+                    <td>{{ $customer->type }}</td>
+                </tr>
+                <tr>
+                    <td>{{ trans('fields.first_name') }}</td>
+                    <td>{{ $customer->first_name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ trans('fields.last_name') }}</td>
+                    <td>{{ $customer->last_name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ trans('fields.national_id') }}</td>
+                    <td>{{ $customer->national_id }}</td>
+                </tr>
+            </table>
+        @else
+            <table>
+                <tr>
+                    <td>{{ trans('fields.type') }}</td>
+                    <td>{{ $customer->type }}</td>
+                </tr>
+                <tr>
+                    <td>{{ trans('fields.legal_name') }}</td>
+                    <td>{{ $customer->legal_name }}</td>
+                </tr>
+                <tr>
+                    <td>{{ trans('fields.legal_national_id') }}</td>
+                    <td>{{ $customer->legal_national_id }}</td>
+                </tr>
+                <tr>
+                    <td>{{ trans('fields.legal_register_number') }}</td>
+                    <td>{{ $customer->legal_register_number }}</td>
+                </tr>
+                <tr>
+                    <td>{{ trans('fields.legal_register_date') }}</td>
+                    <td>{{ $customer->legal_register_date }}</td>
+                </tr>
+            </table>
+        @endif
+    </div>
+</div>
