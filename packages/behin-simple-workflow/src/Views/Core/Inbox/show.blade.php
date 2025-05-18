@@ -44,7 +44,7 @@
                 <input type="hidden" name="caseId" id="caseId" value="{{ $case->id }}">
                 <input type="hidden" name="taskId" id="taskId" value="{{ $task->id }}">
                 <input type="hidden" name="processId" id="processId" value="{{ $process->id }}">
-                @if (file_exists('SimpleWorkflowView::Custom.Form.' . $form->id))
+                @if (View::exists('SimpleWorkflowView::Custom.Form.' . $form->id))
                     <div>
                         test
                     </div>
