@@ -25,7 +25,11 @@ class SelectField extends AbstractField
                 if ($value == 'on') {
                     $s .= 'disabled ';
                 }
-            } else {
+            } 
+            elseif(in_array($key, ['script', 'query'])){
+                
+            }
+            else {
                 $s .= $key . '="' . $value . '" ';
             }
         }
@@ -48,6 +52,11 @@ class SelectField extends AbstractField
         }
 
         $s .= '</select>';
+        if(isset($this->attributes['script'])){
+            $s .= '<script>';
+            $s .= $this->attributes['script'];
+            $s .= '</script>';
+        }
         $s .= '</div>';
         return $s;
         $attributes = $this->attributes;
