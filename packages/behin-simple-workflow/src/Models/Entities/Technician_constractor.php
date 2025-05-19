@@ -5,13 +5,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\SoftDeletes;
- class Powerhouse_place_info extends Model 
+use App\Models\User;
+ class Technician_constractor extends Model 
 { 
     use SoftDeletes; 
     public $incrementing = false; 
     protected $keyType = 'string'; 
-    public $table = 'wf_entity_powerhouse_place_info'; 
-    protected $fillable = ['case_id', 'name', 'province', 'city', 'address', 'postal_code', 'lat1', 'lng1', 'lat2', 'lng2', 'lat3', 'lng3', 'lat4', 'lng4', 'type', ]; 
+    public $table = 'wf_entity_technician_constractor'; 
+    protected $fillable = ['technician_id', 'contractor_id', 'state', ]; 
 protected static function boot()
         {
             parent::boot();
@@ -20,4 +21,10 @@ protected static function boot()
                 $model->id = $model->id ?? substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'), 0, 10);
             });
         }
+public function contractor(){
+    return User::find($this->contractor_id);
 }
+
+public function technician(){
+    return User::find($this->technician_id);
+}}

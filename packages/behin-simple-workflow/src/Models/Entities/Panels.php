@@ -4,8 +4,10 @@ use Behin\SimpleWorkflow\Controllers\Core\VariableController;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
  class Panels extends Model 
 { 
+    use SoftDeletes; 
     public $incrementing = false; 
     protected $keyType = 'string'; 
     public $table = 'wf_entity_panels'; 
