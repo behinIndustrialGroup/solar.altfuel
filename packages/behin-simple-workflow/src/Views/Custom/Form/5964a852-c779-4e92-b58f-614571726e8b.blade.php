@@ -198,7 +198,7 @@
                 </thead>
                 <tbody>
                     @foreach ($usedInvertors as $item)
-                        @php $inv = $item->panel(); @endphp
+                        @php $inv = $item->invertor(); @endphp
                         @if ($inv)
                             <tr>
                                 <td>{{ $inv->serial }}</td>
