@@ -7,6 +7,7 @@
     use Behin\SimpleWorkflow\Models\Entities\Request_panels;
     use Behin\SimpleWorkflow\Models\Entities\Request_invertors;
     use Behin\SimpleWorkflow\Models\Entities\Powerhouse_place_info;
+    use Behin\SimpleWorkflow\Models\Entities\Request_batteries;
 
     $customer = Users_profile::find($case->getVariable('user_profile_id'));
     $powerhousePlaceInfo = Powerhouse_place_info::find($case->getVariable('powerhouse_place_info-id'));
@@ -16,6 +17,7 @@
     $request = Requests::find($case->getVariable('request-id'));
     $usedPanels = Request_panels::where('request_id', $request->id)->get();
     $usedInvertors = Request_invertors::where('request_id', $request->id)->get();
+    $usedBatteries = Request_batteries::where('request_id', $request->id)->get();
 @endphp
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.rtl.min.css">
@@ -206,6 +208,40 @@
                                 <td>{{ $inv->production_date }}</td>
                                 <td>{{ $inv->country_of_origin }}</td>
                                 <td>{{ $inv->max_power_output }}</td>
+                            </tr>
+                        @endif
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    {{-- باطری ها --}}
+    <div class="mb-4">
+        <div class="section-title">باطری های استفاده‌شده</div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+                <thead class="table-primary">
+                    <tr>
+                        <th>سریال</th>
+                        <th>سازنده</th>
+                        <th>تاریخ تولید</th>
+                        <th>کشور سازنده</th>
+                        <th>ولتاژ</th>
+                        <th>ظرفیت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($usedBatteries as $item)
+                        @php $bat = $item->invertor(); @endphp
+                        @if ($bat)
+                            <tr>
+                                <td>{{ $bat->serial }}</td>
+                                <td>{{ $bat->manufacturer }}</td>
+                                <td>{{ $bat->production_date }}</td>
+                                <td>{{ $bat->country_of_origin }}</td>
+                                <td>{{ $bat->nominal_voltage }}</td>
+                                <td>{{ $bat->nominal_capacity }}</td>
                             </tr>
                         @endif
                     @endforeach
