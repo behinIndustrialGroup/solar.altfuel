@@ -233,7 +233,7 @@
                 </thead>
                 <tbody>
                     @foreach ($usedBatteries as $item)
-                        @php $bat = $item->invertor(); @endphp
+                        @php $bat = $item->battery(); @endphp
                         @if ($bat)
                             <tr>
                                 <td>{{ $bat->serial }}</td>
