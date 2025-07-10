@@ -56,48 +56,49 @@
 
 
 
-<style>
-    body {
-        direction: rtl;
-        font-family: "Tahoma", sans-serif;
-        background-color: #f9f9f9;
-        color: #333;
-        padding: 20px;
-    }
+    <style>
+        body {
+            direction: rtl;
+            font-family: "Tahoma", sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+        }
 
-    #printable-area {
-        background: white;
-        padding: 30px;
-        width: 210mm;
-        min-height: 297mm;
-        margin: auto;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        box-sizing: border-box;
-    }
+        #printable-area {
+            background: white;
+            padding: 30px;
+            width: 210mm;
+            min-height: 297mm;
+            margin: auto;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
 
-    .section-title {
-        background-color: #0d6efd;
-        color: white;
-        padding: 10px;
-        margin-bottom: 15px;
-        border-radius: 6px;
-        font-weight: bold;
-    }
+        .section-title {
+            background-color: #0d6efd;
+            color: white;
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 6px;
+            font-weight: bold;
+        }
 
-    table th,
-    table td {
-        vertical-align: middle !important;
-        text-align: center;
-    }
-    #powerhousePlaceInfo td {
-        text-align: right;
-    }
+        table th,
+        table td {
+            vertical-align: middle !important;
+            text-align: center;
+        }
 
-    .logo-container img {
-        max-height: 80px;
-    }
-</style>
-    
+        #powerhousePlaceInfo td {
+            text-align: right;
+        }
+
+        .logo-container img {
+            max-height: 80px;
+        }
+    </style>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div class="logo-container"><img src="{{ url('public/behin/logo.png') }}" alt="Logo"></div>
         <div class="text-center">
@@ -252,17 +253,27 @@
 
     {{-- پرسنل --}}
     <div class="mb-4">
-        <div class="section-title">اطلاعات پرسنل مرتبط</div>
-        <div class="row gy-2">
-            @if ($contractor)
-                <div class="col-md-4"><strong>پیمانکار:</strong> {{ $contractor->name }}</div>
-            @endif
-            @if ($technicianHead)
-                <div class="col-md-4"><strong>تکنسین ارشد:</strong> {{ $technicianHead->name }}</div>
-            @endif
-            @if ($inspector)
-                <div class="col-md-4"><strong>بازرس:</strong> {{ $inspector->name }}</div>
-            @endif
+        <div class="section-title">اطلاعات صادر کننده</div>
+        <div class="table-responsive">
+            <table class="table table-bordered table-sm">
+                <tr>
+                    <td>
+                        @if ($contractor)
+                            <div class="col-md-4"><strong>پیمانکار:</strong> {{ $contractor->name }}</div>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($technicianHead)
+                            <div class="col-md-4"><strong>تکنسین ارشد:</strong> {{ $technicianHead->name }}</div>
+                        @endif
+                    </td>
+                    <td>
+                        @if ($inspector)
+                            <div class="col-md-4"><strong>بازرس:</strong> {{ $inspector->name }}</div>
+                        @endif
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
@@ -284,6 +295,7 @@
         document.body.innerHTML = original;
         location.reload();
     }
+
     function downloadPDF() {
         const element = document.getElementById('printable-area');
         const opt = {
