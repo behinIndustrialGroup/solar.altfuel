@@ -117,15 +117,19 @@
                 @if ($customer->type == 'حقیقی')
                     <tr>
                         <td><strong>نوع:</strong> {{ $customer->type }}</td>
+                        <td><strong>کد ملی:</strong> {{ $customer->national_id }}</td>
+                    </tr>
+                    <tr>
                         <td><strong>نام:</strong> {{ $customer->firstname }}</td>
                         <td><strong>نام خانوادگی:</strong> {{ $customer->lastname }}</td>
-                        <td><strong>کد ملی:</strong> {{ $customer->national_id }}</td>
                     </tr>
                 @else
                     <tr>
                         <td><strong>نوع:</strong> {{ $customer->type }}</td>
                         <td><strong>نام حقوقی:</strong> {{ $customer->legal_name }}</td>
                         <td><strong>شناسه ملی:</strong> {{ $customer->legal_national_id }}</td>
+                    </tr>
+                    <tr>
                         <td><strong>شماره ثبت:</strong> {{ $customer->legal_register_number }}</td>
                         <td><strong>تاریخ ثبت:</strong> {{ $customer->legal_register_date }}</td>
                     </tr>
