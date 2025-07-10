@@ -112,19 +112,25 @@
     {{-- اطلاعات مشتری --}}
     <div class="mb-4">
         <div class="section-title">اطلاعات مشتری</div>
-        <div class="row gy-2">
-            @if ($customer->type == 'حقیقی')
-                <div class="col-md-3"><strong>نوع:</strong> {{ $customer->type }}</div>
-                <div class="col-md-3"><strong>نام:</strong> {{ $customer->firstname }}</div>
-                <div class="col-md-3"><strong>نام خانوادگی:</strong> {{ $customer->lastname }}</div>
-                <div class="col-md-3"><strong>کد ملی:</strong> {{ $customer->national_id }}</div>
-            @else
-                <div class="col-md-3"><strong>نوع:</strong> {{ $customer->type }}</div>
-                <div class="col-md-3"><strong>نام حقوقی:</strong> {{ $customer->legal_name }}</div>
-                <div class="col-md-3"><strong>شناسه ملی:</strong> {{ $customer->legal_national_id }}</div>
-                <div class="col-md-3"><strong>شماره ثبت:</strong> {{ $customer->legal_register_number }}</div>
-                <div class="col-md-3"><strong>تاریخ ثبت:</strong> {{ $customer->legal_register_date }}</div>
-            @endif
+        <div class="table-responsive">
+            <table class="table table-sm">
+                @if ($customer->type == 'حقیقی')
+                    <tr>
+                        <td><strong>نوع:</strong> {{ $customer->type }}</td>
+                        <td><strong>نام:</strong> {{ $customer->firstname }}</td>
+                        <td><strong>نام خانوادگی:</strong> {{ $customer->lastname }}</td>
+                        <td><strong>کد ملی:</strong> {{ $customer->national_id }}</td>
+                    </tr>
+                @else
+                    <tr>
+                        <td><strong>نوع:</strong> {{ $customer->type }}</td>
+                        <td><strong>نام حقوقی:</strong> {{ $customer->legal_name }}</td>
+                        <td><strong>شناسه ملی:</strong> {{ $customer->legal_national_id }}</td>
+                        <td><strong>شماره ثبت:</strong> {{ $customer->legal_register_number }}</td>
+                        <td><strong>تاریخ ثبت:</strong> {{ $customer->legal_register_date }}</td>
+                    </tr>
+                @endif
+            </table>
         </div>
     </div>
 
