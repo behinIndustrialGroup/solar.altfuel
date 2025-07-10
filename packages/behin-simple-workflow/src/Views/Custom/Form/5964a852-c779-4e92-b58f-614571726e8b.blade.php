@@ -255,7 +255,7 @@
     <div class="mb-4">
         <div class="section-title">اطلاعات صادر کننده</div>
         <div class="table-responsive">
-            <table class="table table-bordered table-sm">
+            <table class="table table-bordered table-sm" style="width: 100%;">
                 <tr>
                     <td>
                         @if ($contractor)
