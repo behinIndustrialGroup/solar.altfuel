@@ -94,6 +94,10 @@
             text-align: right;
         }
 
+        #customerInfo td {
+            text-align: right;
+        }
+
         .logo-container img {
             max-height: 80px;
         }
@@ -113,7 +117,7 @@
     <div class="mb-4">
         <div class="section-title">اطلاعات مشتری</div>
         <div class="table-responsive">
-            <table class="table table-sm">
+            <table class="table table-sm" id="customerInfo">
                 @if ($customer->type == 'حقیقی')
                     <tr>
                         <td><strong>نوع:</strong> {{ $customer->type }}</td>
