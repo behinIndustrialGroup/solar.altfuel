@@ -30,7 +30,6 @@ class ProcessController extends Controller
         $year = Jalalian::now()->format('%Y');
         DB::table('wf_entity_timeoffs')->where('user', $request->userId)->where('request_year', $year)->update(['deleted_at' => Carbon::now()]);;
         $duration = $request->restBySystem - $request->restByUser;
-        return $duration;
         DB::table('wf_entity_timeoffs')->insert(
             [
                 'user' => $request->userId,

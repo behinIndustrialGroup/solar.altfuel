@@ -8,22 +8,21 @@ class HelpField extends AbstractField
     {
         $s = '<div class="" ';
         foreach($this->attributes as $key => $value){
-            
             if($key == 'required'){
                 if($value == 'on'){
                     $s .= 'required ';
                 }
             }
-            if($key == 'readonly'){
+            elseif($key == 'readonly'){
                 if($value == 'on'){
                     $s .= 'readonly ';
                 }
             }
-            if($key == 'style'){
-                $s .= 'style="' . $value . '" ';
+            elseif($key == 'script'){
+
             }
-            if($key == 'id'){
-                $s .= 'id="' . $value . '" ';
+            else{
+                $s .= $key . '="' . $value . '" ';
             }
         }
         $s .= '>';
@@ -36,12 +35,7 @@ class HelpField extends AbstractField
             $s .= $this->attributes['script'];
             $s .= '</script>';
         }
-
         $s .= '</div>';
         return $s;
-        if (!isset($this->attributes['type'])) {
-            $this->attributes['type'] = 'text';
-        }
-        return sprintf('<input %s>', $this->buildAttributes());
     }
 }

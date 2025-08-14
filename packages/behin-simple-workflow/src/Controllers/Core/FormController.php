@@ -3,8 +3,11 @@
 namespace Behin\SimpleWorkflow\Controllers\Core;
 
 use App\Http\Controllers\Controller;
+use Behin\SimpleWorkflow\Models\Core\Cases;
 use Behin\SimpleWorkflow\Models\Core\Form;
+use Behin\SimpleWorkflow\Models\Core\Inbox;
 use Behin\SimpleWorkflow\Models\Core\Process;
+use Behin\SimpleWorkflow\Models\Core\ViewModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -25,17 +28,13 @@ class FormController extends Controller
         foreach($fields as $field){
             $fieldDetails = getFieldDetailsByName($field->fieldName);
             if($fieldDetails){
-                if($fieldDetails->type == 'location'){
-                    $ar[] = $field->fieldName . '_lng';
-                    $ar[] = $field->fieldName . '_lat';
-                }
                 $ar[] = $field->fieldName;
             }else{
                 $childAr = self::getFormFields($field->fieldName);
                 $ar = array_merge($ar, $childAr);
             }
         }
-        return $ar;         
+        return $ar;
     }
 
     public static function requiredFields($id){
@@ -48,10 +47,10 @@ class FormController extends Controller
                 if($field->readOnly != 'on'){
                     $formId = $field->fieldName;
                     $childAr = self::requiredFields($formId);
-                    $ar = array_merge($ar, $childAr); 
+                    $ar = array_merge($ar, $childAr);
                 }
             }
-            if($field->required == 'on'){
+            if($field->required == 'on' and $field->readOnly != 'on'){
                 $ar[] = $field->fieldName;
             }
         }
@@ -191,5 +190,58 @@ class FormController extends Controller
         return response()->json([
             'msg' => trans('Form deleted successfully')
         ]);
+    }
+
+    public static function open(Request $request, $form_id, $modalShow = true){
+        $form = FormController::getById($form_id);
+        $viewModel = ViewModel::find($request->viewModel_id);
+        if($viewModel->api_key != $request->api_key){
+            return response("", 403);
+        }
+        $model = ViewModelController::getModelById($viewModel->id);
+        $row = $model::find($request->row_id);
+
+        if(!isset($request->case_id)){
+            $case = Cases::first();
+        }else{
+            $case = CaseController::getById($request->case_id);
+        }
+        $inbox = InboxController::getById($request->inbox_id);
+        return view('SimpleWorkflowView::Core.ViewModel.front.show', compact('form', 'inbox', 'case', 'viewModel', 'row', 'modalShow'));
+    }
+
+    public function openCreateNew(Request $request, $form_id, $modalShow = true){
+        $form = FormController::getById($form_id);
+        $viewModel = ViewModel::find($request->viewModel_id);
+        if($viewModel->api_key != $request->api_key){
+            return response("", 403);
+        }
+        $model = ViewModelController::getModelById($viewModel->id);
+
+        if(!isset($request->case_id)){
+            $case = Cases::first();
+        }else{
+            $case = CaseController::getById($request->case_id);
+        }
+        $inbox = InboxController::getById($request->inbox_id);
+        return view('SimpleWorkflowView::Core.ViewModel.front.show', compact('form', 'inbox', 'case', 'viewModel', 'modalShow'));
+    }
+
+    public static function openReadForm(Request $request, $form_id, $modalShow = true){
+        $form = FormController::getById($form_id);
+        $viewModel = ViewModel::find($request->viewModel_id);
+        if($viewModel->api_key != $request->api_key){
+            return response("", 403);
+        }
+        $model = ViewModelController::getModelById($viewModel->id);
+        $row = $model::find($request->row_id);
+
+        if(!isset($request->case_id)){
+            $case = Cases::first();
+        }else{
+            $case = CaseController::getById($request->case_id);
+        }
+        $inbox = InboxController::getById($request->inbox_id);
+        return view('SimpleWorkflowView::Core.ViewModel.front.read', compact('form', 'inbox', 'case', 'viewModel', 'row', 'modalShow'));
     }
 }

@@ -13,7 +13,6 @@ class HiddenField extends AbstractField
         if(isset($this->attributes['value'])){
             $s .= 'value="' . $this->attributes['value'] . '" ';
         }
-        $s .= '>';
         $s .= '</div>';
         return $s;
     }

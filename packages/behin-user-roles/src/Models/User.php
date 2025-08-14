@@ -5,12 +5,13 @@ namespace BehinUserRoles\Models;
 use BehinInit\App\Http\Controllers\AccessController;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -28,7 +29,8 @@ class User extends Authenticatable
         'role_id',
         'reset_code',
         'pm_username', 'pm_user_password', 'pm_user_access_token', 'pm_user_access_token_exp_date',
-        'ext_num'
+        'ext_num',
+        'valid_ip'
     ];
 
     /**

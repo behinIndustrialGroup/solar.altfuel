@@ -26,7 +26,7 @@ class SelectField extends AbstractField
                     $s .= 'disabled ';
                 }
             } 
-            elseif(in_array($key, ['script', 'query'])){
+            elseif($key == 'script'){
                 
             }
             else {

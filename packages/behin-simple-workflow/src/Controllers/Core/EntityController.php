@@ -7,6 +7,8 @@ use Behin\SimpleWorkflow\Models\Core\Entity;
 use Behin\SimpleWorkflow\Models\Core\Fields;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class EntityController extends Controller
 {
@@ -36,17 +38,49 @@ class EntityController extends Controller
 
     public function edit(Entity $entity)
     {
-        return view('SimpleWorkflowView::Core.Entity.edit', compact('entity'));
+        $tables = collect(DB::select('SHOW TABLES'))->map(function ($row) {
+            return array_values((array) $row)[0];
+        })->toArray();
+
+        return view('SimpleWorkflowView::Core.Entity.edit', compact('entity', 'tables'));
     }
 
     public function update(Request $request, Entity $entity)
     {
+        $defaultUses = "use Behin\\SimpleWorkflow\\Controllers\\Core\\VariableController; use Illuminate\\Database\\Eloquent\\Factories\\HasFactory; use Illuminate\\Database\\Eloquent\\Model; use Illuminate\\Support\\Str; use Illuminate\\Database\\Eloquent\\SoftDeletes;";
+        $uses = $request->uses ?? $defaultUses;
+        $classContents = $request->class_contents ?? '';
+        // $classContents = preg_replace(
+        //     "/\r?\n\s*public function \w+\(\)\s*\r?\n\s*{\s*\r?\n\s*return \\$this->belongsTo\([^;]+;\s*\r?\n\s*}\s*/",
+        //     "\n",
+        //     $classContents
+        // );
+
+        $relations = '';
+        $columnsLines = preg_split('/\r\n|\n|\r/', trim($request->columns));
+        foreach ($columnsLines as $line) {
+            if (!$line) {
+                continue;
+            }
+            $details = explode(',', $line);
+            $name = $details[0];
+            $type = $details[1] ?? '';
+            if (Str::startsWith($type, 'entity:')) {
+                $table = substr($type, 7);
+                $class = Str::studly(Str::singular($table));
+                $uses .= " use Behin\\SimpleWorkflow\\Models\\Entities\\$class;";
+                $method = Str::camel(str_replace(['_id'], '', $name));
+                $relations .= "\n    public function $method()\n    {\n        return DB::table('$table')->where('id', \$this->$name)->first();\n    }\n";
+            }
+        }
+        $classContents .= $relations;
+
         $entity->update([
             'name' => $request->name,
             'description' => $request->description,
             'columns' => $request->columns,
-            'uses' => $request->uses,
-            'class_contents' => $request->class_contents,
+            'uses' => $uses,
+            'class_contents' => $classContents,
         ]);
 
         return redirect()->route('simpleWorkflow.entities.edit', $entity->id)->with('success', 'Entity updated successfully.');
@@ -77,12 +111,14 @@ class EntityController extends Controller
             $name = $deatils[0];
             $type = $deatils[1];
             $null = $deatils[2];
+            if (Str::startsWith($type, 'entity:')) {
+                $type = 'string';
+            }
             $ar[] = [
                 'name' => str_replace('\r', '', $name),
                 'type' => str_replace('\r', '', $type),
                 'nullable' => trim(strtolower($null)),
             ];
-            // $column['name'] = $deatils[0];
         }
 
         if (Schema::hasTable($entity->db_table_name)) {
@@ -91,7 +127,7 @@ class EntityController extends Controller
                     $name = $column['name'];
                     $type = $column['type'];
                     $nullable = $column['nullable'] == 'yes' ? true : false;
-                    // $table->$type($name)->nullable($nullable)->change();
+
                     if (Schema::hasColumn($entity->db_table_name, $name)) {
                         $table->$type($name)->nullable($nullable)->change();
                         echo "Column $name updated successfully. <br>";
@@ -99,7 +135,29 @@ class EntityController extends Controller
                         $table->$type($name)->nullable($nullable);
                     }
                 }
+
+                // ستون created_by
+                if (Schema::hasColumn($entity->db_table_name, 'created_by')) {
+                    $table->string('created_by')->nullable(false)->change();
+                } else {
+                    $table->string('created_by')->nullable(false);
+                }
+
+                // ستون updated_by
+                if (Schema::hasColumn($entity->db_table_name, 'updated_by')) {
+                    $table->string('updated_by')->nullable(false)->change();
+                } else {
+                    $table->string('updated_by')->nullable(false);
+                }
+
+                // ستون contributers
+                if (Schema::hasColumn($entity->db_table_name, 'contributers')) {
+                    $table->string('contributers')->nullable(false)->change();
+                } else {
+                    $table->string('contributers')->nullable(false);
+                }
             });
+
             echo "Table $entity->name updated successfully.";
         } else {
             Schema::create($entity->db_table_name, function ($table) use ($ar) {
@@ -110,6 +168,9 @@ class EntityController extends Controller
                     $nullable = $column['nullable'] == 'yes' ? true : false;
                     $table->$type($name)->nullable($nullable);
                 }
+                $table->string('created_by')->nullable(false);
+                $table->string('updated_by')->nullable(false);
+                $table->string('contributers')->nullable(false);
                 $table->timestamps();
                 $table->softDeletes();
             });
@@ -120,7 +181,7 @@ class EntityController extends Controller
             mkdir($entitypath, 0777, true);
         }
         $entityFile = __DIR__ . '/../../Models/Entities/' . ucfirst($entity->name) . '.php';
-        $entity->namespace = "Behin\SimpleWorkflow\Models\Entities";
+        $entity->namespace = "Behin\\SimpleWorkflow\\Models\\Entities";
         $entity->model_name = ucfirst($entity->name);
         $entity->save();
         if (file_exists($entityFile)) {
@@ -139,19 +200,14 @@ class EntityController extends Controller
         foreach ($ar as $column) {
             $entityFileContent .= "'" . str_replace('\r', '', $column['name']) . "', ";
         }
+        $entityFileContent .= " 'created_by', 'updated_by', 'contributers', ";
         $entityFileContent .= "]; \n";
+        $entityFileContent .= "protected static function boot()\n        {\n            parent::boot();\n\n            static::creating(function (\$model) {\n                \$model->id = \$model->id ?? substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'), 0, 10);\n            });\n        }\n";
 
-        $entityFileContent .= "protected static function boot()
-        {
-            parent::boot();
-
-            static::creating(function (\$model) {
-                \$model->id = \$model->id ?? substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'), 0, 10);
-            });
-        }\n";
         $entityFileContent .= $entity->class_contents;
         $entityFileContent .= "}";
         file_put_contents($entityFile, $entityFileContent);
         echo "Entity class " . ucfirst($entity->name) . " created successfully.";
+        return redirect()->back();
     }
 }

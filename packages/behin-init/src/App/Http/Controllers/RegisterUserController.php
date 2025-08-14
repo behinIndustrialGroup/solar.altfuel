@@ -27,7 +27,7 @@ class RegisterUserController extends Controller
      *
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -40,13 +40,13 @@ class RegisterUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => 3
+            'role_id' => 2
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
-        return route('admin.dashboard');
 
+        return redirect(route('admin.dashboard', absolute: false));
     }
 }

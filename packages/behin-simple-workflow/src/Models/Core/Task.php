@@ -42,6 +42,11 @@ class Task extends Model
         'color',
         'background',
         'duration',
+        'order',
+        'timing_type',
+        'timing_value',
+        'timing_key_name',
+        'number_of_task_to_back',
     ];
 
     public function getStyledNameAttribute()
@@ -50,7 +55,7 @@ class Task extends Model
         $background = $this->background ?? 'transparent'; // بک‌گراند پیش‌فرض
         $name = e($this->name); // جلوگیری از مشکلات امنیتی XSS
 
-        return "<span style='color: {$color}; background: {$background}; padding:2px 4px; border-radius:4px;'>{$name}</span>";
+        return "<span class='badge' style='color: {$color}; background: {$background}; padding:2px 4px; border-radius:4px;'>{$name}</span>";
     }
 
     public function process()
@@ -62,7 +67,7 @@ class Task extends Model
     public function children()
     {
         // return $this->hasMany(Task::class, 'parent_id');
-        return Task::where('parent_id', $this->id)->whereNot('id', $this->id)->get();
+        return Task::where('parent_id', $this->id)->whereNot('id', $this->id)->orderBy('order', 'asc')->get();
     }
 
     public function errors()

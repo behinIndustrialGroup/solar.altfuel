@@ -5,7 +5,6 @@
     خلاصه گزارش فرایند {{ $process->name }}
 @endsection
 
-
 @section('content')
     <div class="container">
         @if (session('error'))
@@ -17,7 +16,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">لیست پرونده های فرآیند {{ $process->name }}</div>
-                    
+
                     <div class="card-body">
                         <div class="table-responsive">
                             <table class="table table-bordered" id="draft-list">
@@ -26,10 +25,10 @@
                                         {{-- <th>ردیف</th> --}}
                                         <th class="d-none">شناسه</th>
                                         <th>شماره پرونده</th>
-                                        <th>ایجاد کننده</th>
+                                        <th>کارشناس</th>
                                         <th>نام</th>
                                         <th>دستگاه</th>
-                                        <th>کارشناس</th>
+                                        <th>ایجاد کننده</th>
                                         <th>سریال مپا</th>
                                         <th>آخرین وضعیت</th>
                                         <th>ایجاد شده در</th>
@@ -53,20 +52,24 @@
                                             $mapa_serial =
                                                 $case->variables()->where('key', 'mapa_serial')->first()?->value ?? '';
                                         @endphp
-                                        <tr>
+                                        <tr ondblclick="window.location.href='{{ route('simpleWorkflowReport.summary-report.edit', ['summary_report' => $case->id]) }}'">
                                             {{-- <td>{{ $loop->iteration }}</td> --}}
                                             <td class="d-none">{{ $case->id }}</td>
-                                            <td>{{ $case->number }} <a href="{{ route('simpleWorkflowReport.summary-report.edit', [ 'summary_report' => $case->id ]) }}"><i class="fa fa-external-link"></i></a></td>
-                                            <td>{{ $case->creator()?->name }}</td>
+                                            <td>{{ $case->number }}
+                                                <a href="{{ route('simpleWorkflowReport.summary-report.edit', [ 'summary_report' => $case->id ]) }}"><i class="fa fa-external-link"></i></a>
+                                                {!! $case->history !!}
+                                            </td>
+                                            <td>{{ $mapa_expert }}</td>
 
                                             <td>{{ $name }}</td>
                                             <td>{{ $device_name }}</td>
-                                            <td>{{ $mapa_expert }}</td>
+                                            <td>{{ $case->creator()?->name }}</td>
                                             <td>{{ $mapa_serial }}</td>
                                             @php
                                                 $w = '';
+                                                // $w = json_encode($case->whereIs());
                                                 foreach ($case->whereIs() as $inbox) {
-                                                    $w .= $inbox->task->name ?? '';
+                                                    $w .= $inbox->task->styled_name ?? '';
                                                     $w .= '(' . getUserInfo($inbox->actor)?->name . ')';
                                                     $w .= '<br>';
                                                 }
