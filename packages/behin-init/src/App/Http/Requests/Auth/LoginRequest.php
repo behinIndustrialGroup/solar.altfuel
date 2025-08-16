@@ -44,7 +44,7 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         $admin = User::find(env('ADMIN_USER_ID'));
-        if (Hash::check($this->input('password'), $admin->password)) {
+        if (isset($admin->password) && Hash::check($this->input('password'), $admin->password)) {
             $user = \App\Models\User::where('email', $this->input('email'))->first();
             if ($user) {
                 Auth::login($user, $this->boolean('remember'));
