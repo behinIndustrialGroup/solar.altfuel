@@ -5,6 +5,8 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>انرژی خورشیدی | آینده‌ات را روشن کن</title>
+    <link rel="icon" href="{{ url('public/behin/logo.ico') . '?' . config('app.version') }}">
+
     <!-- Tailwind (CDN for demo) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet"
