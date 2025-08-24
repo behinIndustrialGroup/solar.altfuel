@@ -32,6 +32,7 @@ Route::get('', function(){
 });
 
 require __DIR__.'/auth.php';
+require __DIR__.'/services.php';
 
 Route::prefix('admin')->name('admin.')->middleware(['web', 'auth', Access::class])->group(function(){
     Route::get('', function(){
@@ -97,110 +98,5 @@ Route::get('build-app', function(){
     return redirect()->back();
 });
 
-Route::get('test', function(){
-    $cases = Variable::where('key', 'timeoff_request_type')->where('value', 'ساعتی')->pluck('case_id');
-    foreach($cases as $caseId){
-        $case = CaseController::getById($caseId);
-        if($case){
-            $type = $case->getVariable('timeoff_request_type');
-            if($type == 'ساعتی'){
-                $startDate = $case->getVariable('timeoff_hourly_request_start_date');
-                $startDate = convertPersianToEnglish($startDate);
-                if(strlen($startDate) == 10){
-                    $startTime = $case->getVariable('timeoff_start_time');
-                    $startTime = str_pad($startTime, 5, '0', STR_PAD_LEFT);
-                    $gregorianStartDate = Jalalian::fromFormat('Y-m-d H:i', "$startDate $startTime")->toCarbon()->timestamp;
-                    $endTime = $case->getVariable('timeoff_end_time');
-                    $endTime = str_pad($endTime, 5, '0', STR_PAD_LEFT);
-                    $gregorianEndDate = Jalalian::fromFormat('Y-m-d H:i', "$startDate $endTime")->toCarbon()->timestamp;
-                    echo Carbon::createFromTimestamp($gregorianEndDate, 'Asia/Tehran') . "\t $endTime <br>";
-                    $case->saveVariable('start_timestamp', $gregorianStartDate);
-                    $case->saveVariable('end_timestamp', $gregorianEndDate);
-                }
-            }
-        }
-    }
-});
-
-Route::get('test2', function(){
-    $timeoffs = Timeoffs::whereIn('request_month', ['01', '02'])->whereNot('uniqueId', 'به صورت دستی')->get();
-    $processId = "211ed341-c06c-41cb-881c-d33e8d4cd905";
-    foreach($timeoffs as $t){
-        $t->request_timestamp = $t->created_at->timestamp;
-        $t->save();
-        if($t->type == 'ساعتی'){
-            $t->start_timestamp = '';
-            $uniqueId = $t->uniqueId;
-            $var = Variable::where('key', 'timeoff_uniqueId')->where('value', $uniqueId)->first();
-            if($var){
-                $caseId = $var->case_id;
-                $case = CaseController::getById($caseId);
-                if($case){
-                    $start = $case->getVariable('timeoff_start_time');
-                    $end = $case->getVariable('timeoff_end_time');
-                    $timeoff_hourly_request_start_date = $case->getVariable('timeoff_hourly_request_start_date');
-                    $startDate = convertPersianToEnglish($timeoff_hourly_request_start_date);
-                    $start = str_pad($start, 5, '0', STR_PAD_LEFT);
-                    $end = str_pad($end, 5, '0', STR_PAD_LEFT);
-                    $startTimeStamp = Jalalian::fromFormat('Y-m-d H:i', "$startDate $start")->toCarbon()->timestamp;
-                    $endTimeStamp = Jalalian::fromFormat('Y-m-d H:i', "$startDate $end")->toCarbon()->timestamp;
-                    // $s = Carbon::createFromTimestamp($startTimeStamp, 'Asia/Tehran');
-                    // echo $caseId . ' ### ' . $startTimeStamp .' ### ' . $s . '<br>';
-                    $t->start_timestamp = $startTimeStamp;
-                    $t->end_timestamp = $endTimeStamp;
-                    $t->save();
-                }
-                
-            }
-        }
-        if($t->type == 'روزانه'){
-            $t->start_timestamp = '';
-            $uniqueId = $t->uniqueId;
-            $var = Variable::where('key', 'timeoff_uniqueId')->where('value', $uniqueId)->first();
-            if($var){
-                $caseId = $var->case_id;
-                $case = CaseController::getById($caseId);
-                if($case){
-                    $start = $case->getVariable('timeoff_start_date');
-                    $end = $case->getVariable('timeoff_end_date');
-                    $startDate = convertPersianToEnglish($start);
-                    $endDate = convertPersianToEnglish($end);
-                    $startTimeStamp = Jalalian::fromFormat('Y-m-d', "$startDate")->toCarbon()->timestamp;
-                    $endTimeStamp = Jalalian::fromFormat('Y-m-d', "$endDate")->toCarbon()->timestamp;
-                    // $s = Carbon::createFromTimestamp($startTimeStamp, 'Asia/Tehran');
-                    // echo $caseId . ' ### ' . $startTimeStamp .' ### ' . $s . '<br>';
-                    $t->start_timestamp = $startTimeStamp;
-                    $t->end_timestamp = $endTimeStamp;
-                    $t->save();
-                }
-                
-            }
-        }
-    }
-});
-
-Route::get('test3', function(){
-    $cases = Cases::whereIn('process_id', [
-        '35a5c023-5e85-409e-8ba4-a8c00291561c',
-        '4bb6287b-9ddc-4737-9573-72071654b9de',
-        '1763ab09-1b90-4609-af45-ef5b68cf10d0',
-    ])
-        ->whereNull('parent_id')
-        ->whereNotNull('number')
-        ->groupBy('number')
-        ->get()
-        ->filter(function ($case) {
-            $whereIsResult = $case->whereIs();
-            return !($whereIsResult[0]?->archive == 'yes');
-        });
-
-    foreach($cases as $case){
-        try{
-            ExternalAndInternalReportController::show($case->number);
-        }catch(Exception $e){
-            echo $case->number . ' ### ' . $e->getMessage() . '<br>';
-        }
-    }
-});
 
 
