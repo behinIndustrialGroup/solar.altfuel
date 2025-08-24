@@ -40,7 +40,7 @@
                         <a id="startBtn"
                             href="{{ route('simpleWorkflow.process.start', [
                                 'taskId' => '5c81c968-6d70-4285-9950-8ce972f23fdd',
-                                'inDraft' => true,
+                                'inDraft' => 0,
                                 'force' => 1,
                                 'redirect' => true,
                             ]) }}"
