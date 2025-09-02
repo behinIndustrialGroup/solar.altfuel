@@ -10,11 +10,14 @@ use Behin\SimpleWorkflow\Models\Core\TaskJump;
 use Behin\SimpleWorkflow\Models\Core\Form;
 use Behin\SimpleWorkflow\Models\Core\Script;
 use Behin\SimpleWorkflow\Models\Core\Condition;
+use BehinUserRoles\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ProcessController extends Controller
 {
@@ -99,7 +102,21 @@ class ProcessController extends Controller
                 ], 403);
             }
         }
-        $creator = $creator ? $creator : Auth::user()->id;
+        if($creator){
+            
+        }elseif(Auth::check()){
+            $creator = Auth::user()->id;
+        }else{
+            $ip = request()->ip();
+            $tempUser = User::create([
+                'name' => $ip,
+                'email' => $ip.'-'.Str::random(5).'@temp.local',
+                'password' => Hash::make(Str::random(16)),
+            ]);
+            $creator = $tempUser->id;
+            Auth::login($tempUser);
+        }
+
         $case = CaseController::create($task->process_id, $creator, null, $inDraft, $caseNumber, $parentId);
         $status = $inDraft ? 'draft' : 'new';
         $inbox = InboxController::create($taskId, $case->id, $creator, $status);

@@ -3,7 +3,7 @@
 @section('content')
 <style>
     body {
-        background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+        background: linear-gradient(135deg, #eeee23 0%, #2575fc 100%);
         font-family: 'IRANSans', sans-serif;
     }
 
@@ -67,7 +67,7 @@
     <div class="card register-card p-4" style="max-width: 420px; width: 100%;">
         <!-- لوگو -->
         <div class="text-center mb-4">
-            <img src="{{ url('public/behin/logo.png') . '?' . config('app.version')}}" class="img-fluid" style="max-height: 70px" alt="Logo">
+            <img src="{{ url('behin/logo.png') . '?' . config('app.version')}}" class="img-fluid" style="max-height: 70px" alt="Logo">
         </div>
 
         <h4 class="text-center mb-4 fw-bold text-dark">ثبت نام</h4>
@@ -83,7 +83,11 @@
 
             <!-- موبایل -->
             <div class="mb-4 position-relative">
-                <input type="text" name="email" class="form-control" id="inputMobile" placeholder=" " required>
+                <input type="text" name="email" class="form-control"
+                 id="inputMobile" 
+                 placeholder=" "
+                 value="{{ request()->get('mobile') }}"
+                 required>
                 <label for="inputMobile" class="floating-label"><i class="fa fa-phone me-1"></i> موبایل</label>
             </div>
 
@@ -121,7 +125,7 @@
             function(response) {
                 show_message("ثبت نام شما با موفقیت انجام شد");
                 show_message("به صفحه داشبورد منتقل می‌شوید");
-                window.location = response;
+                window.location = "{{ url('admin') }}";
             },
             function(response) {
                 console.log(response);

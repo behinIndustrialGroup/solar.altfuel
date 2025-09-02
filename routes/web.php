@@ -10,6 +10,7 @@ use Behin\SimpleWorkflow\Models\Core\Variable;
 use Behin\SimpleWorkflow\Models\Entities\Financials;
 use Behin\SimpleWorkflow\Models\Entities\Timeoffs;
 use Behin\SimpleWorkflowReport\Controllers\Core\ExternalAndInternalReportController;
+use Behin\Sms\Controllers\SmsController2;
 use BehinInit\App\Http\Middleware\Access;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -30,6 +31,11 @@ use Morilog\Jalali\Jalalian;
 Route::get('', function(){
     return view('auth.login');
 });
+
+// Route::get('send-sms', function () {
+//     $response = SmsController2::send('09376922176', 'test');
+//     return $response;
+// });
 
 require __DIR__.'/auth.php';
 require __DIR__.'/services.php';

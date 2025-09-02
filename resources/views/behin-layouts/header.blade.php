@@ -24,12 +24,12 @@ use App\CustomClasses\Access;
         @endif
 
         <!-- Test Notification -->
-        <li class="nav-item d-none d-md-block">
+        {{-- <li class="nav-item d-none d-md-block">
             <a href="{{ route('send-notification') }}" class="btn btn-sm btn-warning">
                 <i class="fa fa-bell"></i>
                 تست نوتیفیکیشن
             </a>
-        </li>
+        </li> --}}
     </ul>
 
     <!-- Right navbar links -->
@@ -39,7 +39,6 @@ use App\CustomClasses\Access;
         <li class="mr-2">
             <button type="button" class="btn btn-sm btn-outline-light" onclick="window.location.reload()">
                 <i class="fa fa-refresh"></i>
-                {{ __('Refresh') }}
             </button>
         </li>
 

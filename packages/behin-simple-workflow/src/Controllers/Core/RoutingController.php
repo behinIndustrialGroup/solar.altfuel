@@ -151,6 +151,11 @@ class RoutingController extends Controller
                 // از این رکورد چند ردیف در اینباکس وجود دارد
                 // همه باید وضعیت انجام شده تغییر کنند
             }
+            if ($task->assignment_type == 'public') {
+                $inbox->status = 'done';
+                $inbox->actor = Auth::check() ? Auth::id() : $request->ip();
+                $inbox->save();
+            }
         }
         if($newInbox = InboxController::caseIsInUserInbox($caseId)){
             return response()->json([
@@ -323,9 +328,10 @@ class RoutingController extends Controller
                             $actors->push($ta->actor);
                         }
                         foreach ($actors as $actor) {
-                            $inbox = InboxController::create($task->id, $caseId, $actor, 'done');
+                            $inbox = InboxController::create($task->id, $caseId, $actor, 'new');
                         }
                     }
+                    $inbox = InboxController::create($task->id, $caseId, Auth::id(), 'new');
                 }
             }
             if ($task->type == 'script') {

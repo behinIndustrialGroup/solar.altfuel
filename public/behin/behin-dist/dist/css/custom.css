@@ -129,13 +129,13 @@ legend {
     text-transform: uppercase;
 }
 
-.spinner {
+/* .spinner {
     margin: 0 auto;
     width: 120px;
     height: 30px;
     text-align: center;
     font-size: 10px;
-}
+} */
 
 .spinner>div {
     background-color: #00b16a;

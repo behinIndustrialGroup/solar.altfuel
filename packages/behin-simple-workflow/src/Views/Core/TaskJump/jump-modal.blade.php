@@ -1,5 +1,4 @@
 <div class="">
-    <h2 class="text-center">{{ trans('fields.Jump To Task') }}</h2>
     @foreach ($task->jumps as $jump)
         <form action="{{ route('simpleWorkflow.routing.jumpTo') }}" class="m-1" method="POST"
         onsubmit="return confirm('{{ trans('fileds.Are you sure you want to jump to this task?') }}')">

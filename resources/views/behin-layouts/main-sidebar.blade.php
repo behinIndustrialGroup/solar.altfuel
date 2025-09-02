@@ -4,7 +4,7 @@
     <div class="sidebar p-3" style="direction: ltr;">
         <div style="direction: rtl;">
             <div class="user-panel d-flex align-items-center mb-4 p-2 rounded" style="background: rgba(255,255,255,0.05);">
-                <div class="image me-2">
+                <div class="">
                     <img src="{{ url('public/behin/behin-dist/dist/img/avatar5.png') }}"
                          class="rounded-circle" alt="User Image" width="45" height="45">
                 </div>

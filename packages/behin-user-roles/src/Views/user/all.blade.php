@@ -24,6 +24,7 @@
                             <th>نام</th>
                             <th>نام کاربری</th>
                             <th>نقش</th>
+                            <th>تاریخ ایجاد</th>
                             <th>ویرایش</th>
 
                         </tr>
@@ -35,6 +36,7 @@
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
                             <td>{{$user->role()->name ?? ''}}</td>
+                            <td>{{ $user->created_at ? toJalali($user->created_at)->format('Y-m-d H:i') : '' }}</td>
                             <td><a href="{{$user->id}}"><i class="fa fa-edit"></i></a></td>
                         </tr>
                     @endforeach

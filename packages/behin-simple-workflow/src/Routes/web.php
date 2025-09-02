@@ -23,7 +23,7 @@ Route::name('simpleWorkflow.')->prefix('workflow')->middleware(['web', 'auth'])-
         Route::get('{processId}/edit', [ ProcessController::class, 'edit' ])->name('edit');
         Route::put('{processId}', [ ProcessController::class, 'update' ])->name('update');
         Route::get('start-list', [ ProcessController::class, 'startListView' ])->name('startListView');
-        Route::get('start/{taskId}/{force?}/{redirect?}/{inDraft}', [ ProcessController::class, 'start' ])->name('start');
+
         Route::get('check-error/{processId}', [ ProcessController::class, 'processHasError' ])->name('processHasError');
         Route::get('{processId}/export-view', [ ProcessController::class, 'exportView' ])->name('exportView');
         Route::get('import-view', [ ProcessController::class, 'importView' ])->name('importView');
@@ -97,7 +97,6 @@ Route::name('simpleWorkflow.')->prefix('workflow')->middleware(['web', 'auth'])-
         Route::get('view/{inboxId}', [ InboxController::class, 'view' ])->name('view');
     });
 
-
     Route::resource('entities', EntityController::class);
     Route::post('entities/export', [EntityController::class, 'export'])->name('entities.export');
     Route::post('entities/import', [EntityController::class, 'import'])->name('entities.import');
@@ -121,8 +120,8 @@ Route::name('simpleWorkflow.')->prefix('workflow')->middleware(['web', 'auth'])-
     Route::post('get-view-model-rows', [ViewModelController::class, 'getRows'])->name('view-model.get-rows');
     Route::post('update-view-model-record', [ViewModelController::class, 'updateRecord'])->name('view-model.update-record');
     Route::post('delete-view-model-record', [ViewModelController::class, 'deleteRecord'])->name('view-model.delete-record');
-
-
 });
 
+Route::get('workflow/process/start/{taskId}/{force?}/{redirect?}/{inDraft?}', [ ProcessController::class, 'start' ])->name('simpleWorkflow.process.start')->middleware('web');
 Route::get('workflow/inbox/view/{inboxId}', [ InboxController::class, 'view' ])->name('simpleWorkflow.inbox.view')->middleware(['web']);
+

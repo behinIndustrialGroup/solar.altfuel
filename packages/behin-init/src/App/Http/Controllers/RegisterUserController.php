@@ -46,7 +46,7 @@ class RegisterUserController extends Controller
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
-                'role_id' => 2
+                'role_id' => 3
             ]);
         } catch (\Throwable $e) {
             return back()->withErrors(['register' => 'خطایی در ثبت نام رخ داده است.'])->withInput();

@@ -59,10 +59,10 @@
     <style>
         body {
             direction: rtl;
-            font-family: "Tahoma", sans-serif;
-            background-color: #f9f9f9;
-            color: #333;
-            padding: 20px;
+            /* font-family: "Tahoma", sans-serif; */
+            /* background-color: #f9f9f9; */
+            /* color: #333; */
+            /* padding: 20px; */
         }
 
         #printable-area {

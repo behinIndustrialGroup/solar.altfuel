@@ -5,18 +5,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>انرژی خورشیدی | آینده‌ات را روشن کن</title>
-    <link rel="icon" href="{{ url('public/behin/logo.ico') . '?' . config('app.version') }}">
+    <link rel="icon" href="{{ url('behin/logo.ico') . '?' . config('app.version') }}">
 
     <!-- Tailwind (CDN for demo) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet"
-        href="{{ url('public/behin/behin-dist/dist/css/custom-style.css') . '?' . config('app.version') }}">
-    <link rel="stylesheet" href="{{ url('public/behin/behin-dist/dist/css/custom.css') . '?' . config('app.version') }}">
+        href="{{ url('behin/behin-dist/dist/css/custom-style.css') . '?' . config('app.version') }}">
+    <link rel="stylesheet" href="{{ url('behin/behin-dist/dist/css/custom.css') . '?' . config('app.version') }}">
     <style>
         /* فونت ایران‌سنس/پیش‌فرض */
         @font-face {
             font-family: IransansX;
-            src: src: url('/public/behin/behin-dist/dist/fonts/Vazir.eot');
+            src: src: url('/behin/behin-dist/dist/fonts/Vazir.eot');
         }
 
         html,
@@ -72,41 +72,27 @@
     </style>
 </head>
 
-<body class="min-h-screen bg-animated">
+<body class="min-h-screen bg-animated flex flex-col">
     <!-- لایه‌های تزئینی -->
     <div aria-hidden="true" class="fixed inset-0 pointer-events-none select-none">
         <div class="absolute -top-16 -left-10 w-72 h-72 rounded-full sunburst opacity-40"></div>
         <div class="absolute -bottom-10 -right-10 w-80 h-80 rounded-full sunburst opacity-30"></div>
     </div>
 
-    <!-- Hero -->
-    
+    <!-- محتوا -->
+    <main class="flex-grow flex items-center justify-center">
+        @yield('contents')
+    </main>
 
-    @yield('content')
-
-    <footer class="relative z-10 border-t border-white/40">
+    <!-- فوتر -->
+    <footer class="border-t border-white/40 bg-white/70 backdrop-blur-sm">
         <div
-            class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-gray-600">
-            <div>© <span id="year"></span> گروه صنعتی بهین انرژی — همه حقوق محفوظ است.</div>
-            <div class="text-xs">طراحی با عشق به طبیعت و تکنولوژی ☀️</div>
+          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-3 text-gray-600">
+          <div>© <span id="year"></span> گروه صنعتی بهین انرژی — همه حقوق محفوظ است.</div>
+          <div class="text-xs">طراحی با عشق به طبیعت و تکنولوژی ☀️</div>
         </div>
     </footer>
-
-    <script>
-        // سال جاری
-        document.getElementById('year').textContent = new Date().getFullYear();
-
-        // اسکرول نرم به بخش بعد از کلیک روی تنها دکمه
-        document.getElementById('startBtn')?.addEventListener('click', function(e) {
-            if (this.getAttribute('href') === '#start') {
-                e.preventDefault();
-                document.getElementById('start')?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        });
-    </script>
 </body>
+
 
 </html>

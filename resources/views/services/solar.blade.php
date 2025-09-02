@@ -1,6 +1,8 @@
 @extends('behin-layouts.services')
 
-@section('content')
+@section('contents')
+<main class="flex-grow items-center justify-center">
+
     <header class="relative z-10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-6">
             <nav class="flex items-center justify-between">
@@ -169,4 +171,5 @@
             </div>
         </section>
     </main>
+</main>
 @endsection
