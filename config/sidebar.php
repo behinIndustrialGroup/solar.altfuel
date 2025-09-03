@@ -25,6 +25,7 @@ return [
             'submenu' => [
                 'list' => [ 'fa_name' => 'لیست', 'route-name' => 'simpleWorkflowReport.index' ],
                 'summary' => [ 'fa_name' => 'خلاصه', 'route-name' => 'simpleWorkflowReport.summary-report.index' ],
+                'my-request' => [ 'fa_name' => 'درخواست‌های من', 'route-name' => 'simpleWorkflowReport.my-request.index' ],
                 'role-form-control' => [ 'fa_name' => 'فرم گزارش نقش ها', 'route-name' => 'simpleWorkflowReport.role.index' ],
             ]
         ],
