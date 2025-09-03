@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Events\NewInboxEvent;
 use App\Models\User;
+use BaleBot\Controllers\BotController;
 use Behin\SimpleWorkflow\Jobs\SendPushNotification;
 use Behin\SimpleWorkflow\Models\Entities\CasesManual;
 
@@ -263,7 +264,7 @@ class InboxController extends Controller
     public static function caseHistoryListBefore($caseNumber, $inboxId, $limit = null){
         $cases = CaseController::getAllByCaseNumber($caseNumber)->pluck('id');
         $inbox = InboxController::getById($inboxId);
-        $rows= Inbox::whereIn('case_id', $cases)->orderBy('created_at','desc')->whereNot('id', $inboxId)->whereDate('created_at', '<=', $inbox->created_at);
+        $rows= Inbox::whereIn('case_id', $cases)->orderBy('created_at','desc')->whereNot('id', $inboxId)->where('created_at', '<=', $inbox->created_at);
         if($limit)
             return $rows->limit($limit)->get();
         return $rows->get();

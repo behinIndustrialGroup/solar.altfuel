@@ -193,7 +193,7 @@ class RoutingController extends Controller
         $task = $inbox->task;
         $form = $task->executiveElement();
         $requiredFields = FormController::requiredFields($form->id);
-        $result = self::save($request, $requiredFields);
+        $result = self::save($request);
         if ($result['status'] != 200) {
             return $result;
         }
