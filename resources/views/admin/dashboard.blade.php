@@ -40,6 +40,15 @@
                     </a>
                 </div>
             @endif
+            @if (auth()->user()->access('داشبورد: آیکون درخواست‌های من'))
+                <div class="col-6 col-md-3">
+                    <a href="{{ route('simpleWorkflowReport.my-request.index') }}"
+                        class="d-block p-3 shadow-sm rounded-3 bg-white hover-card">
+                        <i class="bi bi-card-checklist fs-2 text-primary"></i>
+                        <div class="mt-2 fw-bold">درخواست‌های من</div>
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 @endsection
