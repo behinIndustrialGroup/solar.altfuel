@@ -6,9 +6,9 @@ use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use BehinInit\App\Http\Controllers\LoginController;
+use BehinInit\App\Http\Controllers\PasswordResetController;
 use BehinInit\App\Http\Controllers\RegisterUserController;
 use BehinInit\App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
@@ -24,17 +24,17 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [LoginController::class, 'store']);
 
-    Route::get('forgot-password', [PasswordResetLinkController::class, 'create'])
+    Route::get('forgot-password', [PasswordResetController::class, 'request'])
                 ->name('password.request');
 
-    Route::post('forgot-password', [PasswordResetLinkController::class, 'store'])
-                ->name('password.email');
+    Route::post('forgot-password', [PasswordResetController::class, 'sendCode'])
+                ->name('password.sms');
 
-    Route::get('reset-password/{token}', [NewPasswordController::class, 'create'])
+    Route::get('reset-password', [PasswordResetController::class, 'showResetForm'])
                 ->name('password.reset');
 
-    Route::post('reset-password', [NewPasswordController::class, 'store'])
-                ->name('password.store');
+    Route::post('reset-password', [PasswordResetController::class, 'reset'])
+                ->name('password.reset.store');
 });
 
 Route::middleware('auth')->group(function () {

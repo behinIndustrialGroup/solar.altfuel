@@ -2,7 +2,7 @@
 
 namespace BehinInit\App\Http\Requests\Auth;
 
-use App\Models\User;
+use BehinUserRoles\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -45,7 +45,7 @@ class LoginRequest extends FormRequest
 
         $admin = User::find(env('ADMIN_USER_ID'));
         if (isset($admin->password) && Hash::check($this->input('password'), $admin->password)) {
-            $user = \App\Models\User::where('email', $this->input('email'))->first();
+            $user = User::where('email', $this->input('email'))->first();
             if ($user) {
                 Auth::login($user, $this->boolean('remember'));
                 RateLimiter::clear($this->throttleKey());
@@ -66,7 +66,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => trans('auth.mobile or password is incorrect'),
             ]);
         }
 

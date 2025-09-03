@@ -5,7 +5,7 @@
         <div style="direction: rtl;">
             <div class="user-panel d-flex align-items-center mb-4 p-2 rounded" style="background: rgba(255,255,255,0.05);">
                 <div class="">
-                    <img src="{{ url('public/behin/behin-dist/dist/img/avatar5.png') }}"
+                    <img src="{{ url('behin/behin-dist/dist/img/avatar5.png') }}"
                          class="rounded-circle" alt="User Image" width="45" height="45">
                 </div>
                 <div class="info">
@@ -35,7 +35,7 @@
                                                             @elseif(isset($submenu['static-url']))
                                                                 {{ $submenu['static-url'] }}
                                                             @else
-                                                                {{ url($submenu['route-url']) }} 
+                                                                {{ isset($submenu['route-url']) ? url($submenu['route-url']) : '' }} 
                                                             @endif"
                                                     class="nav-link" 
                                                     style="color: #cfd8dc; padding: 8px 15px; transition: all 0.3s ease;">

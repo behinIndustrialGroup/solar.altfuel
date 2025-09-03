@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ url('behin/logo.ico') . '?' . config('app.version') }}">
-    <link rel="manifest" href="{{ url('manifest.json') . '?' . config('app.version') }}">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2575fc">
 
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
@@ -80,14 +81,15 @@
         function initial_view() {
             $('.select2').select2();
             $('.select2').css('width', '100%')
-            // $(".persian-date").persianDatepicker({
-            //     viewMode: 'year',
-            //     format: 'YYYY-MM-DD',
-            //     initialValueType: 'persian'
-            // });
         }
     </script>
 <script src="{{ url('pwa.js') . '?' . config('app.version') }}"></script>
+<script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js')
+            .then(() => console.log("Service Worker Registered"));
+    }
+    </script>
     @yield('script')
 </body>
 

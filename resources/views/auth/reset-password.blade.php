@@ -1,39 +1,76 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('password.store') }}">
-        @csrf
+@extends('behin-layouts.welcome')
 
-        <!-- Password Reset Token -->
-        <input type="hidden" name="token" value="{{ $request->route('token') }}">
+@section('content')
+    <div class="register-box">
+        {{-- Success Message --}}
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+        <div class="card card-outline card-primary">
+            <div class="card-header text-center col-sm-12">
+                <img src="{{ url('public/behin/logo.png') . '?' . config('app.version') }}" class="col-sm-12" alt="">
+            </div>
+            <div class="card-body">
+                <form action="{{ route('password.reset.store') }}" method="post" id="reset-form">
+                    @csrf
+                    <input type="hidden" name="mobile" value="{{ session('password_reset_mobile') }}">
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="code" 
+                        value="{{ old('code') }}" placeholder="کد تایید" autocomplete="new-code">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa fa-key"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" name="password" value="{{ old('password') }}" placeholder="رمز عبور جدید"
+                            autocomplete="new-password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input type="password" class="form-control" name="password_confirmation" value="{{ old('password_confirmation') }}"
+                            placeholder="تکرار رمز عبور" autocomplete="new-password">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fa fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <input type="submit" class="btn btn-primary col-sm-12" value="تغییر رمز">
+                    </div>
+                </form>
+
+                <hr>
+                <div style="text-align: center">
+                    <a href="{{ route('login') }}" class="text-center">صفحه ورود</a>
+                </div>
+            </div>
         </div>
+    </div>
+@endsection
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" />
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                type="password"
-                                name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Reset Password') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+@section('script')
+@endsection

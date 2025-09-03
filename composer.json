@@ -39,7 +39,8 @@
             "Behin\\Sms\\": "packages/behin-sms/src/",
             "Behin\\SimpleWorkflow\\": "packages/behin-simple-workflow/src/",
             "Behin\\SimpleWorkflowReport\\": "packages/behin-simple-workflow-report/src/",
-            "MyFormBuilder\\": "packages/behin-form-builder/src/"
+            "MyFormBuilder\\": "packages/behin-form-builder/src/",
+            "BaleBot\\": "packages/behin-bale-bot/src/"
 
         },
         "files": [

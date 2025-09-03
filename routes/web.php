@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use BaleBot\Controllers\BotController;
 use Behin\SimpleWorkflow\Controllers\Core\CaseController;
 use Behin\SimpleWorkflow\Controllers\Core\PushNotifications;
 use Behin\SimpleWorkflow\Controllers\Core\VariableController;
@@ -32,10 +33,6 @@ Route::get('', function(){
     return view('auth.login');
 });
 
-// Route::get('send-sms', function () {
-//     $response = SmsController2::send('09376922176', 'test');
-//     return $response;
-// });
 
 require __DIR__.'/auth.php';
 require __DIR__.'/services.php';

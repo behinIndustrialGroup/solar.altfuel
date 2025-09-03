@@ -3,7 +3,8 @@
 namespace BehinInit\App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use BaleBot\Controllers\BotController;
+use BehinUserRoles\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -39,6 +40,7 @@ class RegisterUserController extends Controller
             'email.digits' => 'شماره موبایل باید ۱۱ رقم باشد.',
             'email.unique' => 'این شماره موبایل قبلاً ثبت شده است.',
             'password.required' => 'رمز عبور الزامی است.',
+            'password.min' => 'رمز عبور حداقل باید 8 کارکتر باشد'
         ]);
 
         try {
@@ -48,7 +50,10 @@ class RegisterUserController extends Controller
                 'password' => Hash::make($request->password),
                 'role_id' => 3
             ]);
+            BotController::send("کاربر جدید ثبت نام کرد: {$user->name}");
         } catch (\Throwable $e) {
+            BotController::send("خطایی در ثبت نام رخ داده است: {$e->getMessage()}
+            شماره کاربر: {$request->email}");
             return back()->withErrors(['register' => 'خطایی در ثبت نام رخ داده است.'])->withInput();
         }
 

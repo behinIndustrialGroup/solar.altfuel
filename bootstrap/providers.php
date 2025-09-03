@@ -14,4 +14,5 @@ return [
     Maatwebsite\Excel\ExcelServiceProvider::class,
     MyFormBuilder\FormBuilderServiceProvider::class,
     UserProfile\UserProfileProvider::class,
+    BaleBot\BaleBotProvider::class,
 ];

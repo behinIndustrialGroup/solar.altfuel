@@ -1,9 +1,15 @@
-self.addEventListener('install', event => {
-    self.skipWaiting();
-  });
-  
-  self.addEventListener('activate', event => {
-    event.waitUntil(self.clients.claim());
-  });
-  
-  self.addEventListener('fetch', () => {});
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open("behin-cache").then((cache) => {
+      return cache.addAll(["/", "/manifest.json"]);
+    })
+  );
+});
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((response) => {
+      return response || fetch(event.request);
+    })
+  );
+});
