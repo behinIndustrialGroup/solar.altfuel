@@ -244,7 +244,11 @@
                     console.log(response);
                     if (response.status == 200) {
                         if (response.url) {
-                            window.location.href = response.url;
+                            if(response.msg){
+                                window.location.href = response.url + '?msg=' + response.msg;
+                            }else{
+                                window.location.href = response.url;
+                            }
                         } else {
                             show_message(response.msg)
                             window.location.href = '{{ route('simpleWorkflow.inbox.index') }}';

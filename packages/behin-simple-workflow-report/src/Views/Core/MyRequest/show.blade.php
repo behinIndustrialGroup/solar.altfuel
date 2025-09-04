@@ -5,6 +5,13 @@
 @section('content')
 <div class="container py-4">
     <div class="row justify-content-center">
+        @if (isset($_GET['msg']))
+            <div class="col-md-10 col-lg-8">
+                <div class="alert alert-success">
+                    {{ $_GET['msg'] }}
+                </div>
+            </div>
+        @endif
         <div class="col-md-10 col-lg-8">
             <div class="card shadow-sm rounded-3 border-0">
                 <div class="card-header bg-primary text-white d-flex align-items-center">
