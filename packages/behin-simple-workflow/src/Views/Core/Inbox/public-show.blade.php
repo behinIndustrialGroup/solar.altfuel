@@ -175,11 +175,10 @@
                 function(response) {
                     console.log(response);
                     if (response.status == 200) {
-                        show_message('{{ trans('fields.Saved') }}')
-                        // window.close();
                         if (response.url) {
                             window.location.href = response.url;
                         } else {
+                            show_message(response.msg)
                             window.location.href = '{{ route('simpleWorkflow.inbox.index') }}';
                         }
                     } else {
