@@ -122,24 +122,31 @@
                             {{ session('error') }}
                         </div>
                     @endif
-                    <form id="login-form" method="POST" action="javascript:void(0)" class="position-relative">
+                    <form id="send-otp-form" method="POST" action="javascript:void(0)" class="position-relative">
                         @csrf
-                        <input type="hidden" name="remember" value="1">
 
                         <div class="mb-4 position-relative">
-                            <input type="text" name="email" class="form-control" id="inputMobile" placeholder=" "
+                            <input type="text" name="phone" class="form-control" id="inputMobile" placeholder=" "
                                 required>
                             <label for="inputMobile" class="floating-label"><i class="fa fa-phone me-1"></i> موبایل</label>
                         </div>
 
+                        <button type="button" onclick="sendOtp()" class="btn btn-gradient w-100 py-3">
+                            ارسال کد
+                        </button>
+                    </form>
+
+                    <form id="verify-otp-form" method="POST" action="javascript:void(0)" class="position-relative mt-3" style="display:none;">
+                        @csrf
+                        <input type="hidden" name="phone" id="verifyMobile">
+
                         <div class="mb-4 position-relative">
-                            <input type="password" name="password" class="form-control" id="inputPassword" placeholder=" "
+                            <input type="text" name="otp" class="form-control" id="inputOtp" placeholder=" "
                                 required>
-                            <label for="inputPassword" class="floating-label"><i class="fa fa-lock me-1"></i> رمز
-                                عبور</label>
+                            <label for="inputOtp" class="floating-label"><i class="fa fa-lock me-1"></i> کد تایید</label>
                         </div>
 
-                        <button type="submit" onclick="submitLogin()" class="btn btn-gradient w-100 py-3">
+                        <button type="button" onclick="verifyOtp()" class="btn btn-gradient w-100 py-3">
                             ورود
                         </button>
                     </form>
@@ -188,25 +195,33 @@
             window.location = "{{ url('admin') }}";
         @endif
 
-        function submitLogin() {
+        function sendOtp() {
             send_ajax_request(
-                "{{ route('login') }}",
-                $('#login-form').serialize(),
+                "{{ route('otp.send') }}",
+                $('#send-otp-form').serialize(),
+                function(response) {
+                    show_message("کد ارسال شد");
+                    $('#verifyMobile').val($('#inputMobile').val());
+                    $('#verify-otp-form').show();
+                },
+                function(response) {
+                    show_error(response);
+                    hide_loading();
+                }
+            )
+        }
+
+        function verifyOtp() {
+            send_ajax_request(
+                "{{ route('otp.verify') }}",
+                $('#verify-otp-form').serialize(),
                 function(response) {
                     show_message("به صفحه داشبورد منتقل می‌شوید");
                     window.location = "{{ url('admin') }}";
                 },
                 function(response) {
-                    console.log(response)
-                    if (response.status == 404) {
-                        show_error(response.responseJSON.message)
-                        let mobile = $('#inputMobile').val();
-                        window.location = 'https://s3tup.ir/register?mobile=' + encodeURIComponent(mobile);
-                    } else {
-                        show_error(response);
-                        hide_loading();
-                    }
-
+                    show_error(response);
+                    hide_loading();
                 }
             )
         }
