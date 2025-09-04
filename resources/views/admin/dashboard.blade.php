@@ -36,7 +36,7 @@
                     <a href="{{ route('simpleWorkflow.inbox.index') }}"
                         class="d-block p-3 shadow-sm rounded-3 bg-white hover-card">
                         <i class="bi bi-list fs-2 text-warning"></i>
-                        <div class="mt-2 fw-bold">کارتابل من</div>
+                        <div class="mt-2 fw-bold">درخواست های تکمیل نشده</div>
                     </a>
                 </div>
             @endif

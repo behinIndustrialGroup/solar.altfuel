@@ -30,6 +30,9 @@ use Illuminate\Support\Facades\Http;
 use Morilog\Jalali\Jalalian;
 
 Route::get('', function(){
+    if(Auth::check()){
+        return view('admin.dashboard');
+    }
     return view('auth.login');
 });
 
