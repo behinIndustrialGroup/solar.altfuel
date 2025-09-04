@@ -157,6 +157,16 @@ class RoutingController extends Controller
                 $inbox->save();
             }
         }
+        if ($request->filled('redirect_url')) {
+            $redirectUrl = str_replace('{CASE_ID}', $caseId, $request->redirect_url);
+            $redirectMessage = $request->input('redirect_message', trans('Saved'));
+            session()->flash('success', $redirectMessage);
+            return response()->json([
+                'status' => 200,
+                'msg' => $redirectMessage,
+                'url' => $redirectUrl,
+            ]);
+        }
         if($newInbox = InboxController::caseIsInUserInbox($caseId)){
             return response()->json([
                 'status' => 200,
