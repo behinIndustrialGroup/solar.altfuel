@@ -22,7 +22,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            /* font-size: 28px; */
+            font-size: 28px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
