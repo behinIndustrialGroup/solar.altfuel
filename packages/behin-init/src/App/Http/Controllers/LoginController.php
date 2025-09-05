@@ -15,8 +15,11 @@ use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
-    public function create(): View
+    public function create()
     {
+        if(Auth::check()){
+            return redirect()->route('admin.dashboard');
+        }
         return view('auth.login');
     }
 

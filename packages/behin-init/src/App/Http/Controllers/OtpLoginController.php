@@ -27,6 +27,7 @@ class OtpLoginController extends Controller
             [
                 'name' => $request->phone,
                 'password' => bcrypt(str()->random(12)),
+                'role_id' => 3
             ]
         );
         $otp = random_int(100000, 999999);
@@ -63,6 +64,7 @@ class OtpLoginController extends Controller
             $user->password = bcrypt(str()->random(12));
             $user->save();
             Auth::login($user);
+            return redirect()->route('admin.dashboard');
             return view('admin.dashboard');
         }
         return $this->view($user->email, 'کد نامعتبر یا منقضی است');

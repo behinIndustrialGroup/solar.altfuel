@@ -144,9 +144,6 @@
                         <input type="submit" class="btn btn-gradient w-100 py-3" value="ارسال کد">
 
                     </form>
-                    <button type="submit" onclick="submitLogin()" class="btn btn-gradient w-100 py-3">
-                        ورود
-                    </button>
 
                     <div class="mt-4 text-center">
                         @include('auth.partial.enamad-and-version')

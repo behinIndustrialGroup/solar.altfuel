@@ -137,7 +137,7 @@
                             <label for="inputOtp" class="floating-label"><i class="fa fa-lock me-1"></i> کد تایید</label>
                         </div>
 
-                        <input type="submit" class="btn btn-gradient w-100 py-3">
+                        <input type="submit" class="btn btn-gradient w-100 py-3" value="ورود">
                     </form>
 
                     <div class="mt-4 text-center">
