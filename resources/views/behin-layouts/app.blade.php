@@ -355,7 +355,6 @@
 
 <script src="{{ url('behin/behin-js/loader.js') . '?' . config('app.version') }}"></script>
 <script src="{{ url('behin/behin-js/scripts.js') . '?' . config('app.version') }}"></script>
-<script src="{{ url('pwa.js') . '?' . config('app.version') }}"></script>
 @yield('script')
 </div>
 
