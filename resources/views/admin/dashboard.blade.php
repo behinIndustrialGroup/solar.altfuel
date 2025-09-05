@@ -22,7 +22,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 28px;
+            /* font-size: 28px; */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
@@ -36,7 +36,7 @@
             .icon-circle {
                 width: 60px;
                 height: 60px;
-                font-size: 24px;
+                /* font-size: 24px; */
             }
 
             .mobile-tile span {
@@ -55,8 +55,8 @@
                         'redirect' => 1,
                         'inDraft' => 0,
                     ]) }}" class="mobile-tile text-decoration-none">
-                        <div class="icon-circle bg-warning text-white">
-                            <i class="bi bi-brightness-high"></i>
+                        <div class="text-white">
+                            <i class="icon-circle bg-warning bi bi-brightness-high"></i>
                         </div>
                         <span>احداث نیروگاه</span>
                     </a>
@@ -66,8 +66,8 @@
             @if (auth()->user()->access('داشبورد: آیکون شروع فرایند'))
                 <div class="col-4 col-md-3">
                     <a href="{{ route('simpleWorkflow.process.startListView') }}" class="mobile-tile text-decoration-none">
-                        <div class="icon-circle bg-success text-white">
-                            <i class="bi bi-list-task"></i>
+                        <div class="text-white">
+                            <i class="icon-circle bg-success bi bi-list-task"></i>
                         </div>
                         <span>شروع فرایند</span>
                     </a>
@@ -77,8 +77,8 @@
             @if (auth()->user()->access('داشبورد: درخواست های تکمیل نشده'))
                 <div class="col-4 col-md-3">
                     <a href="{{ route('simpleWorkflow.inbox.index') }}" class="mobile-tile text-decoration-none">
-                        <div class="icon-circle bg-info text-white">
-                            <i class="bi bi-list"></i>
+                        <div class="text-white">
+                            <i class="icon-circle bg-info bi bi-list"></i>
                         </div>
                         <span>درخواست‌های تکمیل نشده</span>
                     </a>
@@ -87,10 +87,10 @@
             @if (auth()->user()->access('داشبورد: درخواست های من'))
                 <div class="col-4 col-md-3">
                     <a href="{{ route('simpleWorkflowReport.my-request.index') }}" class="mobile-tile text-decoration-none">
-                        <div class="icon-circle bg-info text-white">
-                            <i class="bi bi-list"></i>
+                        <div class="text-white">
+                            <i class="icon-circle bg-success bi bi-list"></i>
                         </div>
-                        <span>درخواست‌ها</span>
+                        <span>درخواست‌های من</span>
                     </a>
                 </div>
             @endif
