@@ -19,51 +19,33 @@
                     @foreach (config('sidebar.menu') as $menu)
                         @if ( access('منو >>' .$menu['fa_name']) )
                             <li class="nav-item">
-                                @php
-                                    $hasLink = isset($menu['route-name']) || isset($menu['route-url']) || isset($menu['static-url']);
-                                    if ($hasLink) {
-                                        if (isset($menu['route-name']) && Route::has($menu['route-name'])) {
-                                            $menuLink = route($menu['route-name']);
-                                        } elseif (isset($menu['static-url'])) {
-                                            $menuLink = $menu['static-url'];
-                                        } else {
-                                            $menuLink = url($menu['route-url']);
-                                        }
-                                    } else {
-                                        $menuLink = '#';
-                                    }
-                                @endphp
-                                <a href="{{ $menuLink }}" class="nav-link d-flex align-items-center" style="color: #fff; padding: 10px 15px;">
+                                <a href="#" class="nav-link d-flex align-items-center" style="color: #fff; padding: 10px 15px;">
                                     <i class="material-icons me-2">@isset($menu['icon']) {{ $menu['icon'] }} @else menu @endisset</i>
                                     <span>{{ $menu['fa_name'] }}</span>
-                                    @if(!$hasLink && isset($menu['submenu']))
-                                        <i class="material-icons ms-auto" style="font-size: 18px;">expand_more</i>
-                                    @endif
+                                    <i class="material-icons ms-auto" style="font-size: 18px;">expand_more</i>
                                 </a>
-                                @if(!$hasLink && isset($menu['submenu']))
-                                    <ul class="nav nav-treeview ms-3" style="border-left: 2px solid rgba(255,255,255,0.1); margin-left: 10px;">
-                                        @foreach ($menu['submenu'] as $submenu)
-                                            @if ( access('منو >>' .$menu['fa_name'] . '>>' . $submenu['fa_name'] ) )
-                                                <li class="nav-item">
-                                                    <a
-                                                        @isset($submenu['target']) target="{{ $submenu['target'] }}" @endisset
-                                                        href="@if(Route::has($submenu['route-name']))
-                                                                    {{ route($submenu['route-name']) }}
-                                                                @elseif(isset($submenu['static-url']))
-                                                                    {{ $submenu['static-url'] }}
-                                                                @else
-                                                                    {{ isset($submenu['route-url']) ? url($submenu['route-url']) : '' }}
-                                                                @endif"
-                                                        class="nav-link"
-                                                        style="color: #cfd8dc; padding: 8px 15px; transition: all 0.3s ease;">
-                                                        <i class="material-icons" style="font-size: 16px;">chevron_left</i>
-                                                        <span>{{ $submenu['fa_name'] }}</span>
-                                                    </a>
-                                                </li>
-                                            @endif
-                                        @endforeach
-                                    </ul>
-                                @endif
+                                <ul class="nav nav-treeview ms-3" style="border-left: 2px solid rgba(255,255,255,0.1); margin-left: 10px;">
+                                    @foreach ($menu['submenu'] as $submenu)
+                                        @if ( access('منو >>' .$menu['fa_name'] . '>>' . $submenu['fa_name'] ) )
+                                            <li class="nav-item">
+                                                <a 
+                                                    @isset($submenu['target']) target="{{ $submenu['target'] }}" @endisset
+                                                    href="@if(Route::has($submenu['route-name'])) 
+                                                                {{ route($submenu['route-name']) }} 
+                                                            @elseif(isset($submenu['static-url']))
+                                                                {{ $submenu['static-url'] }}
+                                                            @else
+                                                                {{ isset($submenu['route-url']) ? url($submenu['route-url']) : '' }} 
+                                                            @endif"
+                                                    class="nav-link" 
+                                                    style="color: #cfd8dc; padding: 8px 15px; transition: all 0.3s ease;">
+                                                    <i class="material-icons" style="font-size: 16px;">chevron_left</i>
+                                                    <span>{{ $submenu['fa_name'] }}</span>
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endforeach
+                                </ul>
                             </li>
                         @endif
                     @endforeach
