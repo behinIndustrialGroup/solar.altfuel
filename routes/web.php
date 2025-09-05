@@ -33,7 +33,7 @@ Route::get('', function(){
     if(Auth::check()){
         return redirect()->route('admin.dashboard');
     }
-    return view('auth.login');
+    return redirect()->route('login');
 })->name('home');
 
 
