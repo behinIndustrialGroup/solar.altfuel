@@ -6,12 +6,6 @@ use Behin\SimpleWorkflow\Controllers\Core\CaseController;
 use Behin\SimpleWorkflow\Controllers\Core\PushNotifications;
 use Behin\SimpleWorkflow\Controllers\Core\VariableController;
 use Behin\SimpleWorkflow\Jobs\SendPushNotification;
-use Behin\SimpleWorkflow\Models\Core\Cases;
-use Behin\SimpleWorkflow\Models\Core\Variable;
-use Behin\SimpleWorkflow\Models\Entities\Financials;
-use Behin\SimpleWorkflow\Models\Entities\Timeoffs;
-use Behin\SimpleWorkflowReport\Controllers\Core\ExternalAndInternalReportController;
-use Behin\Sms\Controllers\SmsController2;
 use BehinInit\App\Http\Middleware\Access;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,14 +14,6 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
-use Mkhodroo\AgencyInfo\Controllers\GetAgencyController;
-use Pusher\Pusher;
-use UserProfile\Controllers\ChangePasswordController;
-use UserProfile\Controllers\GetUserAgenciesController;
-use UserProfile\Controllers\NationalIdController;
-use UserProfile\Controllers\UserProfileController;
-use Illuminate\Support\Facades\Http;
-use Morilog\Jalali\Jalalian;
 
 Route::get('', function(){
     if(Auth::check()){
