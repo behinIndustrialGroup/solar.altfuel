@@ -80,7 +80,7 @@
                         <div class="icon-circle bg-info text-white">
                             <i class="bi bi-list"></i>
                         </div>
-                        <span>درخواست‌ها</span>
+                        <span>درخواست‌های تکمیل نشده</span>
                     </a>
                 </div>
             @endif
