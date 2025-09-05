@@ -5,24 +5,16 @@ return [
 
         'dashboard' => [
             'icon' => 'dashboard',
-<<<<<<< HEAD
             'fa_name' => 'صفحه نخست',
             'route-url' => 'admin',
-=======
-            'fa_name' => 'داشبرد',
->>>>>>> parent of f57367e8 (Merge branch 'main' of https://github.com/behinIndustrialGroup/solar.altfuel)
             'submenu' => [
                 'dashboard' => [ 'fa_name' => 'داشبرد', 'route-name' => '', 'route-url' => 'admin' ],
             ]
         ],
         'workflow-inbox' => [
             'icon' => 'inbox',
-<<<<<<< HEAD
             'fa_name' => 'درخواست های تکمیل نشده',
             'route-name' => 'simpleWorkflow.inbox.index',
-=======
-            'fa_name' => 'کارتابل',
->>>>>>> parent of f57367e8 (Merge branch 'main' of https://github.com/behinIndustrialGroup/solar.altfuel)
             'submenu' => [
                 'new-process' => [ 'fa_name' => 'فرایند جدید', 'route-name' => 'simpleWorkflow.process.startListView' ],
                 'inbox' => [ 'fa_name' => 'کارتابل', 'route-name' => 'simpleWorkflow.inbox.index' ],
@@ -32,6 +24,7 @@ return [
         'workflow-report' => [
             'icon' => 'report',
             'fa_name' => 'گزارشات کارتابل',
+            'route-name' => 'simpleWorkflowReport.index',
             'submenu' => [
                 'list' => [ 'fa_name' => 'لیست', 'route-name' => 'simpleWorkflowReport.index' ],
                 'summary' => [ 'fa_name' => 'خلاصه', 'route-name' => 'simpleWorkflowReport.summary-report.index' ],
@@ -56,6 +49,7 @@ return [
         'translations' => [
             'icon' => 'language',
             'fa_name' => 'ترجمه',
+            'route-url' => '/translations',
             'submenu' => [
                 'index' => [ 'fa_name' => 'ترجمه', 'route-name' => '', 'route-url' => '/translations' ],
             ]
@@ -63,6 +57,7 @@ return [
         'users' => [
             'icon' => 'person',
             'fa_name' => 'کاربران',
+            'route-url' => 'user/all',
             'submenu' => [
                 'dashboard' => [ 'fa_name' => 'همه', 'route-name' => '', 'route-url' => 'user/all' ],
                 'role' => [ 'fa_name' => 'نقش ها', 'route-name' => 'role.listForm', 'route-url' => '' ],
