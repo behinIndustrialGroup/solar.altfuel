@@ -2,7 +2,7 @@
 use App\CustomClasses\Access;
 ?>
 <!-- Navbar -->
-<nav class="main-header navbar navbar-expand" style="background-color: #263238; color: #fff; border-bottom: none;">
+<nav class="main-header navbar navbar-expand" style="background-color: #f9f9f9 !important; color: #fff; border-bottom: none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
 
     <!-- Left navbar links -->
     <ul class="navbar-nav align-items-center">
@@ -37,7 +37,7 @@ use App\CustomClasses\Access;
 
         <!-- Refresh -->
         <li class="mr-2">
-            <a href="tel:+982191017175" type="button" class="btn btn-sm btn-outline-light" style="color: white !important">
+            <a href="tel:+982191017175" type="button" class="btn btn-sm btn-outline-dark" style="color: black !important">
                 پشتیبانی: 02191017175 <i class="fa fa-phone"></i>
             </a>
         </li>
