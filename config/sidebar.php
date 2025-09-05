@@ -6,7 +6,7 @@ return [
         'dashboard' => [
             'icon' => 'dashboard',
             'fa_name' => 'صفحه نخست',
-            'route-url' => 'admin',
+            'route-name' => 'admin.dashboard',
             'submenu' => [
                 'dashboard' => [ 'fa_name' => 'داشبرد', 'route-name' => '', 'route-url' => 'admin' ],
             ]
@@ -35,7 +35,7 @@ return [
         'workflow' => [
             'icon' => 'account_tree',
             'fa_name' => 'گردش کار',
-            
+
             'submenu' => [
                 'process' => [ 'fa_name' => 'فرایند', 'route-name' => 'simpleWorkflow.process.index' ],
                 'task-actors' => [ 'fa_name' => 'تسک ها', 'route-name' => 'simpleWorkflow.task-actors.index' ],
