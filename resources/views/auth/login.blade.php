@@ -1,9 +1,5 @@
 @extends('behin-layouts.welcome')
 
-@isset(auth()->user()->id)
-    header('Location: https://s3tup.ir/admin')
-@endif  
-
 @section('content')
     <style>
         body {

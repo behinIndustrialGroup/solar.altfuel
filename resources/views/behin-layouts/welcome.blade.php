@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ url('behin/logo.ico') . '?' . config('app.version') }}">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2575fc">
+    {{-- <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2575fc"> --}}
 
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
@@ -83,13 +83,13 @@
             $('.select2').css('width', '100%')
         }
     </script>
-<script src="{{ url('pwa.js') . '?' . config('app.version') }}"></script>
-<script>
+{{-- <script src="{{ url('pwa.js') . '?' . config('app.version') }}"></script> --}}
+{{-- <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/sw.js')
             .then(() => console.log("Service Worker Registered"));
     }
-    </script>
+    </script> --}}
     @yield('script')
 </body>
 

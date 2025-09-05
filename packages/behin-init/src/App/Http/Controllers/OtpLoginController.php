@@ -22,10 +22,11 @@ class OtpLoginController extends Controller
         $request->validate([
             'phone' => ['required','string'],
         ]);
+        $phone = convertPersianToEnglish($request->phone);
         $user = User::firstOrCreate(
-            ['email' => $request->phone],
+            ['email' => $phone],
             [
-                'name' => $request->phone,
+                'name' => $phone,
                 'password' => bcrypt(str()->random(12)),
                 'role_id' => 3
             ]
@@ -54,13 +55,13 @@ class OtpLoginController extends Controller
             'otp' => ['required','string'],
         ]);
 
-
+        $otp = convertPersianToEnglish($request->otp);
         $user = User::where('email', $request->phone)->first();
         if(!$user){
             return $this->view($user->email, trans('auth.user not found'));
         }
 
-        if ($user->reset_password_code == $request->otp) {
+        if ($user->reset_password_code == $otp) {
             $user->password = bcrypt(str()->random(12));
             $user->save();
             Auth::login($user);
