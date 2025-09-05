@@ -1,5 +1,9 @@
 @extends('behin-layouts.welcome')
 
+@isset(auth()->user()->id)
+    header('Location: https://s3tup.ir/admin')
+@endif  
+
 @section('content')
     <style>
         body {
@@ -122,6 +126,7 @@
                             {{ session('error') }}
                         </div>
                     @endif
+                    
                     <form id="login-form" method="POST" action="javascript:void(0)" class="position-relative">
                         @csrf
                         <input type="hidden" name="remember" value="1">
@@ -139,10 +144,11 @@
                                 عبور</label>
                         </div>
 
-                        <button type="submit" onclick="submitLogin()" class="btn btn-gradient w-100 py-3">
-                            ورود
-                        </button>
+                        
                     </form>
+                    <button type="submit" onclick="submitLogin()" class="btn btn-gradient w-100 py-3">
+                        ورود
+                    </button>
 
                     <div class="mt-4 text-center">
                         <a href="{{ route('register') }}" class="d-block small text-decoration-none text-primary">ثبت
@@ -170,10 +176,12 @@
                     از ثبت درخواست تا اجرای کامل پروژه و دریافت گواهی‌های لازم، همه در یک سامانه.</p>
 
                 <div class="features text-start">
+                    <div class="feature-item"><i class="fa fa-check-circle"></i> امکان ارائه تسهیلات مالی(وام) </div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> ثبت درخواست سریع و آنلاین</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> نمایش پروژه‌ها به متخصصان استانی</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> ثبت تجهیزات و قطعات مصرفی</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> صدور گواهی تأیید بعد از نصب</div>
+                    <div class="feature-item"><i class="fa fa-check-circle"></i> پشتیبانی: 02191017175</div>
                 </div>
             </div>
         </div>
@@ -185,7 +193,7 @@
         @if (auth()->id())
             show_message("شما قبلا وارد شده‌اید");
             show_message("به صفحه داشبورد منتقل می‌شوید");
-            window.location = "{{ url('admin') }}";
+            window.location.href = "{{ route('admin.dashboard') }}";
         @endif
 
         function submitLogin() {
@@ -194,7 +202,7 @@
                 $('#login-form').serialize(),
                 function(response) {
                     show_message("به صفحه داشبورد منتقل می‌شوید");
-                    window.location = "{{ url('admin') }}";
+                    window.location.href = "{{ route('admin.dashboard') }}";
                 },
                 function(response) {
                     console.log(response)
@@ -203,7 +211,7 @@
                         let mobile = $('#inputMobile').val();
                         window.location = 'https://s3tup.ir/register?mobile=' + encodeURIComponent(mobile);
                     } else {
-                        show_error(response);
+                        show_error(response).delay(2000);
                         hide_loading();
                     }
 
