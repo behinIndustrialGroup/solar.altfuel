@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ url('behin/logo.ico') . '?' . config('app.version') }}">
-    {{-- <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2575fc"> --}}
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#2575fc">
 
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
@@ -19,8 +19,7 @@
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link rel="stylesheet"
-        href="{{ url('behin/behin-dist/dist/css/adminlte.min.css') . '?' . config('app.version') }}">
+    <link rel="stylesheet" href="{{ url('behin/behin-dist/dist/css/adminlte.min.css') . '?' . config('app.version') }}">
     <link rel="stylesheet"
         href="{{ url('behin/behin-dist/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') . '?' . config('app.version') }}">
     <!-- Google Font: Source Sans Pro -->
@@ -29,10 +28,8 @@
     <link rel="stylesheet"
         href="{{ url('behin/behin-dist/dist/css/bootstrap-rtl.min.css') . '?' . config('app.version') }}">
     <!-- template rtl version -->
-    <link rel="stylesheet"
-        href="{{ url('behin/behin-dist/dist/css/custom-style.css') . '?' . config('app.version') }}">
-    <link rel="stylesheet"
-        href="{{ url('behin/behin-dist/dist/css/custom.css') . '?' . config('app.version') }}">
+    <link rel="stylesheet" href="{{ url('behin/behin-dist/dist/css/custom-style.css') . '?' . config('app.version') }}">
+    <link rel="stylesheet" href="{{ url('behin/behin-dist/dist/css/custom.css') . '?' . config('app.version') }}">
     <link rel="stylesheet"
         href="{{ url('behin/behin-dist/plugins/select2/select2.min.css') . '?' . config('app.version') }}">
     {{-- <link rel="stylesheet" href="{{ url('behin/plugins/persian-datepicker/persian-datepicker.css')  . '?' . config('app.version') }}"> --}}
@@ -42,10 +39,8 @@
 
     @yield('style')
 
-    <script src="{{ url('behin/behin-dist/plugins/jquery/jquery.min.js') . '?' . config('app.version') }}">
-    </script>
-    <script src="{{ url('behin/behin-dist/plugins/toastr/toastr.min.js') . '?' . config('app.version') }}">
-    </script>
+    <script src="{{ url('behin/behin-dist/plugins/jquery/jquery.min.js') . '?' . config('app.version') }}"></script>
+    <script src="{{ url('behin/behin-dist/plugins/toastr/toastr.min.js') . '?' . config('app.version') }}"></script>
 
     <script src="{{ url('behin/behin-js/ajax.js') . '?' . config('app.version') }}"></script>
     <script src="{{ url('behin/behin-js/dataTable.js') . '?' . config('app.version') }}"></script>
@@ -69,8 +64,7 @@
     <!--===============================================================================================-->
     <script src="{{ url('behin/behin-js/loader.js') . '?' . config('app.version') }}"></script>
     <script src="{{ url('behin/behin-js/scripts.js') . '?' . config('app.version') }}"></script>
-    <script src="{{ url('behin/behin-dist/plugins/select2/select2.full.min.js') . '?' . config('app.version') }}">
-    </script>
+    <script src="{{ url('behin/behin-dist/plugins/select2/select2.full.min.js') . '?' . config('app.version') }}"></script>
     {{-- <script src="{{ url('behin/behin-dist/plugins/persian-datepicker/persian-date.js')  . '?' . config('app.version') }}"></script>
 	<script src="{{ url('behin/behin-dist/plugins/persian-datepicker/persian-datepicker.js')  . '?' . config('app.version') }}"></script>
 	<script src="{{ url('behin/behin-dist/dist/js/num2persian/num2persian.js') }}" type="text/javascript"></script> --}}
@@ -82,14 +76,10 @@
             $('.select2').select2();
             $('.select2').css('width', '100%')
         }
+        caches.keys().then(names => {
+            for (let name of names) caches.delete(name);
+        });
     </script>
-{{-- <script src="{{ url('pwa.js') . '?' . config('app.version') }}"></script> --}}
-{{-- <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js')
-            .then(() => console.log("Service Worker Registered"));
-    }
-    </script> --}}
     @yield('script')
 </body>
 
