@@ -6,6 +6,7 @@ return [
         'dashboard' => [
             'icon' => 'dashboard',
             'fa_name' => 'داشبرد',
+            'route-url' => 'admin',
             'submenu' => [
                 'dashboard' => [ 'fa_name' => 'داشبرد', 'route-name' => '', 'route-url' => 'admin' ],
             ]
@@ -13,6 +14,7 @@ return [
         'workflow-inbox' => [
             'icon' => 'inbox',
             'fa_name' => 'کارتابل',
+            'route-name' => 'simpleWorkflow.inbox.index',
             'submenu' => [
                 'new-process' => [ 'fa_name' => 'فرایند جدید', 'route-name' => 'simpleWorkflow.process.startListView' ],
                 'inbox' => [ 'fa_name' => 'کارتابل', 'route-name' => 'simpleWorkflow.inbox.index' ],
@@ -22,6 +24,7 @@ return [
         'workflow-report' => [
             'icon' => 'report',
             'fa_name' => 'گزارشات کارتابل',
+            'route-name' => 'simpleWorkflowReport.index',
             'submenu' => [
                 'list' => [ 'fa_name' => 'لیست', 'route-name' => 'simpleWorkflowReport.index' ],
                 'summary' => [ 'fa_name' => 'خلاصه', 'route-name' => 'simpleWorkflowReport.summary-report.index' ],
@@ -32,6 +35,7 @@ return [
         'workflow' => [
             'icon' => 'account_tree',
             'fa_name' => 'گردش کار',
+            'route-name' => 'simpleWorkflow.process.index',
             'submenu' => [
                 'process' => [ 'fa_name' => 'فرایند', 'route-name' => 'simpleWorkflow.process.index' ],
                 'task-actors' => [ 'fa_name' => 'تسک ها', 'route-name' => 'simpleWorkflow.task-actors.index' ],
@@ -46,6 +50,7 @@ return [
         'translations' => [
             'icon' => 'language',
             'fa_name' => 'ترجمه',
+            'route-url' => '/translations',
             'submenu' => [
                 'index' => [ 'fa_name' => 'ترجمه', 'route-name' => '', 'route-url' => '/translations' ],
             ]
@@ -53,6 +58,7 @@ return [
         'users' => [
             'icon' => 'person',
             'fa_name' => 'کاربران',
+            'route-url' => 'user/all',
             'submenu' => [
                 'dashboard' => [ 'fa_name' => 'همه', 'route-name' => '', 'route-url' => 'user/all' ],
                 'role' => [ 'fa_name' => 'نقش ها', 'route-name' => 'role.listForm', 'route-url' => '' ],
