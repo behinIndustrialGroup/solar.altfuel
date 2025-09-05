@@ -127,16 +127,17 @@
                             {{ $error }}
                         </div>
                     @endif
-                    <form id="send-otp-form" method="POST" action="{{ route('otp.send') }}" class="position-relative">
+                    <form id="verify-otp-form" method="POST" action="{{ route('otp.verify') }}" class="position-relative mt-3">
                         @csrf
+                        <input type="hidden" name="phone" id="verifyMobile" value="{{ $phone }}">
 
                         <div class="mb-4 position-relative">
-                            <input type="text" name="phone" class="form-control text-center" id="inputMobile" placeholder=" "
-                                required dir="ltr">
-                            <label for="inputMobile" class="floating-label"><i class="fa fa-phone me-1"></i> موبایل</label>
+                            <input type="text" name="otp" class="form-control text-center" id="inputOtp" placeholder=" "
+                                required>
+                            <label for="inputOtp" class="floating-label"><i class="fa fa-lock me-1"></i> کد تایید</label>
                         </div>
 
-                        <input type="submit" class="btn btn-gradient w-100 py-3" value="ارسال کد">
+                        <input type="submit" class="btn btn-gradient w-100 py-3">
                     </form>
 
                     <div class="mt-4 text-center">
