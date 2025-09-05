@@ -37,32 +37,32 @@ use App\CustomClasses\Access;
 
         <!-- Refresh -->
         <li class="mr-2">
-            <button type="button" class="btn btn-sm btn-outline-light" onclick="window.location.reload()">
-                <i class="fa fa-refresh"></i>
-            </button>
+            <a href="tel:+982191017175" type="button" class="btn btn-sm btn-outline-light" style="color: white !important">
+                پشتیبانی: 02191017175 <i class="fa fa-phone"></i>
+            </a>
         </li>
 
         <!-- Home -->
-        <li class="mr-2">
+        {{-- <li class="mr-2">
             <a href="{{ url('admin') }}" class="btn btn-sm btn-primary">
                 <i class="fa fa-home"></i>
             </a>
-        </li>
+        </li> --}}
 
         <!-- Todo List -->
         {{-- @include('TodoListViews::partial-views.todo-list-icon') --}}
 
         <!-- User Profile -->
-        @include('UserProfileViews::partial-views.user-profile-icon')
+        {{-- @include('UserProfileViews::partial-views.user-profile-icon') --}}
 
         <!-- Logout -->
-        <li class="mr-2">
+        {{-- <li class="mr-2">
             <button class="btn btn-sm btn-danger">
                 <a href="{{ route('logout') }}">
-                    <i class="fa fa-sign-out"></i>
+                    خروج <i class="fa fa-sign-out"></i>
                 </a>
             </button>
-        </li>
+        </li> --}}
     </ul>
 </nav>
 
