@@ -167,6 +167,19 @@
                 background-color: #F44336;
             }
 
+            .action-buttons {
+                    position: relative;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    padding: 10px;
+                    display: flex;
+                    justify-content: space-around;
+                    background: #fff;
+                    border-top: 1px solid #ddd;
+                    z-index: 1000;
+                }
+
             /* موبایل: ثابت پایین صفحه */
             @media (max-width: 768px) {
                 .action-buttons {
