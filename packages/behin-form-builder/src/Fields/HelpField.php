@@ -26,7 +26,7 @@ class HelpField extends AbstractField
             }
         }
         $s .= '>';
-        $s .= '<p>';
+        $s .= '<p style="margin: 0">';
         $s .= $this->attributes['options'] ?? '';
         $s .= '</p>';
         if(isset($this->attributes['script'])){
