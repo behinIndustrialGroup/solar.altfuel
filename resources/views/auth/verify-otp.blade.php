@@ -140,6 +140,14 @@
                         <input type="submit" class="btn btn-gradient w-100 py-3">
                     </form>
 
+                    <form method="POST" action="{{ route('otp.send') }}" class="mt-3">
+                        @csrf
+                        <input type="hidden" name="phone" value="{{ $phone }}">
+                        <button type="submit" class="btn btn-outline-secondary w-100" id="resendBtn" disabled>
+                            ارسال مجدد کد (60)
+                        </button>
+                    </form>
+
                     <div class="mt-4 text-center">
                         @include('auth.partial.enamad-and-version')
                     </div>
@@ -164,5 +172,20 @@
             </div>
         </div>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const resendBtn = document.getElementById('resendBtn');
+            let counter = 60;
+            const timer = setInterval(() => {
+                counter--;
+                resendBtn.textContent = `ارسال مجدد کد (${counter})`;
+                if (counter <= 0) {
+                    clearInterval(timer);
+                    resendBtn.textContent = 'ارسال مجدد کد';
+                    resendBtn.disabled = false;
+                }
+            }, 1000);
+        });
+    </script>
 @endsection
 
