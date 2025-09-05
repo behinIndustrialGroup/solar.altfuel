@@ -35,7 +35,7 @@ return [
         'workflow' => [
             'icon' => 'account_tree',
             'fa_name' => 'گردش کار',
-            'route-name' => '',
+            'route-name' => 'simpleWorkflow.process.index',
             'submenu' => [
                 'process' => [ 'fa_name' => 'فرایند', 'route-name' => 'simpleWorkflow.process.index' ],
                 'task-actors' => [ 'fa_name' => 'تسک ها', 'route-name' => 'simpleWorkflow.task-actors.index' ],
