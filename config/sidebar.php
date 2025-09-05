@@ -78,7 +78,7 @@ return [
         ],
 
         'exit' => [
-            'icon' => 'fa fa-sign-out',
+            'icon' => 'logout',
             'fa_name' => 'خروج',
             'route-name' => 'logout',
             'submenu' => [
