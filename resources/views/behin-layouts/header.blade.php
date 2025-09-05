@@ -57,8 +57,10 @@ use App\CustomClasses\Access;
 
         <!-- Logout -->
         <li class="mr-2">
-            <button class="btn btn-sm btn-danger" onclick="logout()">
-                <i class="fa fa-sign-out"></i>
+            <button class="btn btn-sm btn-danger">
+                <a href="{{ route('logout') }}">
+                    <i class="fa fa-sign-out"></i>
+                </a>
             </button>
         </li>
     </ul>
