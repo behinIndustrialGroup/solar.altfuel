@@ -5,47 +5,58 @@
 @endphp
 
 @section('content')
+    <div id="dashboardCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://via.placeholder.com/1200x400?text=Slide+1" class="d-block w-100" alt="slide">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/1200x400?text=Slide+2" class="d-block w-100" alt="slide">
+            </div>
+            <div class="carousel-item">
+                <img src="https://via.placeholder.com/1200x400?text=Slide+3" class="d-block w-100" alt="slide">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#dashboardCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
     <div class="container py-4">
-        <div class="row g-3 text-center">
+        <div class="row g-3 text-center justify-content-center">
             @if (auth()->user()->access('ثبت درخواست احداث نیروگاه'))
-                <div class="col-6 col-md-3">
+                <div class="col-4 col-md-4">
                     <a href="{{ route('simpleWorkflow.process.start', [
                         'taskId' => 'cf8147ed-042e-49a9-a9cf-04b7591a4eca',
                         'force' => 1,
                         'redirect' => 1,
                         'inDraft' => 0,
-                    ]) }}"
-                        class="d-block p-3 shadow-sm rounded-3 bg-white hover-card">
+                    ]) }}" class="icon-tile text-decoration-none text-dark">
                         <i class="bi bi-brightness-high fs-2 text-warning"></i>
-                        <div class="mt-2 fw-bold">احداث نیروگاه</div>
+                        <span class="mt-2 fw-bold">احداث نیروگاه</span>
                     </a>
                 </div>
             @endif
 
             @if (auth()->user()->access('داشبورد: آیکون شروع فرایند'))
-                <div class="col-6 col-md-3">
+                <div class="col-4 col-md-4">
                     <a href="{{ route('simpleWorkflow.process.startListView') }}"
-                        class="d-block p-3 shadow-sm rounded-3 bg-white hover-card">
+                        class="icon-tile text-decoration-none text-dark">
                         <i class="bi bi-list-task fs-2 text-success"></i>
-                        <div class="mt-2 fw-bold">شروع فرایند</div>
+                        <span class="mt-2 fw-bold">شروع فرایند</span>
                     </a>
                 </div>
             @endif
             @if (auth()->user()->access('داشبورد: آیکون کارتابل من'))
-                <div class="col-6 col-md-3">
-                    <a href="{{ route('simpleWorkflow.inbox.index') }}"
-                        class="d-block p-3 shadow-sm rounded-3 bg-white hover-card">
+                <div class="col-4 col-md-4">
+                    <a href="{{ route('simpleWorkflow.inbox.index') }}" class="icon-tile text-decoration-none text-dark">
                         <i class="bi bi-list fs-2 text-warning"></i>
-                        <div class="mt-2 fw-bold">درخواست های تکمیل نشده</div>
-                    </a>
-                </div>
-            @endif
-            @if (auth()->user()->access('داشبورد: آیکون درخواست‌های من'))
-                <div class="col-6 col-md-3">
-                    <a href="{{ route('simpleWorkflowReport.my-request.index') }}"
-                        class="d-block p-3 shadow-sm rounded-3 bg-white hover-card">
-                        <i class="bi bi-card-checklist fs-2 text-primary"></i>
-                        <div class="mt-2 fw-bold">درخواست‌های من</div>
+                        <span class="mt-2 fw-bold">درخواست های تکمیل نشده</span>
                     </a>
                 </div>
             @endif
@@ -56,23 +67,34 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
-        .hover-card {
-            transition: all 0.3s ease;
-        }
-
-        .hover-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15) !important;
-        }
-
-        .icon-circle {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
+        .icon-tile {
+            background: #fff;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            margin: auto;
+            transition: transform 0.3s ease;
+            height: 100%;
+        }
+
+        .icon-tile:hover {
+            transform: translateY(-5px);
+        }
+
+        @media (max-width: 767.98px) {
+            .icon-tile {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                padding: 0;
+            }
+
+            .icon-tile span {
+                display: none;
+            }
         }
     </style>
 @endpush
