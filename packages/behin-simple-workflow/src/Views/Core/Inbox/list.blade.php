@@ -23,7 +23,7 @@
         @endif
         @if ($rows->isEmpty())
             <div class="alert alert-info">
-                {{ trans('You have no items in your inbox.') }}
+                {{ trans('fields.You have no items in your inbox') }}
             </div>
         @else
             <table class="table table-striped" id="inbox-list">
