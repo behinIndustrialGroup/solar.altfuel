@@ -7,8 +7,8 @@ use Behin\SimpleWorkflow\Controllers\Core\PushNotificationController;
 use Behin\SimpleWorkflow\Controllers\Core\PushNotifications;
 use BehinInit\App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Contracts\View\View;
-use Illuminate\Http\Client\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
@@ -17,9 +17,6 @@ class LoginController extends Controller
 {
     public function create()
     {
-        if(Auth::check()){
-            return redirect()->route('admin.dashboard');
-        }
         return view('auth.login');
     }
 
@@ -51,6 +48,6 @@ class LoginController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()->route('home');
     }
 }

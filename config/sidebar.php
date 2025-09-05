@@ -5,7 +5,7 @@ return [
 
         'dashboard' => [
             'icon' => 'dashboard',
-            'fa_name' => 'داشبرد',
+            'fa_name' => 'صفحه نخست',
             'route-url' => 'admin',
             'submenu' => [
                 'dashboard' => [ 'fa_name' => 'داشبرد', 'route-name' => '', 'route-url' => 'admin' ],
@@ -13,7 +13,7 @@ return [
         ],
         'workflow-inbox' => [
             'icon' => 'inbox',
-            'fa_name' => 'کارتابل',
+            'fa_name' => 'درخواست های تکمیل نشده',
             'route-name' => 'simpleWorkflow.inbox.index',
             'submenu' => [
                 'new-process' => [ 'fa_name' => 'فرایند جدید', 'route-name' => 'simpleWorkflow.process.startListView' ],
@@ -35,7 +35,6 @@ return [
         'workflow' => [
             'icon' => 'account_tree',
             'fa_name' => 'گردش کار',
-            'route-name' => 'simpleWorkflow.process.index',
             'submenu' => [
                 'process' => [ 'fa_name' => 'فرایند', 'route-name' => 'simpleWorkflow.process.index' ],
                 'task-actors' => [ 'fa_name' => 'تسک ها', 'route-name' => 'simpleWorkflow.task-actors.index' ],

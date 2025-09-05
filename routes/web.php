@@ -31,10 +31,10 @@ use Morilog\Jalali\Jalalian;
 
 Route::get('', function(){
     if(Auth::check()){
-        return view('admin.dashboard');
+        return redirect()->route('admin.dashboard');
     }
     return view('auth.login');
-});
+})->name('home');
 
 
 require __DIR__.'/auth.php';

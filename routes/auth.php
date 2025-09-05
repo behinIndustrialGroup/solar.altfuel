@@ -25,40 +25,12 @@ Route::middleware('guest')->group(function () {
 
     Route::post('login', [LoginController::class, 'store']);
 
-    Route::get('forgot-password', [PasswordResetController::class, 'request'])
-                ->name('password.request');
-
-    Route::post('forgot-password', [PasswordResetController::class, 'sendCode'])
-                ->name('password.sms');
-
-    Route::get('reset-password', [PasswordResetController::class, 'showResetForm'])
-                ->name('password.reset');
-
-    Route::post('reset-password', [PasswordResetController::class, 'reset'])
-                ->name('password.reset.store');
-
     Route::post('otp/send', [OtpLoginController::class, 'send'])->name('otp.send');
     Route::get('otp/send', [OtpLoginController::class, 'view'])->name('otp.view');
     Route::post('otp/verify', [OtpLoginController::class, 'verify'])->name('otp.verify');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('verify-email', EmailVerificationPromptController::class)
-                ->name('verification.notice');
-
-    Route::get('verify-email/{id}/{hash}', VerifyEmailController::class)
-                ->middleware(['signed', 'throttle:6,1'])
-                ->name('verification.verify');
-
-    Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])
-                ->middleware('throttle:6,1')
-                ->name('verification.send');
-
-    Route::get('confirm-password', [ConfirmablePasswordController::class, 'show'])
-                ->name('password.confirm');
-
-    Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
-
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
     Route::get('logout', [LoginController::class, 'destroy'])
