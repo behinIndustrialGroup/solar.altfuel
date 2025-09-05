@@ -7,8 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ url('behin/logo.ico') . '?' . config('app.version') }}">
-    <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#2575fc">
 
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
