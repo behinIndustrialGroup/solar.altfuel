@@ -137,7 +137,9 @@
 
                         <div class="mb-4 position-relative">
                             <input type="text" name="phone" class="form-control text-center" id="inputMobile" placeholder=" "
-                                required dir="ltr">
+                                required dir="ltr"
+                                autofocus
+                                inputmode="numeric">
                             <label for="inputMobile" class="floating-label"><i class="fa fa-phone me-1"></i> موبایل</label>
                         </div>
 

@@ -133,7 +133,9 @@
 
                         <div class="mb-4 position-relative">
                             <input type="text" name="otp" class="form-control text-center" id="inputOtp" placeholder=" "
-                                required>
+                                required
+                                autofocus
+                                inputmode="numeric">
                             <label for="inputOtp" class="floating-label"><i class="fa fa-lock me-1"></i> کد تایید</label>
                         </div>
 
