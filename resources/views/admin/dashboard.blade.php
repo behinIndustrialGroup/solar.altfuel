@@ -5,7 +5,7 @@
 @endphp
 
 @section('content')
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <style>
         .mobile-tile {
             display: flex;
@@ -32,6 +32,12 @@
             color: #333;
         }
 
+        .bordered-row {
+            border: solid #ddd;
+            padding: 5px;
+            border-radius: 10px
+        }
+
         @media (max-width: 767.98px) {
             .icon-circle {
                 width: 60px;
@@ -42,10 +48,11 @@
             .mobile-tile span {
                 font-size: 0.75rem;
             }
+
         }
     </style>
     <div class="container py-4">
-        <div class="row g-3 text-center justify-content-center">
+        <div class="row g-3 text-center justify-content-center bordered-row">
 
             @if (auth()->user()->access('ثبت درخواست احداث نیروگاه'))
                 <div class="col-4 col-md-3">
@@ -54,7 +61,8 @@
                         'force' => 1,
                         'redirect' => 1,
                         'inDraft' => 0,
-                    ]) }}" class="mobile-tile text-decoration-none">
+                    ]) }}"
+                        class="mobile-tile text-decoration-none">
                         <div class="text-white">
                             <i class="icon-circle bg-warning bi bi-brightness-high"></i>
                         </div>
@@ -98,4 +106,3 @@
         </div>
     </div>
 @endsection
-
