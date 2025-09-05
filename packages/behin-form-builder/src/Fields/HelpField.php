@@ -26,7 +26,6 @@ class HelpField extends AbstractField
             }
         }
         $s .= '>';
-        $s .= trans($this->name);
         $s .= '<p>';
         $s .= $this->attributes['options'] ?? '';
         $s .= '</p>';
