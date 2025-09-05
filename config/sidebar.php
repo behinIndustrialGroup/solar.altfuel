@@ -76,14 +76,16 @@ return [
                 'department' => [ 'fa_name' => 'دپارتمان ها', 'route-name' => 'department.index', 'route-url' => '' ],
             ]
         ],
-        // 'tickets' => [
-        //     'icon' => 'fa fa-ticket',
-        //     'fa_name' => 'تیکت پشتیبانی',
-        //     'submenu' => [
-        //         'create' => [ 'fa_name' => 'ایجاد', 'route-name' => 'ATRoutes.index', 'route-url' => '' ],
-        //         'show' => [ 'fa_name' => 'مشاهده', 'route-name' => 'ATRoutes.show.listForm', 'route-url' => '' ],
-        //     ]
-        // ],
+
+        'exit' => [
+            'icon' => 'fa fa-sign-out',
+            'fa_name' => 'خروج',
+            'route-name' => 'logout',
+            'submenu' => [
+                'create' => [ 'fa_name' => 'ایجاد', 'route-name' => 'ATRoutes.index', 'route-url' => '' ],
+                'show' => [ 'fa_name' => 'مشاهده', 'route-name' => 'ATRoutes.show.listForm', 'route-url' => '' ],
+            ]
+        ],
 
     ]
 ];
