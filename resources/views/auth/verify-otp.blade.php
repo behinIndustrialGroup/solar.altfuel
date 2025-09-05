@@ -1,9 +1,5 @@
 @extends('behin-layouts.welcome')
 
-@isset(auth()->user()->id)
-    header('Location: https://s3tup.ir/admin')
-@endif  
-
 @section('content')
     <style>
         body {
@@ -131,22 +127,18 @@
                             {{ $error }}
                         </div>
                     @endif
-                    <form id="send-otp-form" method="POST" action="{{ route('otp.send') }}" class="position-relative">
-
+                    <form id="verify-otp-form" method="POST" action="{{ route('otp.verify') }}" class="position-relative mt-3">
                         @csrf
+                        <input type="hidden" name="phone" id="verifyMobile" value="{{ $phone }}">
 
                         <div class="mb-4 position-relative">
-                            <input type="text" name="phone" class="form-control text-center" id="inputMobile" placeholder=" "
-                                required dir="ltr">
-                            <label for="inputMobile" class="floating-label"><i class="fa fa-phone me-1"></i> موبایل</label>
+                            <input type="text" name="otp" class="form-control text-center" id="inputOtp" placeholder=" "
+                                required>
+                            <label for="inputOtp" class="floating-label"><i class="fa fa-lock me-1"></i> کد تایید</label>
                         </div>
 
-                        <input type="submit" class="btn btn-gradient w-100 py-3" value="ارسال کد">
-
+                        <input type="submit" class="btn btn-gradient w-100 py-3">
                     </form>
-                    <button type="submit" onclick="submitLogin()" class="btn btn-gradient w-100 py-3">
-                        ورود
-                    </button>
 
                     <div class="mt-4 text-center">
                         @include('auth.partial.enamad-and-version')
@@ -164,16 +156,13 @@
                     از ثبت درخواست تا اجرای کامل پروژه و دریافت گواهی‌های لازم، همه در یک سامانه.</p>
 
                 <div class="features text-start">
-                    <div class="feature-item"><i class="fa fa-check-circle"></i> امکان ارائه تسهیلات مالی(وام) </div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> ثبت درخواست سریع و آنلاین</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> نمایش پروژه‌ها به متخصصان استانی</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> ثبت تجهیزات و قطعات مصرفی</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> صدور گواهی تأیید بعد از نصب</div>
-                    <div class="feature-item"><i class="fa fa-check-circle"></i> پشتیبانی: 02191017175</div>
                 </div>
             </div>
         </div>
     </div>
 @endsection
-
 

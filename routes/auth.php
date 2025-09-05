@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use BehinInit\App\Http\Controllers\LoginController;
+use BehinInit\App\Http\Controllers\OtpLoginController;
 use BehinInit\App\Http\Controllers\PasswordResetController;
 use BehinInit\App\Http\Controllers\RegisterUserController;
 use BehinInit\App\Http\Controllers\TestController;
@@ -35,6 +36,10 @@ Route::middleware('guest')->group(function () {
 
     Route::post('reset-password', [PasswordResetController::class, 'reset'])
                 ->name('password.reset.store');
+
+    Route::post('otp/send', [OtpLoginController::class, 'send'])->name('otp.send');
+    Route::get('otp/send', [OtpLoginController::class, 'view'])->name('otp.view');
+    Route::post('otp/verify', [OtpLoginController::class, 'verify'])->name('otp.verify');
 });
 
 Route::middleware('auth')->group(function () {
