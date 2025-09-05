@@ -155,8 +155,6 @@
 
             <!-- بخش معرفی -->
             <div class="col-lg-6 col-md-12 content-box text-center text-lg-start mb-5 mb-lg-0">
-                <img src="{{ url('behin/logo.png') . '?' . config('app.version') }}" class="mb-4" style="max-height: 80px"
-                    alt="Logo">
                 <h1>ستاپ</h1>
                 <h3 class="mb-3">سامانه تأمین و اجرای پروژه‌های خورشیدی</h3>
                 <p class="lead">ستاپ بستری نوین برای ثبت، پیگیری و اجرای پروژه‌های خورشیدی است.
@@ -168,7 +166,7 @@
                     <div class="feature-item"><i class="fa fa-check-circle"></i> نمایش پروژه‌ها به متخصصان استانی</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> ثبت تجهیزات و قطعات مصرفی</div>
                     <div class="feature-item"><i class="fa fa-check-circle"></i> صدور گواهی تأیید بعد از نصب</div>
-                    <div class="feature-item"><i class="fa fa-check-circle"></i> پشتیبانی: 02191017175</div>
+                    <div class="feature-item"><i class="fa fa-check-circle"></i> پشتیبانی 24 ساعته: 02191017175</div>
                 </div>
             </div>
         </div>
