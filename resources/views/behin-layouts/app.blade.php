@@ -57,7 +57,8 @@
         href="{{ url('behin/behin-dist/plugins/mapp/css/fa/style.css') . '?' . config('app.version') }}">
     <link rel="stylesheet" href="{{ url('behin/behin-dist/plugins/timepicker/jquery.timepicker.min.css') }}">
     <!-- Material Icons اضافه -->
-    <link href="{{ url('behin/behin-dist/dist/css/icon.css') . '?' . config('app.version') }}" rel="stylesheet">
+    <link href="{{ url('behin/behin-dist/css/all.min.css') . '?' . config('app.version') }}" rel="stylesheet">
+    <link href="{{ url('behin/behin-dist/css/bootstrap-icons.css') . '?' . config('app.version') }}" rel="stylesheet">
 
     <!-- استایل سفارشی متریال -->
     <style>
