@@ -38,7 +38,7 @@ use App\CustomClasses\Access;
         <!-- Refresh -->
         <li class="mr-2">
             <a href="tel:+982191017175" type="button" class="btn btn-sm btn-outline-dark" style="color: black !important">
-                پشتیبانی: 02191017175 <i class="fas fa-phone"></i>
+                پشتیبانی: 02191017175 <i class="material-icons">home</i>
             </a>
         </li>
 
