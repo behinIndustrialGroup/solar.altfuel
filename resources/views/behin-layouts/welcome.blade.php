@@ -15,13 +15,11 @@
     <link rel="stylesheet"
         href="{{ url('behin/behin-dist/plugins/font-awesome/css/font-awesome.min.css') . '?' . config('app.version') }}">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="{{ url('behin/behin-dist/css/ionicons.min.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ url('behin/behin-dist/dist/css/adminlte.min.css') . '?' . config('app.version') }}">
     <link rel="stylesheet"
         href="{{ url('behin/behin-dist/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css') . '?' . config('app.version') }}">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <!-- bootstrap rtl -->
     <link rel="stylesheet"
         href="{{ url('behin/behin-dist/dist/css/bootstrap-rtl.min.css') . '?' . config('app.version') }}">
