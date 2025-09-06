@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="icon" href="{{ url('behin/logo.ico') . '?' . config('app.version') }}">
-    <link rel="manifest" href="{{ url('manifest.json') . '?' . config('app.version') }}">
 
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
@@ -55,9 +54,7 @@
         href="{{ url('behin/behin-dist/plugins/mapp/css/mapp.min.css') . '?' . config('app.version') }}">
     <link rel="stylesheet"
         href="{{ url('behin/behin-dist/plugins/mapp/css/fa/style.css') . '?' . config('app.version') }}">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css">
-    <!-- Material Icons اضافه -->
-    <link href="{{ url('behin/behin-dist/dist/css/icon.css') . '?' . config('app.version') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url('behin/behin-dist/plugins/timepicker/jquery.timepicker.min.css') }}">
 
     <!-- استایل سفارشی متریال -->
     <style>
@@ -128,7 +125,6 @@
     @yield('style')
 
     <script src="{{ url('behin/behin-dist/plugins/jquery/jquery.min.js') . '?' . config('app.version') }}"></script>
-    {{-- <script type="text/javascript" src="https://cdn.map.ir/web-sdk/1.4.2/js/jquery-3.2.1.min.js"></script> --}}
     <script
         src="{{ url('behin/behin-dist/plugins/datatables/jquery.dataTables.js') . '?' . config('app.version') }}">
     </script>
@@ -150,7 +146,7 @@
     <script src="{{ url('behin/behin-js/ajax.js') . '?' . config('app.version') }}"></script>
     <script src="{{ url('behin/behin-js/dataTable.js') . '?' . config('app.version') }}"></script>
     <script src="{{ url('behin/behin-js/dropzone.js') . '?' . config('app.version') }}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
+    <script src="{{ url('behin/behin-dist/plugins/timepicker/jquery.timepicker.min.js') }}"></script>
     <script
         src="{{ url('behin/behin-dist/plugins/autonumeric/autoNumeric.min.js') . '?' . config('app.version') }}">
     </script>
@@ -216,70 +212,15 @@
     src="{{ url('behin/behin-dist/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js') . '?' . config('app.version') }}">
 </script>
 <script src="{{ url('behin/behin-dist/dist/js/adminlte.js') . '?' . config('app.version') }}"></script>
-<script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.1/js/buttons.html5.min.js"></script>
+<script src="{{ url('behin/behin-dist/plugins/datatables/dataTables.buttons.min.js') }}"></script>
+<script src="{{ url('behin/behin-dist/plugins/datatables/jszip.min.js') }}"></script>
+<script src="{{ url('behin/behin-dist/plugins/datatables/buttons.html5.min.js') }}"></script>
 <script src="{{ url('behin/behin-dist/plugins/select2/select2.full.min.js') }}"></script>
-{{-- <script src="https://unpkg.com/filepond/dist/filepond.min.js"></script>
-        <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.js"></script>
-        <script src="https://unpkg.com/jquery-filepond/filepond.jquery.js"></script> --}}
 <script src="{{ url('behin/behin-dist/plugins/mapp/js/mapp.min.js') . '?' . config('app.version') }}"></script>
 <script src="{{ url('behin/behin-dist/plugins/toastr/toastr.min.js') . '?' . config('app.version') }}"></script>
-{{-- <script src="https://js.pusher.com/7.2/pusher.min.js"></script>
-    <script src="https://js.pusher.com/beams/1.0/push-notifications-cdn.js"></script>
-    <script>
-        const beamsClient = new PusherPushNotifications.Client({
-            instanceId: "{{ config('broadcasting.pusher.instanceId') }}",
-        });
-        const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
-            url: "{{ url('/pusher/beams-auth') }}"
-        });
 
-        beamsClient.getUserId()
-            .then(userId => {
-                if (!userId) {
-                    beamsClient.start().then(() => {
-                        const beamsTokenProvider = new PusherPushNotifications.TokenProvider({
-                            url: "{{ url('/pusher/beams-auth') }}"
-                        });
-                        beamsClient.setUserId(
-                            "{{ config('broadcasting.pusher.prefix_user') }}{{ Auth::id() }}",
-                            beamsTokenProvider)
-                    })
-                } else {
-                    console.log('User ID:', userId);
-                }
-            })
-            .catch(console.error);
-    </script>
-    <script>
-        function checkNotificationPermission() {
-            if (!('Notification' in window)) {
-                alert('این مرورگر از نوتیفیکیشن پشتیبانی نمی‌کند.');
-                return;
-            }
-
-            if (Notification.permission === 'granted') {
-                new Notification('نوتیفیکیشن فعال است', {
-                    body: 'شما قبلاً مجوز داده‌اید!',
-                    icon: '{{ url('behin/logo.ico') }}'
-                });
-            } else if (Notification.permission === 'denied') {
-                alert('شما مجوز نوتیفیکیشن را رد کرده‌اید. لطفاً از تنظیمات مرورگر آن را فعال کنید.');
-            } else {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        new Notification('متشکریم!', {
-                            body: 'شما نوتیفیکیشن را فعال کردید.'
-                        });
-                    }
-                });
-            }
-        }
-    </script> --}}
 <script>
     function logout() {
-        // beamsClient.stop().catch(console.error);
         window.location = "{{ route('logout') }}"
     }
 </script>
