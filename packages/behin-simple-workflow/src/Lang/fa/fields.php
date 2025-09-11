@@ -90,5 +90,6 @@ return [
     'Forms' => 'فرم ها',
     'Transfer cases to task' => 'انتقال کیس ها به تسک',
     'Task deleted successfully' => 'تسک با موفقیت حذف شد',
+    'script_before_open' => 'اسکریپت قبل از باز شدن',
 
 ];

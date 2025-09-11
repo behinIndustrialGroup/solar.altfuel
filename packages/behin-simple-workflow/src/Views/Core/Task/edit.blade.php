@@ -122,6 +122,15 @@
                 </select>
             </div>
             <div class="col-md-6">
+                <label for="script_before_open" class="form-label">{{ trans('fields.script_before_open') }}</label>
+                <select name="script_before_open" id="script_before_open" class="form-control select2">
+                    <option value="">{{ trans('Select an option') }}</option>
+                    @foreach ($scripts as $script)
+                        <option value="{{ $script->id }}" {{ $script->id == $task->script_before_open ? 'selected' : '' }}>{{ $script->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="col-md-6">
                 <label for="assignment_type" class="form-label">{{ trans('Assignment') }}</label>
                 <select name="assignment_type" id="assignment_type" class="form-control">
                     <option value="">{{ trans('None') }}</option>
