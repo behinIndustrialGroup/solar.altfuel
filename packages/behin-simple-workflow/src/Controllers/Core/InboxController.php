@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Behin\SimpleWorkflow\Controllers\Core\ScriptController;
 use App\Events\NewInboxEvent;
 use App\Models\User;
 use BaleBot\Controllers\BotController;
@@ -166,6 +167,13 @@ class InboxController extends Controller
         $variables = VariableController::getVariablesByCaseId($case->id, $process->id);
 
         if ($task->type == 'form') {
+            if ($task->script_before_open) {
+                try {
+                    ScriptController::runScript($task->script_before_open, $case->id);
+                } catch (\Throwable $e) {
+                    Log::error('script_before_open failed: ' . $e->getMessage());
+                }
+            }
             if (!isset($form->content)) {
                 return redirect()->route('simpleWorkflow.inbox.index')->with('error', trans('Form not found'));
             }

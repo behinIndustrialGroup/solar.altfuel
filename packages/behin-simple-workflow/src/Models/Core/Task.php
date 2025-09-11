@@ -47,6 +47,7 @@ class Task extends Model
         'timing_value',
         'timing_key_name',
         'number_of_task_to_back',
+        'script_before_open',
     ];
 
     public function getStyledNameAttribute()
