@@ -43,13 +43,13 @@
                         <tr ondblclick="window.location.href = '{{ route('simpleWorkflow.inbox.view', $row->id) }}'">
                             <td>
                                 <a href="{{ route('simpleWorkflow.inbox.view', $row->id) }}" class=""><i
-                                        class="fa fa-external-link"></i></a>
+                                        class="material-icons">open_in_new</i></a>
                                 {{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
 
                                 @if ($row->status == 'draft')
                                     <a href="{{ route('simpleWorkflow.inbox.delete', $row->id) }}"
-                                        class="btn btn-sm btn-danger">{{ trans('fields.Delete') }}
-                                        <i class="fa fa-trash"></i></a>
+                                        class="btn btn-sm btn-danger"><i class="material-icons">delete</i>
+                                        {{ trans('fields.Delete') }}</a>
                                 @endif
                             </td>
                             <td><a href="{{ route('simpleWorkflow.inbox.view', $row->id) }}"
