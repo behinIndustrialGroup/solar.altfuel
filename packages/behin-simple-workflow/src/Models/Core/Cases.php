@@ -35,7 +35,8 @@ class Cases extends Model
         'number',
         'name',
         'creator',
-        'parent_id'
+        'parent_id',
+        'status'
     ];
 
     public function variables()

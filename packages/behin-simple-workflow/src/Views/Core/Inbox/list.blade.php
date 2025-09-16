@@ -44,6 +44,9 @@
                             <td>
                                 <a href="{{ route('simpleWorkflow.inbox.view', $row->id) }}" class=""><i
                                         class="material-icons">open_in_new</i></a>
+                                @if ($row->task->allow_cancel)
+                                    <a href="{{ route('simpleWorkflow.inbox.cancel', $row->id) }}" title="{{ trans('fields.Cancel') }}" onclick="return confirm('آیا مطمئن هستید؟')" class="text-danger"><i class="material-icons">cancel</i></a>
+                                @endif
                                 {{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
 
                                 @if ($row->status == 'draft')
@@ -64,6 +67,8 @@
                                     <span class="badge bg-warning">{{ trans('fields.In Progress') }}</span>
                                 @elseif($row->status == 'draft')
                                     <span class="badge bg-info">{{ trans('fields.Draft') }}</span>
+                                @elseif($row->status == 'canceled')
+                                    <span class="badge bg-danger">{{ trans('fields.Canceled') }}</span>
                                 @else
                                     <span class="badge bg-success">{{ trans('fields.Completed') }}</span>
                                 @endif
