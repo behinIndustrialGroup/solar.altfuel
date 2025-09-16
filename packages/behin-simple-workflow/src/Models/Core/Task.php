@@ -48,6 +48,7 @@ class Task extends Model
         'timing_key_name',
         'number_of_task_to_back',
         'script_before_open',
+        'allow_cancel',
     ];
 
     public function getStyledNameAttribute()

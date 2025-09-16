@@ -157,6 +157,17 @@ class InboxController extends Controller
         ]);
     }
 
+    public function cancel($id)
+    {
+        $inbox = self::getById($id);
+        $inbox->status = 'canceled';
+        $inbox->save();
+        Cases::where('id', $inbox->case_id)->update(['status' => 'canceled']);
+        return redirect()->route('simpleWorkflow.inbox.index')->with([
+            'success' => trans('fields.Case canceled successfully')
+        ]);
+    }
+
     public static function view($inboxId)
     {
         $inbox = InboxController::getById($inboxId);
