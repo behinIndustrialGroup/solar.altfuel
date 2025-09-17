@@ -29,6 +29,7 @@
             <table class="table table-striped" id="inbox-list">
                 <thead>
                     <tr>
+                        <th></th>
                         <th>#</th>
                         <th>{{ trans('fields.Case Title') }}</th>
                         <th>{{ trans('fields.Process Title') }}</th>
@@ -41,19 +42,16 @@
                 <tbody>
                     @foreach ($rows as $index => $row)
                         <tr ondblclick="window.location.href = '{{ route('simpleWorkflow.inbox.view', $row->id) }}'">
+                            
                             <td>
                                 <a href="{{ route('simpleWorkflow.inbox.view', $row->id) }}" class=""><i
-                                        class="material-icons">open_in_new</i></a>
+                                    class="material-icons">open_in_new</i></a>
                                 @if ($row->task->allow_cancel)
-                                    <a href="{{ route('simpleWorkflow.inbox.cancel', $row->id) }}" title="{{ trans('fields.Cancel') }}" onclick="return confirm('آیا مطمئن هستید؟')" class="text-danger"><i class="material-icons">cancel</i></a>
+                                    <a href="{{ route('simpleWorkflow.inbox.cancel', $row->id) }}" title="{{ trans('fields.Cancel') }}" onclick="return confirm('آیا از لغو درخواست مطمئن هستید؟')" class="text-danger"><i class="material-icons">cancel</i></a>
                                 @endif
+                            </td>
+                            <td>
                                 {{ str_pad($index + 1, 3, '0', STR_PAD_LEFT) }}
-
-                                @if ($row->status == 'draft')
-                                    <a href="{{ route('simpleWorkflow.inbox.delete', $row->id) }}"
-                                        class="btn btn-sm btn-danger"><i class="material-icons">delete</i>
-                                        {{ trans('fields.Delete') }}</a>
-                                @endif
                             </td>
                             <td><a href="{{ route('simpleWorkflow.inbox.view', $row->id) }}"
                                     class="">{!! $row->task->styled_name !!}</a></td>
