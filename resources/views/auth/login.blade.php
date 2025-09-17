@@ -3,208 +3,27 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>ستاپ — سامانه تأمین و اجرای پروژه‌های خورشیدی</title>
-    <script src="{{ url('behin/behin-dist/css/tailwind/3.4.17') }}"></script>
-    <link href="{{ url('behin/behin-dist/css/css2.css') }}?family=Vazirmatn:wght@300;400;700&display=swap"
-        rel="stylesheet">
+    <link href="{{ url('behin/behin-dist/css/css2.css') }}?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/login.jsx'])
     <style>
-        html,
         body {
             font-family: 'Vazirmatn', sans-serif;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin-inline: auto
         }
     </style>
 </head>
 
 <body class="bg-gray-50 text-gray-800">
-    <!-- Hero -->
-    <header class="bg-gradient-to-l from-yellow-400 via-yellow-300 to-amber-400 text-gray-900">
-        <div class="container px-6 py-12">
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="flex-1">
-                    <h1 class="text-3xl md:text-4xl font-bold mb-3">
-                        ستاپ — سامانه تأمین و اجرای پروژه‌های خورشیدی
-                    </h1>
-                    <p class="mb-6 text-lg md:text-xl">
-                        ما متقاضیان نصب پنل خورشیدی را به پیمانکاران معتبر در سراسر ایران
-                        وصل می‌کنیم، تسهیلات مالی فراهم می‌کنیم و از آغاز تا تحویل پروژه همراه شما هستیم.
-                    </p>
-
-                    <!-- فرم ارسال کد -->
-                    <form id="send-otp-form" method="POST" action="{{ route('otp.send') }}"
-                        class="w-full bg-white p-4 rounded-2xl shadow-md flex items-center gap-3">
-                        @csrf
-                        <div class="relative flex-1">
-                            <input type="text" name="phone" id="inputMobile"
-                                class="peer w-full px-4 pt-5 pb-2 text-center border border-gray-300 rounded-lg 
-                            focus:border-blue-500 focus:ring-2 focus:ring-blue-200 outline-none transition 
-                            placeholder-transparent"
-                                placeholder="موبایل" required dir="ltr" inputmode="numeric" autofocus>
-                            <label for="inputMobile"
-                                class="absolute right-3 top-2 text-gray-500 text-sm transition-all 
-                            peer-placeholder-shown:top-4 peer-placeholder-shown:text-gray-400 
-                            peer-placeholder-shown:text-base peer-focus:top-2 peer-focus:text-sm 
-                            peer-focus:text-blue-500">
-                                <i class="fa fa-phone me-1"></i> موبایل
-                            </label>
-                        </div>
-                        <button type="submit"
-                            class="whitespace-nowrap px-6 py-3 rounded-lg bg-gray-900 text-white font-semibold shadow-md hover:shadow-lg">
-                            ارسال کد
-                        </button>
-                    </form>
-
-                    <!-- stats -->
-                    <div class="mt-8 grid grid-cols-2 gap-1 md:grid-cols-2">
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">ظرفیت نصب‌شده</div>
-                            <div class="text-2xl font-bold">۱.۷ مگاوات</div>
-                        </div>
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">پروژه‌های تکمیل‌شده</div>
-                            <div class="text-2xl font-bold">84</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="flex-1">
-                    <div class="rounded-xl overflow-hidden shadow-lg bg-white">
-                        <img src="{{ url('behin/home-1.jpg') }}" alt="پنل خورشیدی" class="w-full h-64 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-bold mb-2">آغاز پروژه در ۳ مرحله ساده</h3>
-                            <ol class="list-decimal pr-4 space-y-2 text-sm">
-                                <li>درخواست آنلاین ثبت کنید</li>
-                                <li>پیمانکار مناسب معرفی می‌شود</li>
-                                <li>تأمین مالی و اجرای پروژه</li>
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="container px-6 py-12">
-        <!-- Features -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">ویژگی‌های اصلی ستاپ</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h4 class="font-semibold mb-2">شبکه گسترده پیمانکاران</h4>
-                    <p class="text-sm">دسترسی به پیمانکاران معتبر و تایید‌شده در تمامی استان‌های ایران.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h4 class="font-semibold mb-2">تسهیلات مالی</h4>
-                    <p class="text-sm">امکان دریافت پیشنهادات مالی و تسهیلات برای نصب و راه‌اندازی نیروگاه.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h4 class="font-semibold mb-2">پشتیبانی فنی و مدیریتی</h4>
-                    <p class="text-sm">پیگیری پروژه از آغاز تا تحویل و تضمین کیفیت اجرا.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- How it works -->
-        <section id="how" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">نحوه کار</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 bg-gradient-to-tr from-white to-gray-50 rounded-lg shadow">
-                    <div class="text-xl font-bold mb-2">۱. ثبت درخواست</div>
-                    <p class="text-sm">فرم کوتاه را پر کنید تا تیم ما نیاز شما را بررسی کند.</p>
-                </div>
-                <div class="p-6 bg-gradient-to-tr from-white to-gray-50 rounded-lg shadow">
-                    <div class="text-xl font-bold mb-2">۲. انتخاب پیمانکار</div>
-                    <p class="text-sm">پیمانکاران واجد شرایط با شما تماس می‌گیرند و پیشنهاد ارسال می‌کنند.</p>
-                </div>
-                <div class="p-6 bg-gradient-to-tr from-white to-gray-50 rounded-lg shadow">
-                    <div class="text-xl font-bold mb-2">۳. اجرا و پشتیبانی</div>
-                    <p class="text-sm">تامین مالی، اجرا و تست نهایی تا تحویل نهایی پروژه.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Map / contractors -->
-        {{-- <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">پیمانکاران در سراسر ایران</h2>
-            <div class="bg-white rounded-lg shadow overflow-hidden p-6">
-                <div class="h-64 md:h-96 bg-gray-200 rounded-lg flex items-center justify-center">نقشه / ویجت نمایش
-                    پیمانکاران (قابل اتصال به گوگل مپز یا نقشه داخلی)</div>
-                <p class="text-sm mt-3">ما با شبکه‌ای از پیمانکاران در تمامی استان‌ها همکاری می‌کنیم — در هر شهر یک شریک
-                    محلی برای اجرا.</p>
-            </div>
-        </section> --}}
-
-        <!-- Testimonials / numbers -->
-        {{-- <section class="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="font-bold mb-2">اعداد و واقعیت‌ها</h3>
-                <ul class="space-y-3 text-sm">
-                    <li>ظرفیت نصب‌شده: <strong>۱.۷ مگاوات</strong></li>
-                    <li>پیمانکاران فعال: <strong>در سراسر ایران</strong></li>
-                    <li>پروژه‌های موفق: <strong>در حال افزایش</strong></li>
-                </ul>
-            </div>
-            <div class="bg-white p-6 rounded-lg shadow">
-                <h3 class="font-bold mb-2">نظرات مشتریان</h3>
-                <blockquote class="text-sm italic">"اجرای پروژه ما سریع و دقیق انجام شد — از تیم ستاپ ممنونیم." — مشتری
-                    نمونه</blockquote>
-            </div>
-        </section> --}}
-
-        <!-- Contact / CTA form -->
-        {{-- <section id="contact" class="mb-12 bg-white p-6 rounded-lg shadow">
-            <h2 class="text-2xl font-bold mb-4">درخواست مشاوره</h2>
-            <form class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input placeholder="نام و نام خانوادگی" class="p-3 border rounded" />
-                <input placeholder="شماره تماس" class="p-3 border rounded" />
-                <input placeholder="شهر" class="p-3 border rounded" />
-                <select class="p-3 border rounded">
-                    <option>نوع درخواست: نصب خانگی</option>
-                    <option>نوع درخواست: نصب تجاری</option>
-                </select>
-                <textarea placeholder="توضیحات کوتاه (اختیاری)" class="p-3 border rounded md:col-span-2"></textarea>
-                <div class="md:col-span-2 flex justify-start">
-                    <button type="submit" class="px-6 py-2 bg-amber-500 rounded-lg text-white font-semibold">ارسال
-                        درخواست</button>
-                </div>
-            </form>
-        </section> --}}
-
-    </main>
-
-    <footer class="bg-gray-900 text-white py-8">
-        <div class="container px-6">
-            <div class="flex flex-col md:flex-row justify-between items-start gap-6">
-                <div>
-                    <h4 class="font-bold mb-2">ستاپ</h4>
-                    <p class="text-sm">سامانه تأمین و اجرای پروژه‌های خورشیدی — اتصال متقاضیان به پیمانکاران و ارائه
-                        تسهیلات مالی.</p>
-                </div>
-                <div>
-                    <h5 class="font-semibold mb-2">تماس</h5>
-                    {{-- <p class="text-sm">ایمیل: info@setap.example</p> --}}
-                    <p class="text-sm">تلفن: 02191017175</p>
-                </div>
-                <div>
-                    <h5 class="font-semibold mb-2">مجوزها</h5>
-                    {{-- <p class="text-sm">ایمیل: info@setap.example</p> --}}
-                    <a referrerpolicy='origin' target='_blank'
-                        href='https://trustseal.enamad.ir/?id=642135&Code=Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'><img
-                            referrerpolicy='origin'
-                            src='https://trustseal.enamad.ir/logo.aspx?id=642135&Code=Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'
-                            alt='' style='cursor:pointer' code='Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'></a>
-                    <p class="text-sm"></p>
-                </div>
-            </div>
-            <div class="text-sm text-gray-400 mt-6">© تمامی حقوق برای ستاپ محفوظ است.</div>
-        </div>
-    </footer>
-
+    <div id="login-root"
+        data-login-url="{{ route('login') }}"
+        data-dashboard-url="{{ route('admin.dashboard') }}"
+        @if (Route::has('password.request')) data-forgot-password-url="{{ route('password.request') }}" @endif
+        @if (Route::has('register')) data-register-url="{{ route('register') }}" @endif
+        @if (Route::has('otp.view')) data-otp-url="{{ route('otp.view') }}" @endif
+        data-hero-image="{{ url('behin/home-1.jpg') }}">
+    </div>
 </body>
 
 </html>
