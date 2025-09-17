@@ -79,7 +79,7 @@
         <div class="card shadow-sm mb-2">
             <div class="card-body">
                 <p class="m-0">
-                    <i class="fa fa-check-circle text-success mr-2"></i>
+                    <i class="material-icons text-success mr-2">check_circle</i>
                     {{ trans('fields.Done At') }}:
                     <span class="badge badge-light" dir="ltr">
                         {{ toJalali($inbox->updated_at)->format('Y-m-d H:i') }}
@@ -96,18 +96,17 @@
         <div class="action-buttons bg-white p-2 shadow-md flex justify-between items-center gap-2">
             @if ($inbox->status == 'draft')
                 <button class="md-btn md-btn-info" onclick="createCaseNumberAndSave()">
-                    <i class="fa fa-file-alt mr-1"></i>
+                    <i class="material-icons">file_alt</i>
                     {{ trans('fields.Create Case Number and Save') }}
                 </button>
             @else
                 <button class="md-btn md-btn-warning" onclick="showJumpModal()">
-                    <i class="fa fa-arrow-right mr-1"></i>
+                    <i class="material-icons">arrow_right</i>
                     {{ trans('fields.Send Manully') }}
                 </button>
 
                 <button class="md-btn md-btn-danger" onclick="saveAndNextForm()">
-                    <i class="fa fa-save mr-1"></i>
-                    <i class="fa fa-arrow-left mr-1"></i>
+                    <i class="material-icons">save</i>
                     {{ trans('fields.Save and next') }}
                 </button>
             @endif
