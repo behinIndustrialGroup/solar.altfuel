@@ -64,7 +64,7 @@ class OtpLoginController extends Controller
         if ($user->reset_password_code == $otp) {
             $user->password = bcrypt(str()->random(12));
             $user->save();
-            Auth::login($user);
+            Auth::login($user, true);
             return redirect()->route('admin.dashboard');
             return view('admin.dashboard');
         }
