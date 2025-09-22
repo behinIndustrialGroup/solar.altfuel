@@ -56,7 +56,7 @@ class StageReportController extends Controller
                 'process.name as process_name',
                 'open_cases.task_id',
                 'tasks.name as task_name',
-                'tasks.styled_name as task_styled_name',
+                'tasks.name as task_styled_name',
                 'contractors.id as contractor_id',
                 'contractors.name as contractor_name',
                 'vars.customer_workshop_or_ceo_name',
