@@ -122,15 +122,6 @@
                 </select>
             </div>
             <div class="col-md-6">
-                <label for="script_before_open" class="form-label">{{ trans('fields.script_before_open') }}</label>
-                <select name="script_before_open" id="script_before_open" class="form-control select2">
-                    <option value="">{{ trans('Select an option') }}</option>
-                    @foreach ($scripts as $script)
-                        <option value="{{ $script->id }}" {{ $script->id == $task->script_before_open ? 'selected' : '' }}>{{ $script->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="col-md-6">
                 <label for="assignment_type" class="form-label">{{ trans('Assignment') }}</label>
                 <select name="assignment_type" id="assignment_type" class="form-control">
                     <option value="">{{ trans('None') }}</option>
@@ -177,12 +168,6 @@
             <div class="col-md-6">
                 <label for="order" class="form-label">{{ trans('Order') }}</label>
                 <input type="text" name="order" id="order" class="form-control" dir="ltr" value="{{ $task->order }}">
-            </div>
-            <div class="col-md-6">
-                <label for="allow_cancel" class="form-label">{{ trans('fields.Allow Cancel Case') }}</label>
-                <div class="form-check">
-                    <input type="checkbox" name="allow_cancel" id="allow_cancel" value="1" class="form-check-input" {{ $task->allow_cancel ? 'checked' : '' }}>
-                </div>
             </div>
             @if ($task->type == 'timed_condition')
                 <div class="col-md-6">
