@@ -4,16 +4,52 @@ namespace Behin\SimpleWorkflowReport\Controllers\Core;
 
 use App\Http\Controllers\Controller;
 use Behin\SimpleWorkflow\Models\Core\Task;
+use Behin\SimpleWorkflowReport\Exports\StageReportExport;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class StageReportController extends Controller
 {
+    protected array $openStatuses = ['new', 'opened', 'inProgress', 'draft'];
+
     public function index(Request $request): View
     {
-        $openStatuses = ['new', 'opened', 'inProgress', 'draft'];
+        $selectedTaskIds = $this->selectedTaskIds($request);
 
+        return view('SimpleWorkflowReportView::Core.Stage.index', [
+            'rows' => $this->fetchRows($selectedTaskIds),
+            'tasks' => $this->fetchTasks(),
+            'selectedTasks' => $selectedTaskIds,
+        ]);
+    }
+
+    public function export(Request $request): BinaryFileResponse
+    {
+        $selectedTaskIds = $this->selectedTaskIds($request);
+
+        return Excel::download(
+            new StageReportExport($this->fetchRows($selectedTaskIds)),
+            'stage-report.xlsx'
+        );
+    }
+
+    protected function selectedTaskIds(Request $request): array
+    {
+        $tasks = array_map(function ($value) {
+            return is_numeric($value) ? (int) $value : null;
+        }, (array) $request->input('tasks', []));
+
+        return array_values(array_filter($tasks, function ($value) {
+            return ! is_null($value);
+        }));
+    }
+
+    protected function fetchRows(array $selectedTaskIds): Collection
+    {
         $caseVariables = DB::table('wf_variables')
             ->select(
                 'case_id',
@@ -35,7 +71,7 @@ class StageReportController extends Controller
 
         $openCases = DB::table('wf_inbox')
             ->select('case_id', 'task_id')
-            ->whereIn('status', $openStatuses)
+            ->whereIn('status', $this->openStatuses)
             ->distinct();
 
         $query = DB::table('wf_cases as cases')
@@ -78,12 +114,11 @@ class StageReportController extends Controller
             ])
             ->orderByDesc('cases.created_at');
 
-        $selectedTaskIds = array_filter((array) $request->input('tasks', []));
         if (! empty($selectedTaskIds)) {
             $query->whereIn('open_cases.task_id', $selectedTaskIds);
         }
 
-        $rows = $query->get()->map(function ($row) {
+        return $query->get()->map(function ($row) {
             $nameCandidates = [
                 $row->customer_workshop_or_ceo_name,
                 $row->customer_fullname,
@@ -113,22 +148,19 @@ class StageReportController extends Controller
                 'current_stage' => $row->current_stage,
             ];
         })->values();
+    }
 
-        $tasks = Task::with('process')
-            ->whereIn('id', function ($query) use ($openStatuses) {
+    protected function fetchTasks(): Collection
+    {
+        return Task::with('process')
+            ->whereIn('id', function ($query) {
                 $query->select('task_id')
                     ->from('wf_inbox')
-                    ->whereIn('status', $openStatuses);
+                    ->whereIn('status', $this->openStatuses);
             })
             ->orderBy('process_id')
             ->orderBy('name')
             ->get()
             ->groupBy('process_id');
-
-        return view('SimpleWorkflowReportView::Core.Stage.index', [
-            'rows' => $rows,
-            'tasks' => $tasks,
-            'selectedTasks' => $selectedTaskIds,
-        ]);
     }
 }
