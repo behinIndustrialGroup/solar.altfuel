@@ -14,6 +14,7 @@ use Behin\SimpleWorkflowReport\Controllers\Core\ChequeReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\ExpiredController;
 use Behin\SimpleWorkflowReport\Controllers\Core\ExternalAndInternalReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\MyRequestController;
+use Behin\SimpleWorkflowReport\Controllers\Core\StageReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\RoleReportFormController;
 use Behin\SimpleWorkflowReport\Controllers\Core\SummaryReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\PersonelActivityController;
@@ -25,8 +26,10 @@ use Maatwebsite\Excel\Facades\Excel;
 
 Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['web', 'auth'])->group(function () {
     Route::resource('summary-report', SummaryReportController::class);
-    
+
     Route::resource('my-request', MyRequestController::class);
+
+    Route::get('stage-report', [StageReportController::class, 'index'])->name('stage-report.index');
 
 
 });
