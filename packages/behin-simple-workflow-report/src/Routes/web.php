@@ -22,13 +22,13 @@ use Behin\SimpleWorkflowReport\Controllers\Core\PhonebookController;
 use Behin\SimpleWorkflowReport\Controllers\Scripts\TotalTimeoff;
 use Behin\SimpleWorkflowReport\Controllers\Scripts\UserTimeoffs;
 use Illuminate\Support\Facades\Route;
-use Maatwebsite\Excel\Facades\Excel;
 
 Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['web', 'auth'])->group(function () {
     Route::resource('summary-report', SummaryReportController::class);
 
     Route::resource('my-request', MyRequestController::class);
 
+    Route::get('stage-report/export', [StageReportController::class, 'export'])->name('stage-report.export');
     Route::get('stage-report', [StageReportController::class, 'index'])->name('stage-report.index');
 
 
