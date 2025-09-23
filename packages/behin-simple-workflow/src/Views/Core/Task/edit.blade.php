@@ -340,7 +340,7 @@
                 </li>
             </ul>
             <div class="tab-content material-tab-content">
-                <div role="tabpanel" class="tab-pane fade in active" id="tab-general">
+                <div role="tabpanel" class="tab-pane fade show active" id="tab-general">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="md-form-group">
