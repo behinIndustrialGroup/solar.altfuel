@@ -38,6 +38,7 @@ class Task extends Model
         'parent_id',
         'next_element_id',
         'assignment_type',
+        'is_preview',
         'case_name',
         'color',
         'background',
@@ -49,6 +50,10 @@ class Task extends Model
         'number_of_task_to_back',
         'script_before_open',
         'allow_cancel',
+    ];
+
+    protected $casts = [
+        'is_preview' => 'boolean',
     ];
 
     public function getStyledNameAttribute()

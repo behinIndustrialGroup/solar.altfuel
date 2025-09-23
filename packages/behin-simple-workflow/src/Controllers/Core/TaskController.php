@@ -25,7 +25,9 @@ class TaskController extends Controller
 
     public function create(Request $request)
     {
-        $task = Task::create($request->all());
+        $data = $request->all();
+        $data['is_preview'] = true;
+        $task = Task::create($data);
         if (!$request->parent_id) {
             $task->parent_id = $task->id;
             $task->save();
@@ -41,7 +43,9 @@ class TaskController extends Controller
 
     public function update(Request $request, Task $task)
     {
-        $task->update($request->only('name', 'executive_element_id', 'parent_id', 'next_element_id', 'assignment_type', 'case_name', 'color', 'background', 'duration', 'order', 'timing_type', 'timing_value', 'timing_key_name', 'number_of_task_to_back', 'script_before_open', 'allow_cancel'));
+        $data = $request->only('name', 'executive_element_id', 'parent_id', 'next_element_id', 'assignment_type', 'case_name', 'color', 'background', 'duration', 'order', 'timing_type', 'timing_value', 'timing_key_name', 'number_of_task_to_back', 'script_before_open', 'allow_cancel', 'is_preview');
+        $data['is_preview'] = $request->boolean('is_preview');
+        $task->update($data);
         // self::getById($request->id)->update($request->all());
         return redirect()->back()->with('success', trans('Updated Successfully'));
     }
@@ -78,18 +82,41 @@ class TaskController extends Controller
         return Task::get();
     }
 
-    public static function getProcessTasks($process_id)
+    public static function getProcessTasks($process_id, $includePreview = true)
     {
-        return Task::where('process_id', $process_id)->get();
+        $query = Task::where('process_id', $process_id);
+        if (!$includePreview) {
+            $query->where(function ($subQuery) {
+                $subQuery->where('is_preview', false)
+                    ->orWhereNull('is_preview');
+            });
+        }
+
+        return $query->get();
     }
 
-    public static function getProcessStartTasks($process_id)
+    public static function getProcessStartTasks($process_id, $includePreview = true)
     {
-        return Task::where('process_id', $process_id)->whereColumn('id', 'parent_id')->get();
+        $query = Task::where('process_id', $process_id)->whereColumn('id', 'parent_id');
+
+        if (!$includePreview) {
+            $query->where(function ($subQuery) {
+                $subQuery->where('is_preview', false)
+                    ->orWhereNull('is_preview');
+            });
+        }
+
+        return $query->get();
     }
 
     public static function TaskHasError($taskId){
         $task = TaskController::getById($taskId);
+        if (!$task) {
+            return false;
+        }
+        if ($task->is_preview) {
+            return false;
+        }
         $hasError = 0;
         if($task->type == 'form'){
             // $hasError++;

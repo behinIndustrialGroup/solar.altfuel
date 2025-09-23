@@ -91,5 +91,12 @@ return [
     'Transfer cases to task' => 'انتقال کیس ها به تسک',
     'Task deleted successfully' => 'تسک با موفقیت حذف شد',
     'script_before_open' => 'اسکریپت قبل از باز شدن',
+    'Preview' => 'پیش‌نمایش',
+    'Preview Mode' => 'حالت پیش‌نمایش',
+    'Published' => 'منتشر شده',
+    'Preview Status' => 'وضعیت انتشار',
+    'Preview Status Hint' => 'تا زمان تبدیل وضعیت به منتشر شده، این تسک در جریان فرایند فعال نخواهد شد.',
+    'Task is in preview mode and cannot be started' => 'این تسک در حالت پیش‌نمایش است و امکان شروع آن وجود ندارد.',
+    'Task not found' => 'تسک یافت نشد',
 
 ];

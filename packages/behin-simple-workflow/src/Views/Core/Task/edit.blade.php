@@ -311,7 +311,12 @@
                 <span class="material-icons material-header-icon">edit</span>
                 {{ $task->name }}
             </h5>
-            <span class="badge bg-{{ $bgColor }}">{{ ucfirst($task->type) }}</span>
+            <div class="d-flex align-items-center">
+                <span class="badge bg-{{ $bgColor }}">{{ ucfirst($task->type) }}</span>
+                <span class="badge {{ $task->is_preview ? 'bg-secondary text-dark ml-2' : 'bg-success ml-2' }}">
+                    {{ $task->is_preview ? trans('fields.Preview Mode') : trans('fields.Published') }}
+                </span>
+            </div>
         </div>
         <div class="card-body">
             <ul class="nav nav-tabs material-tabs" role="tablist">
@@ -353,6 +358,16 @@
                         </div>
                         <div class="col-md-6">
                             <div class="md-form-group">
+                                <label for="is_preview">{{ trans('fields.Preview Status') }}</label>
+                                <select name="is_preview" id="is_preview" class="form-control material-select">
+                                    <option value="1" {{ $task->is_preview ? 'selected' : '' }}>{{ trans('fields.Preview Mode') }}</option>
+                                    <option value="0" {{ !$task->is_preview ? 'selected' : '' }}>{{ trans('fields.Published') }}</option>
+                                </select>
+                                <small class="text-muted d-block mt-1">{{ trans('fields.Preview Status Hint') }}</small>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form-group">
                                 <label for="parent_id">{{ trans('Parent Task') }}</label>
                                 <select name="parent_id" id="parent_id"
                                     class="form-control material-select select2">
@@ -360,7 +375,11 @@
                                     @foreach ($task->process->tasks() as $item)
                                         <option dir="ltr" value="{{ $item->id }}"
                                             {{ $item->id == $task->parent_id ? 'selected' : '' }}>
-                                            {{ $item->name }} ({{ $item->id }})
+                                            {{ $item->name }}
+                                            @if ($item->is_preview)
+                                                ({{ trans('fields.Preview') }})
+                                            @endif
+                                            ({{ $item->id }})
                                         </option>
                                     @endforeach
                                 </select>
@@ -376,6 +395,9 @@
                                         <option value="{{ $item->id }}"
                                             {{ $item->id == $task->next_element_id ? 'selected' : '' }}>
                                             {{ $item->name }}
+                                            @if ($item->is_preview)
+                                                ({{ trans('fields.Preview') }})
+                                            @endif
                                         </option>
                                     @endforeach
                                 </select>

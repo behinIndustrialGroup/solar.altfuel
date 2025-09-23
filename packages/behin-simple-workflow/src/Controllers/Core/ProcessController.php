@@ -67,7 +67,7 @@ class ProcessController extends Controller
         $ar = [];
         foreach($processes as $process)
         {
-            $startTasks = TaskController::getProcessStartTasks($process->id);
+            $startTasks = TaskController::getProcessStartTasks($process->id, false);
             foreach($startTasks as $startTask)
             {
                 $result = TaskActorController::userIsAssignToTask($startTask->id, $userId);
@@ -92,6 +92,16 @@ class ProcessController extends Controller
     public static function start($taskId, $force = false, $redirect = true, $inDraft = false, $caseNumber = null, $creator = null, $parentId = null)
     {
         $task = TaskController::getById($taskId);
+        if (!$task) {
+            return response()->json([
+                'msg' => trans('fields.Task not found')
+            ], 404);
+        }
+        if ($task->is_preview) {
+            return response()->json([
+                'msg' => trans('fields.Task is in preview mode and cannot be started')
+            ], 403);
+        }
         if(!$force)
         {
             $listOfProcessThatUserCanStart = collect(self::listOfProcessThatUserCanStart(Auth::id()))->pluck('id')->toArray();
@@ -132,6 +142,9 @@ class ProcessController extends Controller
         $process = ProcessController::getById($processId);
         $hasError = 0;
         foreach($process->tasks() as $task){
+            if ($task->is_preview) {
+                continue;
+            }
             if(TaskController::TaskHasError($task->id)){
                 $hasError++;
             }
