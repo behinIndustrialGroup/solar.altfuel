@@ -17,6 +17,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class RoutingController extends Controller
 {
@@ -84,100 +85,115 @@ class RoutingController extends Controller
 
     public static function saveAndNext(Request $request)
     {
-        $caseId = $request->caseId;
-        $processId = $request->processId;
-        $taskId = $request->taskId;
-        $process = ProcessController::getById($processId);
-        $inbox = InboxController::getById($request->inboxId);
+        DB::beginTransaction();
 
-        if (in_array($inbox->status, ['done', 'doneByOther'])) {
-            return response()->json([
-                'status' => 400,
-                'msg' => trans('fields.Task Has Been Done Previously')
-            ]);
-        }
+        try {
+            $caseId = $request->caseId;
+            $processId = $request->processId;
+            $taskId = $request->taskId;
+            $process = ProcessController::getById($processId);
+            $inbox = InboxController::getById($request->inboxId);
 
-        $task = $inbox->task;
-        $form = $task->executiveElement();
-        $requiredFields = FormController::requiredFields($form->id);
-        $result = self::save($request, $requiredFields);
-        if ($result['status'] != 200) {
-            return $result;
-        }
-        if ($process->number_of_error) {
-            return response()->json([
-                'status' => 400,
-                'msg' => trans('fields.Process Has Error')
-            ]);
-        }
+            if (in_array($inbox->status, ['done', 'doneByOther'])) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => 400,
+                    'msg' => trans('fields.Task Has Been Done Previously')
+                ]);
+            }
 
-        $taskChildren = $task->children();
-
-        if ($task->next_element_id) {
-            $nextTask = TaskController::getById($task->next_element_id);
-            $result = self::executeNextTask($nextTask, $caseId);
-            if ($result) {
+            $task = $inbox->task;
+            $form = $task->executiveElement();
+            $requiredFields = FormController::requiredFields($form->id);
+            $result = self::save($request, $requiredFields);
+            if ($result['status'] != 200) {
+                DB::rollBack();
                 return $result;
             }
-        } else {
-            foreach ($taskChildren as $childTask) {
-                // Log::info("Parent Task:" . $task->name . " Child Task:" . $childTask->name);
-                $result = self::executeNextTask($childTask, $caseId);
-                if ($result == 'break') {
-                    break;
-                }
-                if ($result) {
+            if ($process->number_of_error) {
+                DB::rollBack();
+                return response()->json([
+                    'status' => 400,
+                    'msg' => trans('fields.Process Has Error')
+                ]);
+            }
+
+            $taskChildren = $task->children();
+
+            if ($task->next_element_id) {
+                $nextTask = TaskController::getById($task->next_element_id);
+                $result = self::executeNextTask($nextTask, $caseId);
+                if ($result && $result !== 'break') {
+                    DB::rollBack();
                     return $result;
                 }
-            }
-        }
-        if ($task->type == 'form') {
-            if ($task->assignment_type == 'normal') {
-                $inboxes = InboxController::getAllByTaskIdAndCaseId($task->id, $caseId);
-                foreach ($inboxes as $inbox) {
-                    InboxController::changeStatusByInboxId($inbox->id, 'done');
+            } else {
+                foreach ($taskChildren as $childTask) {
+                    // Log::info("Parent Task:" . $task->name . " Child Task:" . $childTask->name);
+                    $result = self::executeNextTask($childTask, $caseId);
+                    if ($result === 'break') {
+                        break;
+                    }
+                    if ($result) {
+                        DB::rollBack();
+                        return $result;
+                    }
                 }
-                // InboxController::changeStatusByInboxId($request->inboxId, 'done');
-                //از این رکورد در اینباکس یک یا چمد ردیف وجود دارد
-                // وضعیت همه رکوردها باید در اینباکس به انجام شده تغییر کند
             }
-            if ($task->assignment_type == 'dynamic') {
-                InboxController::changeStatusByInboxId($request->inboxId, 'done');
-                //از این رکورد در اینباکس یک ردیف وجود دارد
-                // وضعیت همین رکورد باید در اینباکس به انجام شده تغییر کند
+            if ($task->type == 'form') {
+                if ($task->assignment_type == 'normal') {
+                    $inboxes = InboxController::getAllByTaskIdAndCaseId($task->id, $caseId);
+                    foreach ($inboxes as $inbox) {
+                        InboxController::changeStatusByInboxId($inbox->id, 'done');
+                    }
+                    // InboxController::changeStatusByInboxId($request->inboxId, 'done');
+                    //از این رکورد در اینباکس یک یا چمد ردیف وجود دارد
+                    // وضعیت همه رکوردها باید در اینباکس به انجام شده تغییر کند
+                }
+                if ($task->assignment_type == 'dynamic') {
+                    InboxController::changeStatusByInboxId($request->inboxId, 'done');
+                    //از این رکورد در اینباکس یک ردیف وجود دارد
+                    // وضعیت همین رکورد باید در اینباکس به انجام شده تغییر کند
+                }
+                if ($task->assignment_type == 'parallel') {
+                    InboxController::changeStatusByInboxId($inbox->id, 'done');
+                    // از این رکورد چند ردیف در اینباکس وجود دارد
+                    // همه باید وضعیت انجام شده تغییر کنند
+                }
+                if ($task->assignment_type == 'public') {
+                    $inbox->status = 'done';
+                    $inbox->actor = Auth::check() ? Auth::id() : $request->ip();
+                    $inbox->save();
+                }
             }
-            if ($task->assignment_type == 'parallel') {
-                InboxController::changeStatusByInboxId($inbox->id, 'done');
-                // از این رکورد چند ردیف در اینباکس وجود دارد
-                // همه باید وضعیت انجام شده تغییر کنند
+
+            DB::commit();
+
+            if ($request->filled('redirect_url')) {
+                $redirectUrl = str_replace('{CASE_ID}', $caseId, $request->redirect_url);
+                $redirectMessage = $request->input('redirect_message', trans('Saved'));
+                session()->flash('success', $redirectMessage);
+                return response()->json([
+                    'status' => 200,
+                    'msg' => $redirectMessage,
+                    'url' => $redirectUrl,
+                ]);
             }
-            if ($task->assignment_type == 'public') {
-                $inbox->status = 'done';
-                $inbox->actor = Auth::check() ? Auth::id() : $request->ip();
-                $inbox->save();
+            if($newInbox = InboxController::caseIsInUserInbox($caseId)){
+                return response()->json([
+                    'status' => 200,
+                    'msg' => trans('Saved'),
+                    'url' => route('simpleWorkflow.inbox.view', ['inboxId' => $newInbox->id])
+                ]);
             }
-        }
-        if ($request->filled('redirect_url')) {
-            $redirectUrl = str_replace('{CASE_ID}', $caseId, $request->redirect_url);
-            $redirectMessage = $request->input('redirect_message', trans('Saved'));
-            session()->flash('success', $redirectMessage);
             return response()->json([
                 'status' => 200,
-                'msg' => $redirectMessage,
-                'url' => $redirectUrl,
+                'msg' => trans('Saved')
             ]);
+        } catch (Exception $th) {
+            DB::rollBack();
+            return response()->json(['status' => 400, 'msg' => $th->getMessage()]);
         }
-        if($newInbox = InboxController::caseIsInUserInbox($caseId)){
-            return response()->json([
-                'status' => 200,
-                'msg' => trans('Saved'),
-                'url' => route('simpleWorkflow.inbox.view', ['inboxId' => $newInbox->id])
-            ]);
-        }
-        return response()->json([
-            'status' => 200,
-            'msg' => trans('Saved')
-        ]);
     }
 
     public static function jumpBack(Request $request)
@@ -383,36 +399,25 @@ class RoutingController extends Controller
                     $nextTask = $condition->nextIfTrue();
                     if ((bool)$nextTask) {
                         $result = self::executeNextTask($nextTask, $caseId);
-                        if($result == 'break'){
-                            return 'break';
-                        }
-                        if ($result) {
+                        if ($result && $result !== 'break') {
                             return $result;
                         }
                     } else {
                         if ($task->next_element_id) {
                             $nextTask = TaskController::getById($task->next_element_id);
                             $result = self::executeNextTask($nextTask, $caseId);
-                            if($result == 'break'){
-                                return 'break';
-                            }
-                            if ($result) {
+                            if ($result && $result !== 'break') {
                                 return $result;
                             }
                         }
                         $taskChildren = $task->children();
-                        foreach ($taskChildren as $task) {
-                            $result = self::executeNextTask($task, $caseId);
-                            if($result == 'break'){
-                                return 'break';
-                            }
-                            if ($result) {
+                        foreach ($taskChildren as $childTask) {
+                            $result = self::executeNextTask($childTask, $caseId);
+                            if ($result && $result !== 'break') {
                                 return $result;
                             }
                         }
                     }
-
-                    return 'break';
                 }
             }
             if ($task->type == 'end') {
