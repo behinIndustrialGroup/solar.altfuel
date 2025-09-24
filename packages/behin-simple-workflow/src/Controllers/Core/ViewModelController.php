@@ -282,7 +282,7 @@ class ViewModelController extends Controller
                     }
 
                     if ($row->alllow_delete) {
-                        $s .= "<i class='material-icons btn-danger ml-1' onclick='delete_view_model_row(`$viewModel->id`,`$row->id`, `$viewModel->api_key`)'>delete</i>";
+                        $s .= "<i class='material-icons btn btn-danger ml-1' onclick='delete_view_model_row(`$viewModel->id`,`$row->id`, `$viewModel->api_key`)'>delete</i>";
                     }
                     $s .= "</td>";
                     $s .= "</tr>";
