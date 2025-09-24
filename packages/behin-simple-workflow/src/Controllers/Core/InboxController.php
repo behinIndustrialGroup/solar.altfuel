@@ -180,7 +180,8 @@ class InboxController extends Controller
         if ($task->type == 'form') {
             if ($task->script_before_open) {
                 try {
-                    ScriptController::runScript($task->script_before_open, $case->id);
+                    $result = ScriptController::runScript($task->script_before_open, $case->id);
+                    return redirect()->route('simpleWorkflow.inbox.index')->with('error', $result);
                 } catch (\Throwable $e) {
                     Log::error('script_before_open failed: ' . $e->getMessage());
                 }
