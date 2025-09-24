@@ -39,6 +39,7 @@ class Task extends Model
         'next_element_id',
         'assignment_type',
         'is_preview',
+        'show_save_button',
         'case_name',
         'color',
         'background',
@@ -54,6 +55,7 @@ class Task extends Model
 
     protected $casts = [
         'is_preview' => 'boolean',
+        'show_save_button' => 'boolean',
     ];
 
     public function getStyledNameAttribute()

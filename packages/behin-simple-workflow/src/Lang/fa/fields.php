@@ -98,5 +98,8 @@ return [
     'Preview Status Hint' => 'تا زمان تبدیل وضعیت به منتشر شده، این تسک در جریان فرایند فعال نخواهد شد.',
     'Task is in preview mode and cannot be started' => 'این تسک در حالت پیش‌نمایش است و امکان شروع آن وجود ندارد.',
     'Task not found' => 'تسک یافت نشد',
+    'Show Save Button' => 'نمایش دکمه ذخیره',
+    'Yes' => 'بله',
+    'No' => 'خیر',
 
 ];
