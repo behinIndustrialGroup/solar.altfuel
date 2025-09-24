@@ -134,6 +134,9 @@ class RoutingController extends Controller
                     if ($result === 'break') {
                         break;
                     }
+                    if($result == 'continue'){
+                        continue;
+                    }
                     if ($result) {
                         DB::rollBack();
                         return $result;
@@ -418,6 +421,8 @@ class RoutingController extends Controller
                             }
                         }
                     }
+                }else{
+                    return 'continue';
                 }
             }
             if ($task->type == 'end') {
