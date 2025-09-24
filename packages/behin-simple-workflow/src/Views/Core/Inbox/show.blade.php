@@ -202,7 +202,7 @@
 
 @section('script')
     <script>
-        initial_view()
+        // initial_view()
         $('#mobile-navigation').fadeOut(1000)
 
         function createCaseNumberAndSave() {
