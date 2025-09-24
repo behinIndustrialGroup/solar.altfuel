@@ -122,15 +122,17 @@ class RoutingController extends Controller
 
             if ($task->next_element_id) {
                 $nextTask = TaskController::getById($task->next_element_id);
-                $result = self::executeNextTask($nextTask, $caseId);
+                $executedTaskIds = [];
+                $result = self::executeNextTask($nextTask, $caseId, $executedTaskIds);
                 if ($result && $result !== 'break') {
                     DB::rollBack();
                     return $result;
                 }
             } else {
+                $executedTaskIds = [];
                 foreach ($taskChildren as $childTask) {
                     // Log::info("Parent Task:" . $task->name . " Child Task:" . $childTask->name);
-                    $result = self::executeNextTask($childTask, $caseId);
+                    $result = self::executeNextTask($childTask, $caseId, $executedTaskIds);
                     if ($result === 'break') {
                         break;
                     }
@@ -276,7 +278,8 @@ class RoutingController extends Controller
             ]);
         }
 
-        $result = self::executeNextTask($nextTask, $caseId);
+        $executedTaskIds = [];
+        $result = self::executeNextTask($nextTask, $caseId, $executedTaskIds);
         if ($result && $result != 'break') {
             return $result;
         }
@@ -307,9 +310,23 @@ class RoutingController extends Controller
         return redirect()->route('simpleWorkflow.inbox.index');
     }
 
-    public static function executeNextTask($task, $caseId)
+    public static function executeNextTask($task, $caseId, array &$executedTaskIds = null)
     {
         try {
+            if (!$task) {
+                return null;
+            }
+
+            if ($executedTaskIds === null) {
+                $executedTaskIds = [];
+            }
+
+            if (in_array($task->id, $executedTaskIds, true)) {
+                return null;
+            }
+
+            $executedTaskIds[] = $task->id;
+
             if ($task->type == 'form') {
                 if ($task->assignment_type == 'normal' or $task->assignment_type == null) {
                     $taskActors = TaskActorController::getActorsByTaskId($task->id);
@@ -371,7 +388,7 @@ class RoutingController extends Controller
                 }
                 if ($task->next_element_id) {
                     $nextTask = TaskController::getById($task->next_element_id);
-                    $result = self::executeNextTask($nextTask, $caseId);
+                    $result = self::executeNextTask($nextTask, $caseId, $executedTaskIds);
                     if($result == 'break'){
                         return 'break';
                     }
@@ -381,7 +398,7 @@ class RoutingController extends Controller
                 }
                 $taskChildren = $task->children();
                 foreach ($taskChildren as $task) {
-                    $result = self::executeNextTask($task, $caseId);
+                    $result = self::executeNextTask($task, $caseId, $executedTaskIds);
                     if($result == 'break'){
                         return 'break';
                     }
@@ -398,21 +415,21 @@ class RoutingController extends Controller
                 if ($result) {
                     $nextTask = $condition->nextIfTrue();
                     if ((bool)$nextTask) {
-                        $result = self::executeNextTask($nextTask, $caseId);
+                        $result = self::executeNextTask($nextTask, $caseId, $executedTaskIds);
                         if ($result && $result !== 'break') {
                             return $result;
                         }
                     } else {
                         if ($task->next_element_id) {
                             $nextTask = TaskController::getById($task->next_element_id);
-                            $result = self::executeNextTask($nextTask, $caseId);
+                            $result = self::executeNextTask($nextTask, $caseId, $executedTaskIds);
                             if ($result && $result !== 'break') {
                                 return $result;
                             }
                         }
                         $taskChildren = $task->children();
                         foreach ($taskChildren as $childTask) {
-                            $result = self::executeNextTask($childTask, $caseId);
+                            $result = self::executeNextTask($childTask, $caseId, $executedTaskIds);
                             if ($result && $result !== 'break') {
                                 return $result;
                             }
