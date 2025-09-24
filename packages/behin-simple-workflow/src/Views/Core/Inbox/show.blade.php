@@ -105,6 +105,13 @@
                     {{ trans('fields.Send Manully') }}
                 </button>
 
+                @if ($task->show_save_button)
+                    <button class="md-btn md-btn-primary" onclick="saveForm()">
+                        <i class="material-icons">save</i>
+                        {{ trans('fields.Save') }}
+                    </button>
+                @endif
+
                 <button class="md-btn md-btn-danger" onclick="saveAndNextForm()">
                     <i class="material-icons">save</i>
                     {{ trans('fields.Save and next') }}
@@ -160,6 +167,10 @@
             .md-btn-warning {
                 background-color: #FFC107;
                 color: #212121;
+            }
+
+            .md-btn-primary {
+                background-color: #3F51B5;
             }
 
             .md-btn-danger {

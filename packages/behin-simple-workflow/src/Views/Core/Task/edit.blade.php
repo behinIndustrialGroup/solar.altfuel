@@ -368,6 +368,15 @@
                         </div>
                         <div class="col-md-6">
                             <div class="md-form-group">
+                                <label for="show_save_button">{{ trans('fields.Show Save Button') }}</label>
+                                <select name="show_save_button" id="show_save_button" class="form-control material-select">
+                                    <option value="1" {{ $task->show_save_button ? 'selected' : '' }}>{{ trans('fields.Yes') }}</option>
+                                    <option value="0" {{ !$task->show_save_button ? 'selected' : '' }}>{{ trans('fields.No') }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="md-form-group">
                                 <label for="parent_id">{{ trans('Parent Task') }}</label>
                                 <select name="parent_id" id="parent_id"
                                     class="form-control material-select select2">
