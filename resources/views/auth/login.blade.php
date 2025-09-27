@@ -22,7 +22,7 @@
         id="login-form"
         method="POST"
         action="{{ route('otp.send') }}"
-        class="flex flex-col sm:flex-row sm:items-center gap-2 bg-white p-3 rounded-lg shadow w-full max-w-xl"
+        class="flex flex-col sm:flex-row sm:items-center gap-2 bg-white p-3 rounded-lg shadow w-full"
       >
         @csrf
         <input
