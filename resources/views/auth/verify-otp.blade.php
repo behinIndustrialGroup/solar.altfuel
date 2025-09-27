@@ -1,193 +1,116 @@
-@extends('behin-layouts.welcome')
-
-@section('content')
-    <style>
-        body {
-            background: linear-gradient(135deg, #eeee23 0%, #2575fc 100%);
-            font-family: 'IRANSans', sans-serif;
-        }
-
-        .hero-section {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 50px 20px;
-        }
-
-        .content-box {
-            color: #fff;
-        }
-
-        .content-box h1 {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-
-        .features {
-            margin-top: 30px;
-        }
-
-        .feature-item {
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-
-        .feature-item i {
-            font-size: 22px;
-            margin-left: 10px;
-            color: #ffd700;
-        }
-
-        .login-card {
-            backdrop-filter: blur(15px);
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .login-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .form-control {
-            border: none;
-            border-bottom: 2px solid #ccc;
-            border-radius: 0;
-            background: transparent;
-            box-shadow: none !important;
-            transition: all 0.3s ease;
-        }
-
-        .form-control:focus {
-            border-bottom: 2px solid #2575fc;
-            outline: none;
-        }
-
-        .btn-gradient {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            border: none;
-            color: #fff;
-            font-weight: bold;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-        }
-
-        .btn-gradient:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37, 117, 252, 0.3);
-        }
-
-        .floating-label {
-            position: absolute;
-            top: 12px;
-            right: 10px;
-            font-size: 14px;
-            color: #777;
-            transition: 0.3s;
-            pointer-events: none;
-        }
-
-        .form-control:focus+.floating-label,
-        .form-control:not(:placeholder-shown)+.floating-label {
-            top: -8px;
-            right: 0;
-            font-size: 12px;
-            color: #2575fc;
-        }
-
-    </style>
-    
-    <div class="hero-section container">
-        
-        <div class="row align-items-center">
-
-            <!-- فرم ورود -->
-            <div class="col-lg-5 col-md-8 mx-auto">
-                <div class="card login-card p-4">
-                    <img src="{{ url('behin/logo.png') . '?' . config('app.version') }}" class="mb-4"
-                        style="max-height: 80px; margin: auto; " alt="Logo" width="100">
-                    <h4 class="text-center mb-4 fw-bold text-dark">ورود به حساب کاربری</h4>
-                    {{-- Success Message --}}
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
-                    @if (session('error'))
-                        <div class="alert alert-danger">
-                            {{ session('error') }}
-                        </div>
-                    @endif
-                    @isset($error)
-                        <div class="alert alert-danger">
-                            {{ $error }}
-                        </div>
-                    @endif
-                    <form id="verify-otp-form" method="POST" action="{{ route('otp.verify') }}" class="position-relative mt-3">
-                        @csrf
-                        <input type="hidden" name="phone" id="verifyMobile" value="{{ $phone }}">
-
-                        <div class="mb-4 position-relative">
-                            <input type="text" name="otp" class="form-control text-center" id="inputOtp" placeholder=" "
-                                required
-                                autofocus
-                                inputmode="numeric">
-                            <label for="inputOtp" class="floating-label"><i class="fa fa-lock me-1"></i> کد تایید</label>
-                        </div>
-
-                        <input type="submit" class="btn btn-gradient w-100 py-3" value="ورود">
-                    </form>
-
-                    <form method="POST" action="{{ route('otp.send') }}" class="mt-3">
-                        @csrf
-                        <input type="hidden" name="phone" value="{{ $phone }}">
-                        <button type="submit" class="btn btn-outline-secondary w-100" id="resendBtn" disabled>
-                            ارسال مجدد کد (60)
-                        </button>
-                    </form>
-
-                    <div class="mt-4 text-center">
-                        @include('auth.partial.enamad-and-version')
-                    </div>
-                </div>
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>تأیید کد یکبار مصرف — ستاپ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
+  <style>html,body{font-family: 'Vazirmatn', sans-serif;} .container{max-width:1200px;margin-inline:auto}</style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <!-- Hero -->
+  <header class="bg-gradient-to-l from-yellow-400 via-yellow-300 to-amber-400 text-gray-900">
+    <div class="container px-6 py-12">
+      <div class="flex flex-col md:flex-row items-center gap-8">
+        <div class="flex-1">
+          <h1 class="text-3xl md:text-4xl font-bold mb-3">کد تأیید برای ورود به ستاپ</h1>
+          <p class="mb-6 text-lg md:text-xl">برای ادامه ورود به سامانه، کد یکبار مصرف ارسال‌شده به شماره ثبت‌شده را وارد کنید.</p>
+          <div class="flex flex-col gap-4 bg-white/80 p-6 rounded-xl shadow w-full max-w-md">
+            <div class="space-y-2">
+              @if (session('success'))
+                <div class="rounded-lg bg-green-100 text-green-800 px-4 py-3 text-sm">{{ session('success') }}</div>
+              @endif
+              @if (session('error'))
+                <div class="rounded-lg bg-red-100 text-red-800 px-4 py-3 text-sm">{{ session('error') }}</div>
+              @endif
+              @isset($error)
+                <div class="rounded-lg bg-red-100 text-red-800 px-4 py-3 text-sm">{{ $error }}</div>
+              @endisset
             </div>
-
-            <!-- بخش معرفی -->
-            <div class="col-lg-6 col-md-12 content-box text-center text-lg-start mb-5 mb-lg-0">
-                <img src="{{ url('behin/logo.png') . '?' . config('app.version') }}" class="mb-4" style="max-height: 80px"
-                    alt="Logo">
-                <h1>ستاپ</h1>
-                <h3 class="mb-3">سامانه تأمین و اجرای پروژه‌های خورشیدی</h3>
-                <p class="lead">ستاپ بستری نوین برای ثبت، پیگیری و اجرای پروژه‌های خورشیدی است.
-                    از ثبت درخواست تا اجرای کامل پروژه و دریافت گواهی‌های لازم، همه در یک سامانه.</p>
-
-                <div class="features text-start">
-                    <div class="feature-item"><i class="fa fa-check-circle"></i> ثبت درخواست سریع و آنلاین</div>
-                    <div class="feature-item"><i class="fa fa-check-circle"></i> نمایش پروژه‌ها به متخصصان استانی</div>
-                    <div class="feature-item"><i class="fa fa-check-circle"></i> ثبت تجهیزات و قطعات مصرفی</div>
-                    <div class="feature-item"><i class="fa fa-check-circle"></i> صدور گواهی تأیید بعد از نصب</div>
-                </div>
+            <form id="verify-otp-form" method="POST" action="{{ route('otp.verify') }}" class="flex flex-col gap-3">
+              @csrf
+              <input type="hidden" name="phone" id="verifyMobile" value="{{ $phone }}">
+              <label class="text-sm font-semibold" for="inputOtp">کد تایید</label>
+              <input type="text" name="otp" id="inputOtp" placeholder="مثال: ۱۲۳۴۵۶" required autofocus inputmode="numeric" class="p-3 border rounded-lg text-center tracking-widest">
+              <button type="submit" class="bg-gray-900 text-white px-4 py-3 rounded-lg font-semibold">تأیید و ورود</button>
+            </form>
+            <form method="POST" action="{{ route('otp.send') }}" class="flex flex-col">
+              @csrf
+              <input type="hidden" name="phone" value="{{ $phone }}">
+              <button type="submit" class="border border-gray-300 text-gray-700 px-4 py-3 rounded-lg font-semibold disabled:opacity-60" id="resendBtn" disabled>ارسال مجدد کد (60)</button>
+            </form>
+            <div class="flex justify-center">
+              @include('auth.partial.enamad-and-version')
             </div>
+          </div>
         </div>
+        <div class="flex-1">
+          <div class="rounded-xl overflow-hidden shadow-lg bg-white">
+            <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder" alt="پنل خورشیدی" class="w-full h-64 object-cover">
+            <div class="p-4">
+              <h3 class="font-bold mb-2">چرا ستاپ؟</h3>
+              <ol class="list-decimal pr-4 space-y-2 text-sm">
+                <li>ثبت درخواست آنلاین و سریع</li>
+                <li>معرفی پیمانکاران معتبر در سراسر ایران</li>
+                <li>همراهی تا پایان اجرای پروژه</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const resendBtn = document.getElementById('resendBtn');
-            let counter = 60;
-            const timer = setInterval(() => {
-                counter--;
-                resendBtn.textContent = `ارسال مجدد کد (${counter})`;
-                if (counter <= 0) {
-                    clearInterval(timer);
-                    resendBtn.textContent = 'ارسال مجدد کد';
-                    resendBtn.disabled = false;
-                }
-            }, 1000);
-        });
-    </script>
-@endsection
+  </header>
 
+  <main class="container px-6 py-12">
+    <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h4 class="font-semibold mb-2">کد یکبار مصرف چیست؟</h4>
+        <p class="text-sm text-gray-600 leading-6">برای امنیت بیشتر حساب شما، ورود تنها با وارد کردن کد پیامکی انجام می‌شود. این کد برای مدت محدود معتبر است.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h4 class="font-semibold mb-2">مشکل در دریافت کد؟</h4>
+        <p class="text-sm text-gray-600 leading-6">در صورت عدم دریافت پیامک، پس از پایان شمارش معکوس روی دکمه «ارسال مجدد» بزنید یا با پشتیبانی تماس بگیرید.</p>
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow">
+        <h4 class="font-semibold mb-2">حفظ اطلاعات</h4>
+        <p class="text-sm text-gray-600 leading-6">اطلاعات تماس و هویتی شما نزد ستاپ محفوظ است و فقط برای ارتباط با پیمانکاران مورد استفاده قرار می‌گیرد.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bg-gray-900 text-white py-8">
+    <div class="container px-6">
+      <div class="flex flex-col md:flex-row justify-between items-start gap-6">
+        <div>
+          <h4 class="font-bold mb-2">ستاپ</h4>
+          <p class="text-sm text-gray-300">سامانه تأمین و اجرای پروژه‌های خورشیدی — اتصال متقاضیان به پیمانکاران و ارائه تسهیلات مالی.</p>
+        </div>
+        <div>
+          <h5 class="font-semibold mb-2">پشتیبانی</h5>
+          <p class="text-sm text-gray-300">ایمیل: info@setap.example</p>
+          <p class="text-sm text-gray-300">تلفن: ۰۲۱-xxxxxxx</p>
+        </div>
+      </div>
+      <div class="text-sm text-gray-500 mt-6">© تمامی حقوق برای ستاپ محفوظ است.</div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const resendBtn = document.getElementById('resendBtn');
+      if (!resendBtn) return;
+      let counter = 60;
+      const timer = setInterval(() => {
+        counter--;
+        resendBtn.textContent = `ارسال مجدد کد (${counter})`;
+        if (counter <= 0) {
+          clearInterval(timer);
+          resendBtn.textContent = 'ارسال مجدد کد';
+          resendBtn.disabled = false;
+        }
+      }, 1000);
+    });
+  </script>
+</body>
+</html>
