@@ -16,7 +16,7 @@
         <div class="flex-1">
           <h1 class="text-3xl md:text-4xl font-bold mb-3">کد تأیید برای ورود به ستاپ</h1>
           <p class="mb-6 text-lg md:text-xl">برای ادامه ورود به سامانه، کد یکبار مصرف ارسال‌شده به شماره ثبت‌شده را وارد کنید.</p>
-          <div class="flex flex-col gap-4 bg-white/80 p-6 rounded-xl shadow w-full max-w-md">
+          <div class="flex flex-col gap-4 bg-white/80 p-6 rounded-xl shadow w-full">
             <div class="space-y-2">
               @if (session('success'))
                 <div class="rounded-lg bg-green-100 text-green-800 px-4 py-3 text-sm">{{ session('success') }}</div>
