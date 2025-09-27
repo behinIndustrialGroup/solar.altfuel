@@ -17,16 +17,8 @@
           <h1 class="text-3xl md:text-4xl font-bold mb-3">ستاپ — سامانه تأمین و اجرای پروژه‌های خورشیدی</h1>
           <p class="mb-6 text-lg md:text-xl">ما متقاضیان نصب پنل خورشیدی را به پیمانکاران معتبر در سراسر ایران وصل می‌کنیم، تسهیلات مالی فراهم می‌کنیم و از آغاز تا تحویل پروژه همراه شما هستیم.</p>
           <div class="flex flex-wrap gap-3">
-            <form id="send-otp-form" method="POST" action="{{ route('otp.send') }}" class="position-relative">
-
-                @csrf
-                <input type="text" name="phone" class="form-control text-center" id="inputMobile" placeholder=" "
-                                required dir="ltr"
-                                autofocus
-                                inputmode="numeric">
-            </form>
-            <a href="#contact" class="inline-flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg shadow">درخواست مشاوره</a>
-            <a href="#how" class="inline-flex items-center gap-2 border border-gray-900 px-4 py-2 rounded-lg">بیشتر بدانید</a>
+            <!-- فرم لاگین --> 
+            <form id="login-form" method="POST" action="{{ route('otp.send') }}" class="flex items-center gap-2 bg-white p-2 rounded-lg shadow w-full max-w-md"> @csrf <input type="text" name="phone" class="flex-1 p-2 border rounded text-center" id="inputMobile" placeholder="شماره موبایل" required dir="ltr" inputmode="numeric" autofocus> <button type="submit" class="bg-gray-900 text-white px-4 py-2 rounded-lg">ورود</button> </form>
           </div>
           <!-- stats -->
           <div class="mt-8 grid grid-cols-3 gap-4 md:grid-cols-3">
