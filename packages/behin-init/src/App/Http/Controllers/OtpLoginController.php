@@ -5,24 +5,26 @@ namespace BehinInit\App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Behin\Sms\Controllers\SmsController;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
 
 class OtpLoginController extends Controller
 {
-    public function view($phone, $error = null)
+    public function view(string $phone)
     {
-        return view('auth.verify-otp')->with(['phone' => $phone, 'error' => $error]);
+        $phone = convertPersianToEnglish($phone);
+
+        return view('auth.verify-otp')->with(['phone' => $phone]);
     }
 
-    public function send(Request $request)
+    public function send(Request $request): RedirectResponse
     {
         $request->validate([
             'phone' => ['required','string'],
         ]);
         $phone = convertPersianToEnglish($request->phone);
+
         $user = User::firstOrCreate(
             ['email' => $phone],
             [
@@ -43,31 +45,33 @@ class OtpLoginController extends Controller
             'value' => $otp
         ]);
         SmsController::sendByTemp($user->email, 755370, $params);
-        
-        return $this->view($user->email);
-        return response()->json(['message' => 'کد ارسال شد.']);
+
+        return redirect()->route('otp.view', ['phone' => $phone])->with('success', 'کد تأیید ارسال شد.');
     }
 
-    public function verify(Request $request)
+    public function verify(Request $request): RedirectResponse
     {
         $request->validate([
             'phone' => ['required','string'],
             'otp' => ['required','string'],
         ]);
 
+        $phone = convertPersianToEnglish($request->phone);
         $otp = convertPersianToEnglish($request->otp);
-        $user = User::where('email', $request->phone)->first();
-        if(!$user){
-            return $this->view($user->email, trans('auth.user not found'));
+
+        $user = User::where('email', $phone)->first();
+        if (! $user) {
+            return redirect()->route('otp.view', ['phone' => $phone])->with('error', trans('auth.user not found'));
         }
 
-        if ($user->reset_password_code == $otp) {
+        if ((string) $user->reset_password_code === (string) $otp) {
             $user->password = bcrypt(str()->random(12));
+            $user->reset_password_code = null;
             $user->save();
             Auth::login($user, true);
             return redirect()->route('admin.dashboard');
-            return view('admin.dashboard');
         }
-        return $this->view($user->email, 'کد نامعتبر یا منقضی است');
+
+        return redirect()->route('otp.view', ['phone' => $phone])->with('error', 'کد نامعتبر یا منقضی است');
     }
 }

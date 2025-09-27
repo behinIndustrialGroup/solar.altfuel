@@ -26,7 +26,7 @@ Route::middleware('guest')->group(function () {
     Route::post('login', [LoginController::class, 'store']);
 
     Route::post('otp/send', [OtpLoginController::class, 'send'])->name('otp.send');
-    Route::get('otp/send', [OtpLoginController::class, 'view'])->name('otp.view');
+    Route::get('otp/send/{phone}', [OtpLoginController::class, 'view'])->name('otp.view');
     Route::post('otp/verify', [OtpLoginController::class, 'verify'])->name('otp.verify');
 });
 
