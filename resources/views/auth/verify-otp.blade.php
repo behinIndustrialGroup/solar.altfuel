@@ -69,7 +69,7 @@
                 </div>
                 <div class="flex-1">
                     <div class="rounded-xl overflow-hidden shadow-lg bg-white">
-                        <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=placeholder"
+                        <img src="{{ url('behin/slide1.png') }}"
                             alt="پنل خورشیدی" class="w-full h-64 object-cover">
                         <div class="p-4">
                             <h3 class="font-bold mb-2">چرا ستاپ؟</h3>
