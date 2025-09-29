@@ -58,7 +58,7 @@
                         </div>
                         <div class="bg-white/70 p-4 rounded-lg text-center shadow">
                             <div class="text-sm">پروژه‌های تکمیل‌شده</div>
-                            <div class="text-2xl font-bold">48</div>
+                            <div class="text-2xl font-bold">۴۸</div>
                         </div>
                     </div>
                 </div>
