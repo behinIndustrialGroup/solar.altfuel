@@ -20,6 +20,7 @@ use App\Models\User;
 use BaleBot\Controllers\BotController;
 use Behin\SimpleWorkflow\Jobs\SendPushNotification;
 use Behin\SimpleWorkflow\Models\Entities\CasesManual;
+use Behin\SimpleWorkflow\Models\Core\Variable;
 use Illuminate\Support\Str;
 
 class InboxController extends Controller
@@ -100,6 +101,38 @@ class InboxController extends Controller
     {
         $allRows = self::getUserInbox(Auth::id());
 
+        $caseIds = $allRows->pluck('case_id')->filter()->unique()->values();
+
+        $variablesCollection = $caseIds->isNotEmpty()
+            ? Variable::whereIn('case_id', $caseIds)->get()
+            : collect();
+
+        $caseVariables = $variablesCollection
+            ->groupBy('case_id')
+            ->map(function ($group) {
+                return $group->mapWithKeys(function ($variable) {
+                    return [$variable->key => $variable->value];
+                });
+            })
+            ->toArray();
+
+        $availableVariables = $variablesCollection
+            ->pluck('key')
+            ->unique()
+            ->sort()
+            ->map(function ($key) {
+                $label = trans('fields.' . $key);
+                if ($label === 'fields.' . $key) {
+                    $label = $key;
+                }
+                return [
+                    'key' => $key,
+                    'label' => $label,
+                ];
+            })
+            ->values()
+            ->toArray();
+
         $taskCategories = $allRows
             ->filter(fn($row) => $row->task)
             ->groupBy('task_id')
@@ -138,6 +171,8 @@ class InboxController extends Controller
             'selectedTaskId' => $selectedTaskId,
             'selectedTaskLabel' => $selectedTaskLabel,
             'totalCount' => $allRows->count(),
+            'availableVariables' => $availableVariables,
+            'caseVariables' => $caseVariables,
         ]);
     }
 
@@ -145,7 +180,7 @@ class InboxController extends Controller
     {
         $rows = Inbox::where('actor', $userId)
             ->whereIn('status', ['new', 'opened', 'inProgress', 'draft'])
-            ->with('task.process')
+            ->with(['task.process', 'case'])
             ->orderBy('created_at', 'desc')
             ->get();
         return $rows;
