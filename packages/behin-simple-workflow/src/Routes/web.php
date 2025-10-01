@@ -75,6 +75,7 @@ Route::name('simpleWorkflow.')->prefix('workflow')->middleware(['web', 'auth'])-
     Route::get('fields/{field}/copy', [FieldController::class, 'copy'])->name('fields.copy');
 
     Route::name('inbox.')->prefix('inbox')->group(function(){
+        Route::get('categorized', [ InboxController::class, 'categorized' ])->name('categorized');
         Route::get('', [ InboxController::class, 'index' ])->name('index');
         Route::get('done-inbox', [ DoneInboxController::class, 'index' ])->name('done');
         // Route::get('all-inbox', [ InboxController::class, 'getAllInbox' ])->name('getAllInbox');
