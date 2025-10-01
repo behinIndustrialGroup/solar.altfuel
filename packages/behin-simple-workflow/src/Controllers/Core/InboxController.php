@@ -20,6 +20,7 @@ use App\Models\User;
 use BaleBot\Controllers\BotController;
 use Behin\SimpleWorkflow\Jobs\SendPushNotification;
 use Behin\SimpleWorkflow\Models\Entities\CasesManual;
+use Illuminate\Support\Str;
 
 class InboxController extends Controller
 {
@@ -92,6 +93,51 @@ class InboxController extends Controller
             'rows' => $rows,
             'processes' => $processes,
             'selectedProcess' => $request->process
+        ]);
+    }
+
+    public function categorized(Request $request)
+    {
+        $allRows = self::getUserInbox(Auth::id());
+
+        $taskCategories = $allRows
+            ->filter(fn($row) => $row->task)
+            ->groupBy('task_id')
+            ->map(function ($group) {
+                $task = $group->first()->task;
+                $label = trim(strip_tags($task->styled_name ?? $task->name ?? ''));
+                if ($label === '') {
+                    $label = trans('fields.Task Title');
+                }
+
+                return [
+                    'id' => $task->id,
+                    'label' => $label,
+                    'count' => $group->count(),
+                ];
+            })
+            ->sortBy(fn($category) => Str::lower($category['label']))
+            ->values();
+
+        $selectedTask = $request->get('task');
+        $selectedTaskId = ($selectedTask !== null && $selectedTask !== '') ? $selectedTask : null;
+
+        $rows = $selectedTaskId !== null
+            ? $allRows->where('task_id', $selectedTaskId)->values()
+            : $allRows->values();
+
+        $selectedTaskLabel = null;
+        if ($selectedTaskId !== null) {
+            $selectedCategory = $taskCategories->firstWhere('id', $selectedTaskId);
+            $selectedTaskLabel = $selectedCategory['label'] ?? null;
+        }
+
+        return view('SimpleWorkflowView::Core.Inbox.categorized')->with([
+            'rows' => $rows,
+            'taskCategories' => $taskCategories,
+            'selectedTaskId' => $selectedTaskId,
+            'selectedTaskLabel' => $selectedTaskLabel,
+            'totalCount' => $allRows->count(),
         ]);
     }
 
