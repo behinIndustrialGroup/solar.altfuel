@@ -96,7 +96,7 @@ class InboxController extends Controller
         ]);
     }
 
-    public function categorized(Request $request): View
+    public function categorized(Request $request)
     {
         $allRows = self::getUserInbox(Auth::id());
 
@@ -120,7 +120,7 @@ class InboxController extends Controller
             ->values();
 
         $selectedTask = $request->get('task');
-        $selectedTaskId = ($selectedTask !== null && $selectedTask !== '') ? (int) $selectedTask : null;
+        $selectedTaskId = ($selectedTask !== null && $selectedTask !== '') ? $selectedTask : null;
 
         $rows = $selectedTaskId !== null
             ? $allRows->where('task_id', $selectedTaskId)->values()
