@@ -21,6 +21,15 @@ return [
                 'done-inbox' => [ 'fa_name' => 'انجام شده ها', 'route-name' => 'simpleWorkflow.inbox.done' ],
             ]
         ],
+        'categorized-inbox' => [
+            'icon' => 'inbox',
+            'fa_name' => 'کارتابل',
+            'route-name' => 'simpleWorkflow.inbox.categorized',
+            'submenu' => [
+                'inbox' => [ 'fa_name' => 'کارتابل', 'route-name' => 'simpleWorkflow.inbox.index' ],
+                'done-inbox' => [ 'fa_name' => 'انجام شده ها', 'route-name' => 'simpleWorkflow.inbox.done' ],
+            ]
+        ],
         'my-request' => [
             'icon' => 'inbox',
             'fa_name' => 'درخواست های من',
