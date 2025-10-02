@@ -13,6 +13,7 @@ use Behin\SimpleWorkflow\Models\Core\Variable;
 use Behin\SimpleWorkflowReport\Controllers\Core\ChequeReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\ExpiredController;
 use Behin\SimpleWorkflowReport\Controllers\Core\ExternalAndInternalReportController;
+use Behin\SimpleWorkflowReport\Controllers\Core\AllRequestsReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\MyRequestController;
 use Behin\SimpleWorkflowReport\Controllers\Core\StageReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\RoleReportFormController;
@@ -27,6 +28,8 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
     Route::resource('summary-report', SummaryReportController::class);
 
     Route::resource('my-request', MyRequestController::class);
+
+    Route::get('all-requests', [AllRequestsReportController::class, 'index'])->name('all-requests.index');
 
     Route::get('stage-report/export', [StageReportController::class, 'export'])->name('stage-report.export');
     Route::get('stage-report', [StageReportController::class, 'index'])->name('stage-report.index');
