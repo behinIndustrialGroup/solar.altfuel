@@ -3,6 +3,8 @@
 namespace Behin\SimpleWorkflowReport\Controllers\Core;
 
 use App\Http\Controllers\Controller;
+use Behin\Ami\Services\CallHistoryService;
+use Behin\SimpleWorkflowReport\Exports\AllRequestsReportExport;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
@@ -11,9 +13,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Maatwebsite\Excel\Facades\Excel;
-use Behin\SimpleWorkflowReport\Exports\AllRequestsReportExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Behin\SimpleWorkflow\Models\Core\ViewModel;
 
 class AllRequestsReportController extends Controller
 {
@@ -186,9 +186,24 @@ class AllRequestsReportController extends Controller
 
         $row = $this->prepareRows(collect([$row]))->first();
 
+        /** @var CallHistoryService $callHistoryService */
+        $callHistoryService = app(CallHistoryService::class);
+
+        $callRecords = collect();
+        $callRecordsError = null;
+        $searchedNumbers = [];
+
+        if (!empty($row->mobile)) {
+            $callRecords = $callHistoryService->getCallsByPhone($row->mobile);
+            $callRecordsError = $callHistoryService->getLastError();
+            $searchedNumbers = $callHistoryService->getLastSearchNumbers();
+        }
+
         return view('SimpleWorkflowReportView::Core.AllRequests.show', [
             'requestRow' => $row,
-            'conversationViewModel' => ViewModel::find('912880ce-7acf-4735-9170-cbc34b39362b'),
+            'callRecords' => $callRecords,
+            'callRecordsError' => $callRecordsError,
+            'callRecordsSearchedNumbers' => $searchedNumbers,
         ]);
     }
 
