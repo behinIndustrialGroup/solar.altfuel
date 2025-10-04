@@ -20,6 +20,7 @@ use Behin\SimpleWorkflowReport\Controllers\Core\RoleReportFormController;
 use Behin\SimpleWorkflowReport\Controllers\Core\SummaryReportController;
 use Behin\SimpleWorkflowReport\Controllers\Core\PersonelActivityController;
 use Behin\SimpleWorkflowReport\Controllers\Core\PhonebookController;
+use Behin\SimpleWorkflowReport\Controllers\Core\RecordingController;
 use Behin\SimpleWorkflowReport\Controllers\Scripts\TotalTimeoff;
 use Behin\SimpleWorkflowReport\Controllers\Scripts\UserTimeoffs;
 use BehinInit\App\Http\Middleware\Access;
@@ -29,6 +30,7 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
     Route::resource('summary-report', SummaryReportController::class);
 
     Route::resource('my-request', MyRequestController::class);
+    Route::get('/ami-recording/{uniqueid}', [RecordingController::class, 'streamRecording']);
 
     Route::get('all-requests/export', [AllRequestsReportController::class, 'export'])->middleware(Access::class. ':گزارش کل درخواست های ثبت شده')->name('all-requests.export');
     Route::get('all-requests/{case_number}', [AllRequestsReportController::class, 'show'])->middleware(Access::class. ':گزارش کل درخواست های ثبت شده')->name('all-requests.show');
