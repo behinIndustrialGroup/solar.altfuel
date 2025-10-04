@@ -396,8 +396,15 @@ class CallHistoryService
             $db = DB::connection($connection);
             $grammar = $db->getQueryGrammar();
 
-            $sql = 'SHOW COLUMNS FROM ' . $grammar->wrapTable($table) . ' LIKE ?';
-            $result = $db->select($sql, [$column]);
+            $like = "'" . str_replace("'", "''", $column) . "'";
+
+            $sql = sprintf(
+                'SHOW COLUMNS FROM %s LIKE %s',
+                $grammar->wrapTable($table),
+                $like
+            );
+
+            $result = $db->select($sql);
 
             return !empty($result) ? $column : null;
         } catch (\Throwable $exception) {
