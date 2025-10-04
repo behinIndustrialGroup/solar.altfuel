@@ -8,6 +8,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 
 class AllRequestsReportController extends Controller
 {
@@ -59,6 +60,10 @@ class AllRequestsReportController extends Controller
             ->select('case_id', DB::raw('MAX(created_at) as latest_created_at'))
             ->groupBy('case_id');
 
+        $taskStyledNameColumn = Schema::hasColumn('wf_task', 'styled_name')
+            ? 'tasks.styled_name'
+            : 'tasks.name';
+
         $lastStatuses = DB::table('wf_inbox as inbox')
             ->joinSub($latestInbox, 'latest', function ($join) {
                 $join->on('inbox.case_id', '=', 'latest.case_id')
@@ -69,7 +74,7 @@ class AllRequestsReportController extends Controller
                 'inbox.case_id',
                 'inbox.status as inbox_status',
                 'tasks.name as task_name',
-                'tasks.styled_name as task_styled_name'
+                DB::raw($taskStyledNameColumn . ' as task_styled_name')
             );
 
         $query = DB::table('wf_cases as cases')
