@@ -22,6 +22,7 @@ use Behin\SimpleWorkflowReport\Controllers\Core\PersonelActivityController;
 use Behin\SimpleWorkflowReport\Controllers\Core\PhonebookController;
 use Behin\SimpleWorkflowReport\Controllers\Scripts\TotalTimeoff;
 use Behin\SimpleWorkflowReport\Controllers\Scripts\UserTimeoffs;
+use BehinInit\App\Http\Middleware\Access;
 use Illuminate\Support\Facades\Route;
 
 Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['web', 'auth'])->group(function () {
@@ -29,7 +30,7 @@ Route::name('simpleWorkflowReport.')->prefix('workflow-report')->middleware(['we
 
     Route::resource('my-request', MyRequestController::class);
 
-    Route::get('all-requests', [AllRequestsReportController::class, 'index'])->name('all-requests.index');
+    Route::get('all-requests', [AllRequestsReportController::class, 'index'])->middleware(Access::class. ':گزارش کل درخواست های ثبت شده')->name('all-requests.index');
 
     Route::get('stage-report/export', [StageReportController::class, 'export'])->name('stage-report.export');
     Route::get('stage-report', [StageReportController::class, 'index'])->name('stage-report.index');

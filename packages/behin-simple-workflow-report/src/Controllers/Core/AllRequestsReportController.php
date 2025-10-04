@@ -59,7 +59,7 @@ class AllRequestsReportController extends Controller
                 'inbox.case_id',
                 'inbox.status as inbox_status',
                 'tasks.name as task_name',
-                'tasks.styled_name as task_styled_name'
+                // 'tasks.styled_name as task_styled_name'
             );
 
         return DB::table('wf_cases as cases')
@@ -85,7 +85,7 @@ class AllRequestsReportController extends Controller
                 'cases.status as case_status',
                 'last_status.inbox_status',
                 'last_status.task_name',
-                'last_status.task_styled_name'
+                // 'last_status.task_styled_name'
             ])
             ->orderByDesc('cases.created_at')
             ->get()
