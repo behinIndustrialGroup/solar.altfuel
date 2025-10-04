@@ -85,7 +85,7 @@
                                         </div>
                                     </div>
                                     <div class="d-flex justify-content-end gap-2 mt-4">
-                                        <a href="{{ route('all-requests.index') }}" class="btn btn-light">پاکسازی فیلتر</a>
+                                        <a href="{{ route('simpleWorkflowReport.all-requests.index') }}" class="btn btn-light">پاکسازی فیلتر</a>
                                         <button type="submit" class="btn btn-primary">اعمال فیلتر</button>
                                     </div>
                                 </form>
