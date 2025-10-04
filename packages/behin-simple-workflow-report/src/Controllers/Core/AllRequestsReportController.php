@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use Maatwebsite\Excel\Facades\Excel;
 use Behin\SimpleWorkflowReport\Exports\AllRequestsReportExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Behin\SimpleWorkflow\Models\Core\ViewModel;
 
 class AllRequestsReportController extends Controller
 {
@@ -32,10 +33,13 @@ class AllRequestsReportController extends Controller
 
     public function export(Request $request): BinaryFileResponse
     {
-        $filters = $request->except('page');
+        $filters = Arr::except($request->except('page'), ['per_page']);
 
         $rows = $this->prepareRows(
-            $this->baseQuery($filters)->get()
+            $this->applyFilters(
+                $this->baseQuery($filters),
+                $filters
+            )->get()
         );
 
         return Excel::download(
@@ -103,7 +107,7 @@ class AllRequestsReportController extends Controller
             ->groupBy('case_id');
 
         $latestInbox = DB::table('wf_inbox')
-            ->select('case_id', DB::raw('MAX(created_at) as latest_created_at'))
+            ->select('case_id', DB::raw('MAX(id) as latest_id'))
             ->groupBy('case_id');
 
         $taskStyledNameColumn = Schema::hasColumn('wf_task', 'styled_name')
@@ -113,7 +117,7 @@ class AllRequestsReportController extends Controller
         $lastStatuses = DB::table('wf_inbox as inbox')
             ->joinSub($latestInbox, 'latest', function ($join) {
                 $join->on('inbox.case_id', '=', 'latest.case_id')
-                    ->on('inbox.created_at', '=', 'latest.latest_created_at');
+                    ->on('inbox.id', '=', 'latest.latest_id');
             })
             ->leftJoin('wf_task as tasks', 'tasks.id', '=', 'inbox.task_id')
             ->select(
@@ -144,6 +148,7 @@ class AllRequestsReportController extends Controller
                 $join->on('cases.id', '=', 'active_statuses.case_id');
             })
             ->select([
+                'cases.id as case_id',
                 'cases.number as case_number',
                 'vars.user_firstname',
                 'vars.user_lastname',
@@ -183,6 +188,7 @@ class AllRequestsReportController extends Controller
 
         return view('SimpleWorkflowReportView::Core.AllRequests.show', [
             'requestRow' => $row,
+            'conversationViewModel' => ViewModel::find('912880ce-7acf-4735-9170-cbc34b39362b'),
         ]);
     }
 
