@@ -25,7 +25,7 @@
 
                         <div class="collapse {{ $hasActiveFilters ? 'show' : '' }}" id="advanced-filters">
                             <div class="card card-body border-0 shadow-sm mb-4">
-                                <form method="GET" action="{{ route('all-requests.index') }}">
+                                <form method="GET" action="{{ route('simpleWorkflowReport.all-requests.index') }}">
                                     <div class="row g-3">
                                         <div class="col-md-3">
                                             <label class="form-label">شماره پرونده</label>
