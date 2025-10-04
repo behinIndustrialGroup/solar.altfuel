@@ -7,11 +7,17 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use Maatwebsite\Excel\Facades\Excel;
+use Behin\SimpleWorkflowReport\Exports\AllRequestsReportExport;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class AllRequestsReportController extends Controller
 {
+    protected array $openStatuses = ['new', 'opened', 'inProgress', 'draft'];
+
     public function index(Request $request): View
     {
         $filters = $request->except('page');
@@ -24,11 +30,47 @@ class AllRequestsReportController extends Controller
         ]);
     }
 
+    public function export(Request $request): BinaryFileResponse
+    {
+        $filters = $request->except('page');
+
+        $rows = $this->prepareRows(
+            $this->baseQuery($filters)->get()
+        );
+
+        return Excel::download(
+            new AllRequestsReportExport($rows),
+            'all-requests-report.xlsx'
+        );
+    }
+
     protected function fetchRows(array $filters, int $perPage = 15): LengthAwarePaginator
     {
         $perPage = $this->resolvePerPage($perPage);
+
+        $query = $this->baseQuery($filters);
+
         $filters = Arr::except($filters, ['per_page']);
 
+        $query = $this->applyFilters($query, $filters);
+
+        $appendFilters = array_filter($filters, function ($value) {
+            return $value !== null && $value !== '';
+        });
+
+        $appendFilters['per_page'] = $perPage;
+
+        $paginator = $query->paginate($perPage)->appends($appendFilters);
+
+        $paginator->setCollection(
+            $this->prepareRows($paginator->getCollection())
+        );
+
+        return $paginator;
+    }
+
+    protected function baseQuery(array $filters)
+    {
         $caseVariables = DB::table('wf_variables')
             ->select(
                 'case_id',
@@ -77,13 +119,25 @@ class AllRequestsReportController extends Controller
                 DB::raw($taskStyledNameColumn . ' as task_styled_name')
             );
 
-        $query = DB::table('wf_cases as cases')
+        $activeStatuses = DB::table('wf_inbox as inbox')
+            ->leftJoin('wf_task as tasks', 'tasks.id', '=', 'inbox.task_id')
+            ->select(
+                'inbox.case_id',
+                DB::raw("GROUP_CONCAT(DISTINCT COALESCE($taskStyledNameColumn, tasks.name, inbox.status) ORDER BY inbox.id SEPARATOR '|||') as active_statuses")
+            )
+            ->whereIn('inbox.status', $this->openStatuses)
+            ->groupBy('inbox.case_id');
+
+        return DB::table('wf_cases as cases')
             ->leftJoinSub($caseVariables, 'vars', function ($join) {
                 $join->on('cases.id', '=', 'vars.case_id');
             })
             ->leftJoin('wf_entity_powerhouse_place_info as place', 'place.id', '=', 'vars.powerhouse_place_info_id')
             ->leftJoinSub($lastStatuses, 'last_status', function ($join) {
                 $join->on('cases.id', '=', 'last_status.case_id');
+            })
+            ->leftJoinSub($activeStatuses, 'active_statuses', function ($join) {
+                $join->on('cases.id', '=', 'active_statuses.case_id');
             })
             ->select([
                 'cases.number as case_number',
@@ -101,22 +155,20 @@ class AllRequestsReportController extends Controller
                 'last_status.inbox_status',
                 'last_status.task_name',
                 'last_status.task_styled_name',
+                'active_statuses.active_statuses',
                 DB::raw('COALESCE(last_status.task_styled_name, last_status.task_name, last_status.inbox_status, cases.status) as last_status')
             ])
             ->orderByDesc('cases.created_at');
+    }
 
-        $query = $this->applyFilters($query, $filters);
+    protected function prepareRows(Collection $rows): Collection
+    {
+        return $rows->map(function ($row) {
+            $activeStatuses = $this->extractStatuses($row->active_statuses ?? null);
 
-        $appendFilters = array_filter($filters, function ($value) {
-            return $value !== null && $value !== '';
-        });
-
-        $appendFilters['per_page'] = $perPage;
-
-        $paginator = $query->paginate($perPage)->appends($appendFilters);
-
-        $paginator->setCollection(
-            $paginator->getCollection()->map(function ($row) {
+            if ($activeStatuses->isNotEmpty()) {
+                $row->last_status = $activeStatuses->implode('، ');
+            } else {
                 $lastStatus = trim(strip_tags($row->last_status ?? ''));
 
                 if ($lastStatus === '') {
@@ -124,12 +176,29 @@ class AllRequestsReportController extends Controller
                 }
 
                 $row->last_status = $lastStatus;
+            }
 
-                return $row;
+            unset($row->active_statuses);
+
+            return $row;
+        });
+    }
+
+    protected function extractStatuses(?string $rawStatuses): Collection
+    {
+        if (! $rawStatuses) {
+            return collect();
+        }
+
+        return collect(explode('|||', $rawStatuses))
+            ->map(function ($value) {
+                $value = trim(strip_tags($value ?? ''));
+
+                return $value === '' ? null : $value;
             })
-        );
-
-        return $paginator;
+            ->filter()
+            ->unique()
+            ->values();
     }
 
     protected function resolvePerPage(int $perPage): int
@@ -201,11 +270,14 @@ class AllRequestsReportController extends Controller
 
         if (!empty($filters['last_status'])) {
             $query->where(function ($subQuery) use ($filters) {
+                $value = '%' . $filters['last_status'] . '%';
+
                 $subQuery
-                    ->where('last_status.task_styled_name', 'like', '%' . $filters['last_status'] . '%')
-                    ->orWhere('last_status.task_name', 'like', '%' . $filters['last_status'] . '%')
-                    ->orWhere('last_status.inbox_status', 'like', '%' . $filters['last_status'] . '%')
-                    ->orWhere('cases.status', 'like', '%' . $filters['last_status'] . '%');
+                    ->where('last_status.task_styled_name', 'like', $value)
+                    ->orWhere('last_status.task_name', 'like', $value)
+                    ->orWhere('last_status.inbox_status', 'like', $value)
+                    ->orWhere('cases.status', 'like', $value)
+                    ->orWhere('active_statuses.active_statuses', 'like', $value);
             });
         }
 
