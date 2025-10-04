@@ -39,7 +39,7 @@
 
                     <div class="mb-3 d-flex align-items-start">
                         <i class="material-icons text-muted me-2">flag</i>
-                        <strong class="me-2">مرحله جاری:</strong>
+                        <strong class="me-2">مرحله جاری:</strong><br>
                         <span>
                             @foreach ($case->whereIs() as $w)
                                 <span class="badge bg-warning text-dark px-2 py-1 rounded-pill">
@@ -49,6 +49,7 @@
                                 <span class="badge bg-info text-dark px-2 py-1 rounded-pill">
                                     {{ getUserInfo($w->actor)?->name }}
                                 </span>
+                                <br>
                             @endforeach
                         </span>
                     </div>
