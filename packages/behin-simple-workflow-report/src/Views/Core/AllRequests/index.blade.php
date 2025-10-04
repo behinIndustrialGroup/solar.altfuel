@@ -18,7 +18,7 @@
                         @endphp
 
                         <div class="mb-3">
-                            <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#advanced-filters" aria-expanded="{{ $hasActiveFilters ? 'true' : 'false' }}" aria-controls="advanced-filters">
+                            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#advanced-filters" aria-expanded="{{ $hasActiveFilters ? 'true' : 'false' }}" aria-controls="advanced-filters">
                                 فیلتر پیشرفته
                             </button>
                         </div>
@@ -140,7 +140,7 @@
                                 نمایش {{ $rows->firstItem() ?? 0 }} تا {{ $rows->lastItem() ?? 0 }} از {{ number_format($rows->total()) }} رکورد
                             </div>
                             <div>
-                                {{ $rows->onEachSide(1)->links() }}
+                                {{ $rows->onEachSide(1)->links('pagination::bootstrap-4') }}
                             </div>
                         </div>
                     </div>
