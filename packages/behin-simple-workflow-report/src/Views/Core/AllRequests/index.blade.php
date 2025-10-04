@@ -119,6 +119,7 @@
                                     <th>مبلغ اولیه</th>
                                     <th>امکان‌سنجی</th>
                                     <th>آخرین وضعیت درخواست</th>
+                                    <th class="text-center">جزئیات</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -136,10 +137,15 @@
                                         <td>{{ $row->initial_amount ?? '---' }}</td>
                                         <td>{{ $row->feasibility_study ?? '---' }}</td>
                                         <td>{{ $row->last_status ?? '---' }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('simpleWorkflowReport.all-requests.show', $row->case_number) }}" class="btn btn-sm btn-outline-primary px-3">
+                                                مشاهده جزئیات
+                                            </a>
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="12" class="text-center text-muted">رکوردی یافت نشد.</td>
+                                        <td colspan="13" class="text-center text-muted">رکوردی یافت نشد.</td>
                                     </tr>
                                 @endforelse
                                 </tbody>

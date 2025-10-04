@@ -94,7 +94,11 @@ class AllRequestsReportController extends Controller
                 DB::raw("MAX(CASE WHEN `key` IN ('first_call_result', 'first-call-result') THEN value END) as first_call_result"),
                 DB::raw("MAX(CASE WHEN `key` IN ('loan_interest', 'loan-interest') THEN value END) as loan_interest"),
                 DB::raw("MAX(CASE WHEN `key` IN ('initial_amount', 'initial-amount') THEN value END) as initial_amount"),
-                DB::raw("MAX(CASE WHEN `key` IN ('feasibility_study', 'feasibility-study') THEN value END) as feasibility_study")
+                DB::raw("MAX(CASE WHEN `key` IN ('feasibility_study', 'feasibility-study') THEN value END) as feasibility_study"),
+                DB::raw("MAX(CASE WHEN `key` IN ('mobile', 'user-mobile', 'user_mobile') THEN value END) as mobile"),
+                DB::raw("MAX(CASE WHEN `key` IN ('user-national_id', 'user_national_id', 'national_id') THEN value END) as user_national_id"),
+                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-postal_code', 'powerhouse_place_info_postal_code') THEN value END) as powerhouse_place_info_postal_code"),
+                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-address', 'powerhouse_place_info_address') THEN value END) as powerhouse_place_info_address")
             )
             ->groupBy('case_id');
 
@@ -151,6 +155,10 @@ class AllRequestsReportController extends Controller
                 'vars.loan_interest',
                 'vars.initial_amount',
                 'vars.feasibility_study',
+                'vars.mobile',
+                'vars.user_national_id',
+                DB::raw('COALESCE(vars.powerhouse_place_info_postal_code, place.postal_code) as powerhouse_postal_code'),
+                DB::raw('COALESCE(vars.powerhouse_place_info_address, place.address) as powerhouse_address'),
                 'cases.status as case_status',
                 'last_status.inbox_status',
                 'last_status.task_name',
@@ -159,6 +167,23 @@ class AllRequestsReportController extends Controller
                 DB::raw('COALESCE(last_status.task_styled_name, last_status.task_name, last_status.inbox_status, cases.status) as last_status')
             ])
             ->orderByDesc('cases.created_at');
+    }
+
+    public function show(string $caseNumber): View
+    {
+        $row = $this->baseQuery([])
+            ->where('cases.number', $caseNumber)
+            ->first();
+
+        if (!$row) {
+            abort(404);
+        }
+
+        $row = $this->prepareRows(collect([$row]))->first();
+
+        return view('SimpleWorkflowReportView::Core.AllRequests.show', [
+            'requestRow' => $row,
+        ]);
     }
 
     protected function prepareRows(Collection $rows): Collection
