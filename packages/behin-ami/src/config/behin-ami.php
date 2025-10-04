@@ -18,5 +18,16 @@ return [
         'prefix' => env('AMI_RECORDINGS_PREFIX', ''),
         'base_path' => env('AMI_RECORDINGS_BASE_PATH'),
         'base_url' => env('AMI_RECORDINGS_BASE_URL'),
+        'issabel' => [
+            'base_url' => env('AMI_ISSABEL_BASE_URL'),
+            'username' => env('AMI_ISSABEL_USERNAME'),
+            'password' => env('AMI_ISSABEL_PASSWORD'),
+            'login_path' => env('AMI_ISSABEL_LOGIN_PATH', '/index.php?module=auth&action=login'),
+            'username_field' => env('AMI_ISSABEL_USERNAME_FIELD', 'input_user'),
+            'password_field' => env('AMI_ISSABEL_PASSWORD_FIELD', 'input_pass'),
+            'extra_fields' => [],
+            'verify_ssl' => env('AMI_ISSABEL_VERIFY_SSL', true),
+            'timeout' => env('AMI_ISSABEL_TIMEOUT', 15),
+        ],
     ],
 ];
