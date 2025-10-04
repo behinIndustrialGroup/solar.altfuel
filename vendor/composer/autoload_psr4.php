@@ -118,6 +118,7 @@ return array(
     'Behin\\Sms\\' => array($baseDir . '/packages/behin-sms/src'),
     'Behin\\SimpleWorkflow\\' => array($baseDir . '/packages/behin-simple-workflow/src'),
     'Behin\\SimpleWorkflowReport\\' => array($baseDir . '/packages/behin-simple-workflow-report/src'),
+    'Behin\\Ami\\' => array($baseDir . '/packages/behin-ami/src'),
     'BehinUserRoles\\' => array($baseDir . '/packages/behin-user-roles/src'),
     'BehinLogging\\' => array($baseDir . '/packages/behin-logging/src'),
     'BehinInit\\' => array($baseDir . '/packages/behin-init/src'),

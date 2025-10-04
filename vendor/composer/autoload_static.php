@@ -223,6 +223,7 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
             'Behin\\Sms\\' => 10,
             'Behin\\SimpleWorkflow\\' => 21,
             'Behin\\SimpleWorkflowReport\\' => 27,
+            'Behin\\Ami\\' => 10,
             'BehinUserRoles\\' => 15,
             'BehinLogging\\' => 13,
             'BehinInit\\' => 10,
@@ -693,6 +694,10 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         array (
             0 => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src',
         ),
+        'Behin\\Ami\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/packages/behin-ami/src',
+        ),
         'BehinUserRoles\\' => 
         array (
             0 => __DIR__ . '/../..' . '/packages/behin-user-roles/src',
@@ -808,6 +813,12 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'BehinUserRoles\\Models\\User' => __DIR__ . '/../..' . '/packages/behin-user-roles/src/Models/User.php',
         'BehinUserRoles\\Models\\UserDepartment' => __DIR__ . '/../..' . '/packages/behin-user-roles/src/Models/UserDepartment.php',
         'BehinUserRoles\\UserRolesServiceProvider' => __DIR__ . '/../..' . '/packages/behin-user-roles/src/UserRolesServiceProvider.php',
+        'Behin\\Ami\\AmiServiceProvider' => __DIR__ . '/../..' . '/packages/behin-ami/src/AmiServiceProvider.php',
+        'Behin\\Ami\\Controllers\\AmiSettingController' => __DIR__ . '/../..' . '/packages/behin-ami/src/Controllers/AmiSettingController.php',
+        'Behin\\Ami\\Controllers\\AmiStatusController' => __DIR__ . '/../..' . '/packages/behin-ami/src/Controllers/AmiStatusController.php',
+        'Behin\\Ami\\Models\\AmiSetting' => __DIR__ . '/../..' . '/packages/behin-ami/src/Models/AmiSetting.php',
+        'Behin\\Ami\\Services\\AmiClient' => __DIR__ . '/../..' . '/packages/behin-ami/src/Services/AmiClient.php',
+        'Behin\\SimpleWorkflowReport\\Controllers\\Core\\AllRequestsReportController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/AllRequestsReportController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\MyRequestController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/MyRequestController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\StageReportController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/StageReportController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\SummaryReportController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/SummaryReportController.php',
@@ -816,6 +827,7 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'Behin\\SimpleWorkflowReport\\Controllers\\Scripts\\TimeoffExport2' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Scripts/TimeoffExport2.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Scripts\\TotalTimeoff' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Scripts/TotalTimeoff.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Scripts\\UserTimeoffs' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Scripts/UserTimeoffs.php',
+        'Behin\\SimpleWorkflowReport\\Exports\\AllRequestsReportExport' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Exports/AllRequestsReportExport.php',
         'Behin\\SimpleWorkflowReport\\Exports\\StageReportExport' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Exports/StageReportExport.php',
         'Behin\\SimpleWorkflowReport\\Helper\\ReportHelper' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Helper/ReportHelper.php',
         'Behin\\SimpleWorkflowReport\\Models\\Core\\RepairCases' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Models/Core/RepairCases.php',

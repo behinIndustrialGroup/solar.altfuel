@@ -15,4 +15,5 @@ return [
     MyFormBuilder\FormBuilderServiceProvider::class,
     UserProfile\UserProfileProvider::class,
     BaleBot\BaleBotProvider::class,
+    Behin\Ami\AmiServiceProvider::class
 ];

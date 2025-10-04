@@ -67,6 +67,15 @@ return [
                 'all-inbox' => [ 'fa_name' => 'کارتابل همه', 'route-name' => 'simpleWorkflow.inbox.cases.list' ],
             ]
         ],
+        'voip' => [
+            'icon' => 'phone',
+            'fa_name' => 'تلفن',
+            'route-name' => 'simpleWorkflowReport.index',
+            'submenu' => [
+                'settings' => [ 'fa_name' => 'تنظیمات', 'route-name' => 'ami.settings' ],
+                'ext-status' => [ 'fa_name' => 'وضعیت داخلی ها', 'route-name' => 'ami.status' ],
+            ]
+        ],
         'translations' => [
             'icon' => 'language',
             'fa_name' => 'ترجمه',
