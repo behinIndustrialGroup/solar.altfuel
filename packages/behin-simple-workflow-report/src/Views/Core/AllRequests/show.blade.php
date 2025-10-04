@@ -21,6 +21,7 @@
                         </div>
                     </div>
                     <div class="card-body bg-light">
+                        <input type="hidden" id="caseId" value="{{ $requestRow->case_id ?? '' }}">
                         <div class="row g-4">
                             @php
                                 $details = [
@@ -53,6 +54,46 @@
                                 </div>
                             @endforeach
                         </div>
+                        @if($conversationViewModel)
+                            @php
+                                $conversationColumns = collect(explode(',', $conversationViewModel->default_fields ?? ''))
+                                    ->map(fn ($column) => trim($column))
+                                    ->filter()
+                                    ->values();
+                            @endphp
+                            <div class="card border-0 shadow-sm rounded-4 mt-4">
+                                <div class="card-header bg-white d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                    <h5 class="mb-0 fw-bold text-primary">تاریخچه مکالمات</h5>
+                                    <button type="button" class="btn btn-outline-primary d-flex align-items-center gap-1"
+                                            onclick="get_view_model_rows('{{ $conversationViewModel->id }}', '{{ $conversationViewModel->api_key }}')">
+                                        <span class="material-icons">refresh</span>
+                                        بروزرسانی
+                                    </button>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped align-middle" id="{{ $conversationViewModel->id }}">
+                                            @if($conversationViewModel->show_as === 'table' && $conversationColumns->isNotEmpty())
+                                                <thead class="table-light">
+                                                    <tr>
+                                                        @foreach($conversationColumns as $column)
+                                                            <th>{{ trans('fields.' . $column) }}</th>
+                                                        @endforeach
+                                                        <th class="text-center">{{ trans('fields.Action') }}</th>
+                                                    </tr>
+                                                </thead>
+                                            @endif
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                document.addEventListener('DOMContentLoaded', function () {
+                                    get_view_model_rows('{{ $conversationViewModel->id }}', '{{ $conversationViewModel->api_key }}');
+                                });
+                            </script>
+                        @endif
                     </div>
                 </div>
             </div>
