@@ -374,9 +374,34 @@ class CallHistoryService
         }
 
         try {
-            return Schema::connection($connection)->hasColumn($table, $column) ? $column : null;
+            if (Schema::connection($connection)->hasColumn($table, $column)) {
+                return $column;
+            }
+
+            return null;
         } catch (\Throwable $exception) {
-            Log::debug('AMI call history: unable to verify column', [
+            return $this->resolveColumnWithFallback($connection, $table, $column, $exception);
+        }
+    }
+
+    protected function resolveColumnWithFallback(string $connection, string $table, string $column, \Throwable $originalException): ?string
+    {
+        Log::debug('AMI call history: unable to verify column with schema builder, falling back to SHOW COLUMNS', [
+            'table' => $table,
+            'column' => $column,
+            'exception' => $originalException->getMessage(),
+        ]);
+
+        try {
+            $db = DB::connection($connection);
+            $grammar = $db->getQueryGrammar();
+
+            $sql = 'SHOW COLUMNS FROM ' . $grammar->wrapTable($table) . ' LIKE ?';
+            $result = $db->select($sql, [$column]);
+
+            return !empty($result) ? $column : null;
+        } catch (\Throwable $exception) {
+            Log::debug('AMI call history: fallback column detection failed', [
                 'table' => $table,
                 'column' => $column,
                 'exception' => $exception->getMessage(),
