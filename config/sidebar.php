@@ -42,10 +42,10 @@ return [
         ],
         'workflow-report' => [
             'icon' => 'report',
-            'fa_name' => 'گزارشات کارتابل',
+            'fa_name' => 'گزارشات',
             'route-name' => 'simpleWorkflowReport.index',
             'submenu' => [
-                'list' => [ 'fa_name' => 'لیست', 'route-name' => 'simpleWorkflowReport.index' ],
+                'all-requests' => [ 'fa_name' => 'کل درخواست ها', 'route-name' => 'simpleWorkflowReport.all-requests.index' ],
                 'summary' => [ 'fa_name' => 'خلاصه', 'route-name' => 'simpleWorkflowReport.summary-report.index' ],
                 'my-request' => [ 'fa_name' => 'درخواست‌های من', 'route-name' => 'simpleWorkflowReport.my-request.index' ],
                 'role-form-control' => [ 'fa_name' => 'فرم گزارش نقش ها', 'route-name' => 'simpleWorkflowReport.role.index' ],
