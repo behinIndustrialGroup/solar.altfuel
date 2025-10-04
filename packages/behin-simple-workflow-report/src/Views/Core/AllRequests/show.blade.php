@@ -37,7 +37,7 @@
                                     ['label' => 'آدرس محل نیروگاه', 'value' => $requestRow->powerhouse_address],
                                     ['label' => 'ظرفیت درخواستی', 'value' => $requestRow->requested_capacity_of_powerhouse],
                                     ['label' => 'نتیجه اولین تماس', 'value' => $requestRow->first_call_result],
-                                    ['label' => 'سود تسهیلات', 'value' => $requestRow->loan_interest],
+                                    ['label' => 'تمایل به دریافت وام', 'value' => $requestRow->loan_interest],
                                     ['label' => 'مبلغ اولیه', 'value' => $requestRow->initial_amount],
                                     ['label' => 'امکان‌سنجی', 'value' => $requestRow->feasibility_study],
                                 ];
