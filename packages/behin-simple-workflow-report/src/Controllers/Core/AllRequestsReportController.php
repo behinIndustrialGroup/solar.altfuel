@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Maatwebsite\Excel\Facades\Excel;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Behin\SimpleWorkflow\Models\Core\ViewModel;
 
 class AllRequestsReportController extends Controller
 {
@@ -201,6 +202,7 @@ class AllRequestsReportController extends Controller
 
         return view('SimpleWorkflowReportView::Core.AllRequests.show', [
             'requestRow' => $row,
+            'conversationViewModel' => ViewModel::find('912880ce-7acf-4735-9170-cbc34b39362b'),
             'callRecords' => $callRecords,
             'callRecordsError' => $callRecordsError,
             'callRecordsSearchedNumbers' => $searchedNumbers,
