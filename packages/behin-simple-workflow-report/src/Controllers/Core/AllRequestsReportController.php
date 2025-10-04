@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Schema;
 use Maatwebsite\Excel\Facades\Excel;
 use Behin\SimpleWorkflowReport\Exports\AllRequestsReportExport;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Behin\SimpleWorkflow\Models\Core\ViewModel;
 
 class AllRequestsReportController extends Controller
 {
@@ -147,6 +148,7 @@ class AllRequestsReportController extends Controller
                 $join->on('cases.id', '=', 'active_statuses.case_id');
             })
             ->select([
+                'cases.id as case_id',
                 'cases.number as case_number',
                 'vars.user_firstname',
                 'vars.user_lastname',
@@ -186,6 +188,7 @@ class AllRequestsReportController extends Controller
 
         return view('SimpleWorkflowReportView::Core.AllRequests.show', [
             'requestRow' => $row,
+            'conversationViewModel' => ViewModel::find('912880ce-7acf-4735-9170-cbc34b39362b'),
         ]);
     }
 
