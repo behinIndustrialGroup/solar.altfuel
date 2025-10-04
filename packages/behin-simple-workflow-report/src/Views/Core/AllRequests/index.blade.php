@@ -9,7 +9,18 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <h5 class="mb-0">لیست تمام درخواست‌ها</h5>
-                        <span class="badge bg-light text-primary">{{ number_format($rows->total()) }} مورد</span>
+                        <div class="d-flex align-items-center gap-2 flex-wrap">
+                            <span class="badge bg-light text-primary">{{ number_format($rows->total()) }} مورد</span>
+                            <form method="GET" action="{{ route('simpleWorkflowReport.all-requests.export') }}">
+                                @foreach(($filters ?? []) as $key => $value)
+                                    @continue($value === null || $value === '')
+                                    <input type="hidden" name="{{ $key }}" value="{{ $value }}">
+                                @endforeach
+                                <button type="submit" class="btn btn-sm btn-light text-primary fw-semibold">
+                                    خروجی اکسل
+                                </button>
+                            </form>
+                        </div>
                     </div>
                     <div class="card-body">
                         @php
