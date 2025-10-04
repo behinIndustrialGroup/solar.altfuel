@@ -286,14 +286,6 @@ class CallHistoryService
 
         $recordingConfig = (array) config('behin-ami.recordings', []);
 
-        $baseUrl = $recordingConfig['base_url'] ?? null;
-        if ($baseUrl) {
-            $url = rtrim($baseUrl, '/') . '/' . ltrim($recording, '/');
-            $result['available'] = true;
-            $result['download_url'] = $url;
-            $result['stream_url'] = $url;
-        }
-
         $disk = $recordingConfig['disk'] ?? null;
         $prefix = trim($recordingConfig['prefix'] ?? '', '/');
         $storagePath = ltrim($recording, '/');
@@ -335,6 +327,16 @@ class CallHistoryService
                 $result['available'] = true;
                 $result['download_url'] = route('ami.calls.recordings.download', ['token' => $token, 'name' => $fileName]);
                 $result['token'] = $token;
+            }
+        }
+
+        if (!$result['available']) {
+            $baseUrl = $recordingConfig['base_url'] ?? null;
+            if ($baseUrl) {
+                $url = rtrim($baseUrl, '/') . '/' . ltrim($recording, '/');
+                $result['available'] = true;
+                $result['download_url'] = $url;
+                $result['stream_url'] = $url;
             }
         }
 
