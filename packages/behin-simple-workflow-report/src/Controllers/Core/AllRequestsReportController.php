@@ -25,7 +25,7 @@ class AllRequestsReportController extends Controller
     {
         $filters = $request->except('page');
         $perPage = (int) ($filters['per_page'] ?? 15);
-        $rows = Cases::get()->paginate($perPage);
+        $rows = Cases::paginate($perPage);
 
         return view('SimpleWorkflowReportView::Core.AllRequests.index', [
             'rows' => $rows,
