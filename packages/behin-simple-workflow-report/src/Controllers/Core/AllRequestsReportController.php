@@ -113,6 +113,17 @@ class AllRequestsReportController extends Controller
             $query->where('feasibility_study', 'like', '%' . $filters['feasibility_study'] . '%');
         }
 
+        if (!empty($filters['last_status'])) {
+            $query->whereExists(function ($subQuery) use ($filters) {
+                $subQuery->select(DB::raw(1))
+                    ->from('wf_inbox as wi')
+                    ->join('wf_task as wt', 'wt.id', '=', 'wi.task_id')
+                    ->whereColumn('wi.case_id', 'c.id')
+                    ->whereNotIn('wi.status', ['done', 'doneByOther', 'canceled'])
+                    ->where('wt.name', 'like', '%' . $filters['last_status'] . '%');
+            });
+        }
+
 
         return $query;
     }
