@@ -144,7 +144,6 @@ class AllRequestsReportController extends Controller
         $query = $this->applyFilters($query, $filters);
 
         $rows = $query->get();
-        $rows->appends($filters);
         $rows->getCollection()->transform(function ($row) {
             $statuses = Inbox::where('case_id', $row->id)
                 ->whereNotIn('status', ['done', 'doneByOther', 'canceled'])
