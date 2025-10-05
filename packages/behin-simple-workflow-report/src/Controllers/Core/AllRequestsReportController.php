@@ -118,11 +118,11 @@ class AllRequestsReportController extends Controller
         }
 
         if (!empty($filters['feasibility_study'])) {
-            $query->where('feasibility_study', 'like', '%' . $filters['feasibility_study'] . '%');
+            $query->having('feasibility_study', 'like', '%' . $filters['feasibility_study'] . '%');
         }
 
         if (!empty($filters['fin_interface_call_result'])) {
-            $query->where('fin_interface_call_result', 'like', '%' . $filters['fin_interface_call_result'] . '%');
+            $query->having('fin_interface_call_result', 'like', '%' . $filters['fin_interface_call_result'] . '%');
         }
 
         if (!empty($filters['last_status'])) {
