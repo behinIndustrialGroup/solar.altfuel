@@ -147,7 +147,10 @@ class AllRequestsReportController extends Controller
         $rows->each(function ($row) {
             $statuses = Inbox::where('case_id', $row->id)
                 ->whereNotIn('status', ['done', 'doneByOther', 'canceled'])
-                ->pluck('status')
+                ->with('task') // 👈 برای بارگذاری رابطه task
+                ->get()
+                ->map(fn($inbox) => $inbox->task?->name) // 👈 استخراج نام تسک
+                ->filter() // حذف nullها
                 ->toArray();
 
             $row->last_status = implode(', ', $statuses);
