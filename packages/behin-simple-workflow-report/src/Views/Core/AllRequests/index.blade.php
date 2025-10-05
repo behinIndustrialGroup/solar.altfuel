@@ -125,17 +125,17 @@
                                 <tbody>
                                 @forelse($rows as $row)
                                     <tr>
-                                        <td>{{ $row->case_number ?? '---' }}</td>
-                                        <td>{{ $row->user_firstname ?? '---' }}</td>
-                                        <td>{{ $row->user_lastname ?? '---' }}</td>
-                                        <td dir="ltr">{{ $row->electricity_bill_id ?? '---' }}</td>
-                                        <td>{{ $row->powerhouse_type ?? '---' }}</td>
-                                        <td>{{ $row->powerhouse_province ?? '---' }}</td>
-                                        <td>{{ $row->requested_capacity_of_powerhouse ?? '---' }}</td>
-                                        <td>{{ $row->first_call_result ?? '---' }}</td>
-                                        <td>{{ $row->loan_interest ?? '---' }}</td>
-                                        <td>{{ $row->initial_amount ?? '---' }}</td>
-                                        <td>{{ $row->feasibility_study ?? '---' }}</td>
+                                        <td>{{ $row->number ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('user_firstname') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('user_lastname') ?? '---' }}</td>
+                                        <td dir="ltr">{{ $row->getVariable('electricity_bill_id') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('powerhouse_type') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('powerhouse_province') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('requested_capacity_of_powerhouse') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('first_call_result') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('loan_interest') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('initial_amount') ?? '---' }}</td>
+                                        <td>{{ $row->getVariable('feasibility_study') ?? '---' }}</td>
                                         <td>{{ $row->last_status ?? '---' }}</td>
                                         <td class="text-center">
                                             <a href="{{ route('simpleWorkflowReport.all-requests.show', $row->case_number) }}" class="btn btn-sm btn-outline-primary px-3">

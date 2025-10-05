@@ -4,6 +4,7 @@ namespace Behin\SimpleWorkflowReport\Controllers\Core;
 
 use App\Http\Controllers\Controller;
 use Behin\Ami\Services\CallHistoryService;
+use Behin\SimpleWorkflow\Models\Core\Cases;
 use Behin\SimpleWorkflowReport\Exports\AllRequestsReportExport;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
@@ -24,6 +25,13 @@ class AllRequestsReportController extends Controller
     {
         $filters = $request->except('page');
         $perPage = (int) ($filters['per_page'] ?? 15);
+        $rows = Cases::paginate($perPage)->get();
+
+        return view('SimpleWorkflowReportView::Core.AllRequests.index', [
+            'rows' => $rows,
+            'filters' => $filters,
+            'perPage' => $perPage,
+        ]);
 
         return view('SimpleWorkflowReportView::Core.AllRequests.index', [
             'rows' => $this->fetchRows($filters, $perPage),
@@ -76,6 +84,7 @@ class AllRequestsReportController extends Controller
 
     protected function baseQuery(array $filters)
     {
+
         $caseVariables = DB::table('wf_variables')
             ->select(
                 'case_id',
