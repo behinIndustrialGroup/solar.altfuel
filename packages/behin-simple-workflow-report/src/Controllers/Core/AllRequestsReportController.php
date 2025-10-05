@@ -5,6 +5,7 @@ namespace Behin\SimpleWorkflowReport\Controllers\Core;
 use App\Http\Controllers\Controller;
 use Behin\Ami\Services\CallHistoryService;
 use Behin\SimpleWorkflow\Models\Core\Cases;
+use Behin\SimpleWorkflow\Models\Core\Inbox;
 use Behin\SimpleWorkflowReport\Exports\AllRequestsReportExport;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\View\View;
@@ -21,12 +22,41 @@ class AllRequestsReportController extends Controller
 {
     protected array $openStatuses = ['new', 'opened', 'inProgress', 'draft'];
 
-    public function index(Request $request): View
+    public function index(Request $request)
     {
         $filters = $request->except('page');
         $perPage = (int) ($filters['per_page'] ?? 15);
-        $rows = Cases::paginate($perPage);
+        $query = DB::table('wf_cases as c')
+            ->leftJoin('wf_variables as v', 'c.id', '=', 'v.case_id')
+            ->select(
+                'c.id',
+                'c.number',
+                DB::raw("MAX(CASE WHEN v.key IN ('user-firstname', 'user_firstname') THEN v.value END) as user_firstname"),
+                DB::raw("MAX(CASE WHEN v.key = 'user-lastname' THEN v.value END) as user_lastname"),
+                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_type', 'powerhouse-type') THEN value END) as powerhouse_type"),
+                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-id', 'powerhouse_place_info_id') THEN value END) as powerhouse_place_info_id"),
+                DB::raw("MAX(CASE WHEN `key` = 'powerhouse_place_info-province' THEN value END) as powerhouse_place_info_province"),
+                DB::raw("MAX(CASE WHEN `key` IN ('requested_capacity_of_powerhouse', 'requested-capacity-of-powerhouse') THEN value END) as requested_capacity_of_powerhouse"),
+                DB::raw("MAX(CASE WHEN `key` IN ('first_call_result', 'first-call-result') THEN value END) as first_call_result"),
+                DB::raw("MAX(CASE WHEN `key` IN ('loan_interest', 'loan-interest') THEN value END) as loan_interest"),
+                DB::raw("MAX(CASE WHEN `key` IN ('initial_amount', 'initial-amount') THEN value END) as initial_amount"),
+                DB::raw("MAX(CASE WHEN `key` IN ('feasibility_study', 'feasibility-study') THEN value END) as feasibility_study"),
+                DB::raw("MAX(CASE WHEN `key` IN ('mobile', 'user-mobile', 'user_mobile') THEN value END) as mobile"),
+                DB::raw("MAX(CASE WHEN `key` IN ('user-national_id', 'user_national_id', 'national_id') THEN value END) as user_national_id"),
+                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-postal_code', 'powerhouse_place_info_postal_code') THEN value END) as powerhouse_place_info_postal_code"),
+                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-address', 'powerhouse_place_info_address') THEN value END) as powerhouse_place_info_address")
+            )
+            ->groupBy('c.id', 'c.number');
+        $query = $this->applyFilters($query, $filters);
+        $rows = $query->paginate($perPage);
+        $rows->getCollection()->transform(function ($row) {
+            $row->last_status = Inbox::where('case_id', $row->id)
+                ->whereNotIn('status', ['done', 'doneByOther', 'canceled'])
+                ->get();
+            return $row;
+        });
 
+        // return $rows;
         return view('SimpleWorkflowReportView::Core.AllRequests.index', [
             'rows' => $rows,
             'filters' => $filters,
@@ -278,65 +308,45 @@ class AllRequestsReportController extends Controller
         }
 
         if (!empty($filters['case_number'])) {
-            $query->where('cases.number', 'like', '%' . $filters['case_number'] . '%');
+            $query->having('number', 'like', '%' . $filters['case_number'] . '%');
         }
 
         if (!empty($filters['user_firstname'])) {
-            $query->where('vars.user_firstname', 'like', '%' . $filters['user_firstname'] . '%');
+            $query->having('user_firstname', 'like', '%' . $filters['user_firstname'] . '%');
         }
 
         if (!empty($filters['user_lastname'])) {
-            $query->where('vars.user_lastname', 'like', '%' . $filters['user_lastname'] . '%');
+            $query->having('user_lastname', 'like', '%' . $filters['user_lastname'] . '%');
         }
 
         if (!empty($filters['electricity_bill_id'])) {
-            $query->where('vars.electricity_bill_id', 'like', '%' . $filters['electricity_bill_id'] . '%');
+            $query->having('electricity_bill_id', 'like', '%' . $filters['electricity_bill_id'] . '%');
         }
 
         if (!empty($filters['powerhouse_type'])) {
-            $query->where('vars.powerhouse_type', 'like', '%' . $filters['powerhouse_type'] . '%');
-        }
-
-        if (!empty($filters['powerhouse_province'])) {
-            $query->where(function ($subQuery) use ($filters) {
-                $subQuery
-                    ->where('vars.powerhouse_place_info_province', 'like', '%' . $filters['powerhouse_province'] . '%')
-                    ->orWhere('place.province', 'like', '%' . $filters['powerhouse_province'] . '%');
-            });
+            $query->having('powerhouse_type', 'like', '%' . $filters['powerhouse_type'] . '%');
         }
 
         if (!empty($filters['requested_capacity_of_powerhouse'])) {
-            $query->where('vars.requested_capacity_of_powerhouse', 'like', '%' . $filters['requested_capacity_of_powerhouse'] . '%');
+            $query->having('requested_capacity_of_powerhouse', 'like', '%' . $filters['requested_capacity_of_powerhouse'] . '%');
         }
 
         if (!empty($filters['first_call_result'])) {
-            $query->where('vars.first_call_result', 'like', '%' . $filters['first_call_result'] . '%');
+            $query->having('first_call_result', 'like', '%' . $filters['first_call_result'] . '%');
         }
 
         if (!empty($filters['loan_interest'])) {
-            $query->where('vars.loan_interest', 'like', '%' . $filters['loan_interest'] . '%');
+            $query->having('loan_interest', 'like', '%' . $filters['loan_interest'] . '%');
         }
 
         if (!empty($filters['initial_amount'])) {
-            $query->where('vars.initial_amount', 'like', '%' . $filters['initial_amount'] . '%');
+            $query->having('initial_amount', 'like', '%' . $filters['initial_amount'] . '%');
         }
 
         if (!empty($filters['feasibility_study'])) {
-            $query->where('vars.feasibility_study', 'like', '%' . $filters['feasibility_study'] . '%');
+            $query->where('feasibility_study', 'like', '%' . $filters['feasibility_study'] . '%');
         }
 
-        if (!empty($filters['last_status'])) {
-            $query->where(function ($subQuery) use ($filters) {
-                $value = '%' . $filters['last_status'] . '%';
-
-                $subQuery
-                    ->where('last_status.task_styled_name', 'like', $value)
-                    ->orWhere('last_status.task_name', 'like', $value)
-                    ->orWhere('last_status.inbox_status', 'like', $value)
-                    ->orWhere('cases.status', 'like', $value)
-                    ->orWhere('active_statuses.active_statuses', 'like', $value);
-            });
-        }
 
         return $query;
     }

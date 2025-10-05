@@ -110,6 +110,8 @@
                                     <th>شماره پرونده</th>
                                     <th>نام</th>
                                     <th>نام خانوادگی</th>
+                                    <th>کدملی</th>
+                                    <th>موبایل</th>
                                     <th>شناسه قبض برق</th>
                                     <th>نوع نیروگاه</th>
                                     <th>استان محل نیروگاه</th>
@@ -126,17 +128,23 @@
                                 @forelse($rows as $row)
                                     <tr>
                                         <td>{{ $row->number ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('user_firstname') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('user_lastname') ?? '---' }}</td>
-                                        <td dir="ltr">{{ $row->getVariable('electricity_bill_id') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('powerhouse_type') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('powerhouse_province') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('requested_capacity_of_powerhouse') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('first_call_result') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('loan_interest') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('initial_amount') ?? '---' }}</td>
-                                        <td>{{ $row->getVariable('feasibility_study') ?? '---' }}</td>
-                                        <td>{{ $row->last_status ?? '---' }}</td>
+                                        <td>{{ $row->user_firstname ?? '---' }}</td>
+                                        <td>{{ $row->user_lastname ?? '---' }}</td>
+                                        <td>{{ $row->user_national_id ?? '---' }}</td>
+                                        <td>{{ $row->mobile ?? '---' }}</td>
+                                        <td dir="ltr">{{ $row->electricity_bill_id ?? '---' }}</td>
+                                        <td>{{ $row->powerhouse_type ?? '---' }}</td>
+                                        <td>{{ $row->powerhouse_province ?? '---' }}</td>
+                                        <td>{{ $row->requested_capacity_of_powerhouse ?? '---' }}</td>
+                                        <td>{{ $row->first_call_result ?? '---' }}</td>
+                                        <td>{{ $row->loan_interest ?? '---' }}</td>
+                                        <td>{{ $row->initial_amount ?? '---' }}</td>
+                                        <td>{{ $row->feasibility_study ?? '---' }}</td>
+                                        <td>
+                                            @foreach ($row->last_status as $last_status)
+                                                {{ $last_status->task->name ?? '' }}
+                                            @endforeach
+                                        </td>
                                         <td class="text-center">
                                             <a href="{{ route('simpleWorkflowReport.all-requests.show', $row->number) }}" class="btn btn-sm btn-outline-primary px-3">
                                                 مشاهده جزئیات
