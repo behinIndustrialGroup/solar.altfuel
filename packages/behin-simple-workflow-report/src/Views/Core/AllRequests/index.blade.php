@@ -83,6 +83,10 @@
                                             <input type="text" name="feasibility_study" value="{{ $filters['feasibility_study'] ?? '' }}" class="form-control">
                                         </div>
                                         <div class="col-md-3">
+                                            <label class="form-label">نتیجه تماس رابط مالی با متقاضی</label>
+                                            <input type="text" name="fin_interface_call_result" value="{{ $filters['fin_interface_call_result'] ?? '' }}" class="form-control">
+                                        </div>
+                                        <div class="col-md-3">
                                             <label class="form-label">آخرین وضعیت درخواست</label>
                                             <input type="text" name="last_status" value="{{ $filters['last_status'] ?? '' }}" class="form-control">
                                         </div>
