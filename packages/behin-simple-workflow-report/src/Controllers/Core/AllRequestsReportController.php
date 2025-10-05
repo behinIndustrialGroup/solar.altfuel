@@ -26,8 +26,28 @@ class AllRequestsReportController extends Controller
     {
         $filters = $request->except('page');
         $perPage = (int) ($filters['per_page'] ?? 15);
-        $filters = Arr::where($filters, fn ($value, $key) => $value !== null && $value !== '');
-        $query = DB::table('wf_cases as c')
+        $filters = Arr::where($filters, fn($value, $key) => $value !== null && $value !== '');
+        $query = $this->baseQuery();
+        $query = $this->applyFilters($query, $filters);
+        $rows = $query->paginate($perPage);
+        $rows->appends($filters);
+        $rows->getCollection()->transform(function ($row) {
+            $row->last_status = Inbox::where('case_id', $row->id)
+                ->whereNotIn('status', ['done', 'doneByOther', 'canceled'])
+                ->get();
+            return $row;
+        });
+
+        // return $rows;
+        return view('SimpleWorkflowReportView::Core.AllRequests.index', [
+            'rows' => $rows,
+            'filters' => $filters,
+            'perPage' => $perPage,
+        ]);
+    }
+
+    protected function baseQuery(){
+        return DB::table('wf_cases as c')
             ->leftJoin('wf_variables as v', 'c.id', '=', 'v.case_id')
             ->select(
                 'c.id',
@@ -48,23 +68,6 @@ class AllRequestsReportController extends Controller
                 DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-address', 'powerhouse_place_info_address') THEN value END) as powerhouse_place_info_address")
             )
             ->groupBy('c.id', 'c.number');
-        $query = $this->applyFilters($query, $filters);
-        $rows = $query->paginate($perPage);
-        $rows->appends($filters);
-        $rows->getCollection()->transform(function ($row) {
-            $row->last_status = Inbox::where('case_id', $row->id)
-                ->whereNotIn('status', ['done', 'doneByOther', 'canceled'])
-                ->get();
-            return $row;
-        });
-
-        // return $rows;
-        return view('SimpleWorkflowReportView::Core.AllRequests.index', [
-            'rows' => $rows,
-            'filters' => $filters,
-            'perPage' => $perPage,
-        ]);
-
     }
 
     protected function applyFilters($query, array $filters)
@@ -128,5 +131,20 @@ class AllRequestsReportController extends Controller
 
 
         return $query;
+    }
+
+    public function export(Request $request): BinaryFileResponse
+    {
+        $filters = $request->except('page');
+        $perPage = (int) ($filters['per_page'] ?? 15);
+        $filters = Arr::where($filters, fn($value, $key) => $value !== null && $value !== '');
+        $query = $this->baseQuery();
+        $query = $this->applyFilters($query, $filters);
+        
+        $rows = $query->get();
+
+        // حالا خروجی اکسل ساده
+        $filename = 'requests_export_' . now()->format('Ymd_His') . '.xlsx';
+        return Excel::download(new AllRequestsReportExport($rows), $filename);
     }
 }
