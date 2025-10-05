@@ -142,7 +142,6 @@
                                             <tbody>
                                                 @foreach($callRecords as $record)
                                                     <tr>
-                                                        {{ var_dump($record) }}
                                                         <td>
                                                             @if(!empty($record['started_at']))
                                                                 {{ $record['started_at']->format('Y/m/d H:i') }}
