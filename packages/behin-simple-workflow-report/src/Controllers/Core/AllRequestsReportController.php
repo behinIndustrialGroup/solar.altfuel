@@ -67,7 +67,8 @@ class AllRequestsReportController extends Controller
                 DB::raw("MAX(CASE WHEN `key` IN ('mobile', 'user-mobile', 'user_mobile') THEN value END) as mobile"),
                 DB::raw("MAX(CASE WHEN `key` IN ('user-national_id', 'user_national_id', 'national_id') THEN value END) as user_national_id"),
                 DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-postal_code', 'powerhouse_place_info_postal_code') THEN value END) as powerhouse_place_info_postal_code"),
-                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-address', 'powerhouse_place_info_address') THEN value END) as powerhouse_place_info_address")
+                DB::raw("MAX(CASE WHEN `key` IN ('powerhouse_place_info-address', 'powerhouse_place_info_address') THEN value END) as powerhouse_place_info_address"),
+                DB::raw("MAX(CASE WHEN `key` IN ('fin_interface_call_result') THEN value END) as fin_interface_call_result")
             )
             ->groupBy('c.id', 'c.number');
     }
@@ -118,6 +119,10 @@ class AllRequestsReportController extends Controller
 
         if (!empty($filters['feasibility_study'])) {
             $query->where('feasibility_study', 'like', '%' . $filters['feasibility_study'] . '%');
+        }
+
+        if (!empty($filters['fin_interface_call_result'])) {
+            $query->where('fin_interface_call_result', 'like', '%' . $filters['fin_interface_call_result'] . '%');
         }
 
         if (!empty($filters['last_status'])) {

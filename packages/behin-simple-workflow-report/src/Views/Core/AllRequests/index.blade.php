@@ -120,6 +120,7 @@
                                     <th>تمایل به دریافت وام</th>
                                     <th>مبلغ اولیه</th>
                                     <th>امکان‌سنجی</th>
+                                    <th>نتیجه تماس رابط مالی با متقاضی</th>
                                     <th>آخرین وضعیت درخواست</th>
                                     <th class="text-center">جزئیات</th>
                                 </tr>
@@ -140,6 +141,7 @@
                                         <td>{{ $row->loan_interest ?? '---' }}</td>
                                         <td>{{ $row->initial_amount ?? '---' }}</td>
                                         <td>{{ $row->feasibility_study ?? '---' }}</td>
+                                        <td>{{ $row->fin_interface_call_result ?? '---' }}</td>
                                         <td>
                                             @foreach ($row->last_status as $last_status)
                                                 {{ $last_status->task->name ?? '' }}

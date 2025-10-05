@@ -32,6 +32,7 @@ class AllRequestsReportExport implements FromCollection, WithHeadings, WithMappi
             'سود تسهیلات',
             'مبلغ اولیه',
             'امکان‌سنجی',
+            'نتیجه تماس رابط مالی با متقاضی',
             'آخرین وضعیت درخواست',
         ];
     }
@@ -56,6 +57,7 @@ class AllRequestsReportExport implements FromCollection, WithHeadings, WithMappi
             $row['loan_interest'] ?? null,
             $row['initial_amount'] ?? null,
             $row['feasibility_study'] ?? null,
+            $row['fin_interface_call_result'] ?? null,
             $row['last_status'] ?? null,
         ];
     }
