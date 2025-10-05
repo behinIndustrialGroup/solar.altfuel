@@ -26,6 +26,7 @@ class AllRequestsReportController extends Controller
     {
         $filters = $request->except('page');
         $perPage = (int) ($filters['per_page'] ?? 15);
+        $filters = Arr::where($filters, fn ($value, $key) => $value !== null && $value !== '');
         $query = DB::table('wf_cases as c')
             ->leftJoin('wf_variables as v', 'c.id', '=', 'v.case_id')
             ->select(
@@ -49,6 +50,7 @@ class AllRequestsReportController extends Controller
             ->groupBy('c.id', 'c.number');
         $query = $this->applyFilters($query, $filters);
         $rows = $query->paginate($perPage);
+        $rows->appends($filters);
         $rows->getCollection()->transform(function ($row) {
             $row->last_status = Inbox::where('case_id', $row->id)
                 ->whereNotIn('status', ['done', 'doneByOther', 'canceled'])
