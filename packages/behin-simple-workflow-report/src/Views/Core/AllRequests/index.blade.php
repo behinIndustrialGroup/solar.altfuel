@@ -134,7 +134,7 @@
                                         <td>{{ $row->mobile ?? '---' }}</td>
                                         <td dir="ltr">{{ $row->electricity_bill_id ?? '---' }}</td>
                                         <td>{{ $row->powerhouse_type ?? '---' }}</td>
-                                        <td>{{ $row->powerhouse_province ?? '---' }}</td>
+                                        <td>{{ $row->powerhouse_place_info_province ?? '---' }}</td>
                                         <td>{{ $row->requested_capacity_of_powerhouse ?? '---' }}</td>
                                         <td>{{ $row->first_call_result ?? '---' }}</td>
                                         <td>{{ $row->loan_interest ?? '---' }}</td>
