@@ -71,7 +71,7 @@
                                             <input type="text" name="first_call_result" value="{{ $filters['first_call_result'] ?? '' }}" class="form-control">
                                         </div>
                                         <div class="col-md-3">
-                                            <label class="form-label">سود تسهیلات</label>
+                                            <label class="form-label">تمایل به دریافت وام</label>
                                             <input type="text" name="loan_interest" value="{{ $filters['loan_interest'] ?? '' }}" class="form-control">
                                         </div>
                                         <div class="col-md-3">
