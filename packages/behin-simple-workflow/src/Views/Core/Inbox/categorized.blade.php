@@ -218,10 +218,7 @@
                         <h2 class="h4 fw-bold text-dark mb-1">{{ trans('fields.Categorized Inbox') }}</h2>
                         <p class="text-muted mb-0 small">{{ trans('fields.Categorized Inbox Hint') }}</p>
                     </div>
-                    <a href="{{ route('simpleWorkflow.inbox.index') }}" class="btn btn-outline-primary rounded-pill">
-                        <i class="material-icons align-middle">inbox</i>
-                        <span class="align-middle">{{ trans('fields.User Inbox') }}</span>
-                    </a>
+                    
                 </div>
 
                 @if ($taskCategories->isNotEmpty())
