@@ -50,7 +50,7 @@ class AllRequestsReportExport implements FromCollection, WithHeadings, WithMappi
             $row['user_lastname'] ?? null,
             $row['electricity_bill_id'] ?? null,
             $row['powerhouse_type'] ?? null,
-            $row['powerhouse_province'] ?? null,
+            $row['powerhouse_place_info_province'] ?? null,
             $row['requested_capacity_of_powerhouse'] ?? null,
             $row['first_call_result'] ?? null,
             $row['loan_interest'] ?? null,

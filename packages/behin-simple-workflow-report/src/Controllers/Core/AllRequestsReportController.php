@@ -46,7 +46,8 @@ class AllRequestsReportController extends Controller
         ]);
     }
 
-    protected function baseQuery(){
+    protected function baseQuery()
+    {
         return DB::table('wf_cases as c')
             ->leftJoin('wf_variables as v', 'c.id', '=', 'v.case_id')
             ->select(
@@ -141,9 +142,18 @@ class AllRequestsReportController extends Controller
         $filters = Arr::where($filters, fn($value, $key) => $value !== null && $value !== '');
         $query = $this->baseQuery();
         $query = $this->applyFilters($query, $filters);
-        
-        $rows = $query->get();
 
+        $rows = $query->get();
+        $rows->appends($filters);
+        $rows->getCollection()->transform(function ($row) {
+            $statuses = Inbox::where('case_id', $row->id)
+                ->whereNotIn('status', ['done', 'doneByOther', 'canceled'])
+                ->pluck('status')
+                ->toArray();
+
+            $row->last_status = implode(', ', $statuses);
+            return $row;
+        });
         // حالا خروجی اکسل ساده
         $filename = 'requests_export_' . now()->format('Ymd_His') . '.xlsx';
         return Excel::download(new AllRequestsReportExport($rows), $filename);
