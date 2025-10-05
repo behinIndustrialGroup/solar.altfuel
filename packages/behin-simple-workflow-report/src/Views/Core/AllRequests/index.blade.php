@@ -138,7 +138,7 @@
                                         <td>{{ $row->getVariable('feasibility_study') ?? '---' }}</td>
                                         <td>{{ $row->last_status ?? '---' }}</td>
                                         <td class="text-center">
-                                            <a href="{{ route('simpleWorkflowReport.all-requests.show', $row->case_number) }}" class="btn btn-sm btn-outline-primary px-3">
+                                            <a href="{{ route('simpleWorkflowReport.all-requests.show', $row->number) }}" class="btn btn-sm btn-outline-primary px-3">
                                                 مشاهده جزئیات
                                             </a>
                                         </td>
