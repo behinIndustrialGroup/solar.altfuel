@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                    <h4 class="mb-0 fw-bold text-primary">جزئیات درخواست شماره پرونده {{ $requestRow->case_number ?? '---' }}</h4>
+                    <h4 class="mb-0 fw-bold text-primary">جزئیات درخواست شماره پرونده {{ $requestRow->number ?? '---' }}</h4>
                     <a href="{{ route('simpleWorkflowReport.all-requests.index') }}" class="btn btn-light border-primary text-primary">
                         بازگشت به فهرست
                     </a>
@@ -25,7 +25,7 @@
                         <div class="row g-4">
                             @php
                                 $details = [
-                                    ['label' => 'شماره پرونده', 'value' => $requestRow->case_number, 'ltr' => true],
+                                    ['label' => 'شماره پرونده', 'value' => $requestRow->number, 'ltr' => true],
                                     ['label' => 'نام', 'value' => $requestRow->user_firstname],
                                     ['label' => 'نام خانوادگی', 'value' => $requestRow->user_lastname],
                                     ['label' => 'شماره همراه', 'value' => $requestRow->mobile, 'ltr' => true],
