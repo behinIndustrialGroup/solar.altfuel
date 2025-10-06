@@ -15,5 +15,6 @@ return [
     MyFormBuilder\FormBuilderServiceProvider::class,
     UserProfile\UserProfileProvider::class,
     BaleBot\BaleBotProvider::class,
-    Behin\Ami\AmiServiceProvider::class
+    Behin\Ami\AmiServiceProvider::class,
+    UserNotifications\Providers\UserNotificationsServiceProvider::class,
 ];
