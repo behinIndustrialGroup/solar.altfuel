@@ -110,16 +110,25 @@
             <div class="flex flex-col md:flex-row justify-between items-start gap-6">
                 <div>
                     <h4 class="font-bold mb-2">ستاپ</h4>
-                    <p class="text-sm text-gray-300">سامانه تأمین و اجرای پروژه‌های خورشیدی — اتصال متقاضیان به
-                        پیمانکاران و ارائه تسهیلات مالی.</p>
+                    <p class="text-sm">سامانه تأمین و اجرای پروژه‌های خورشیدی — اتصال متقاضیان به پیمانکاران و ارائه
+                        تسهیلات مالی.</p>
                 </div>
                 <div>
-                    <h5 class="font-semibold mb-2">پشتیبانی</h5>
-                    <p class="text-sm text-gray-300">ایمیل: info@setap.example</p>
-                    <p class="text-sm text-gray-300">تلفن: ۰۲۱-xxxxxxx</p>
+                    <h5 class="font-semibold mb-2">تماس</h5>
+                    {{-- <p class="text-sm">ایمیل: info@setap.example</p> --}}
+                    <p class="text-sm">تلفن: 02191307571</p>
+                </div>
+                <div>
+                    <h5 class="font-semibold mb-2">مجوزها</h5>
+                    <a referrerpolicy='origin' target='_blank'
+                        href='https://trustseal.enamad.ir/?id=642135&Code=Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'><img
+                            referrerpolicy='origin'
+                            src='https://trustseal.enamad.ir/logo.aspx?id=642135&Code=Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'
+                            alt='' style='cursor:pointer' code='Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'></a>
+
                 </div>
             </div>
-            <div class="text-sm text-gray-500 mt-6">© تمامی حقوق برای ستاپ محفوظ است.</div>
+            <div class="text-sm text-gray-400 mt-6">© تمامی حقوق برای ستاپ محفوظ است.</div>
         </div>
     </footer>
 

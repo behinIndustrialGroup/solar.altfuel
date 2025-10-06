@@ -174,7 +174,7 @@
                 <div>
                     <h5 class="font-semibold mb-2">تماس</h5>
                     {{-- <p class="text-sm">ایمیل: info@setap.example</p> --}}
-                    <p class="text-sm">تلفن: 02191017175</p>
+                    <p class="text-sm">تلفن: 02191307571</p>
                 </div>
                 <div>
                     <h5 class="font-semibold mb-2">مجوزها</h5>
