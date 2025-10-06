@@ -32,7 +32,7 @@
                                     ['label' => 'کد ملی', 'value' => $requestRow->user_national_id, 'ltr' => true],
                                     ['label' => 'شناسه قبض برق', 'value' => $requestRow->electricity_bill_id, 'ltr' => true],
                                     ['label' => 'نوع نیروگاه', 'value' => $requestRow->powerhouse_type],
-                                    ['label' => 'استان محل نیروگاه', 'value' => $requestRow->powerhouse_province],
+                                    ['label' => 'استان محل نیروگاه', 'value' => $requestRow->powerhouse_place_info_province],
                                     ['label' => 'کد پستی محل نیروگاه', 'value' => $requestRow->powerhouse_postal_code, 'ltr' => true],
                                     ['label' => 'آدرس محل نیروگاه', 'value' => $requestRow->powerhouse_address],
                                     ['label' => 'ظرفیت درخواستی', 'value' => $requestRow->requested_capacity_of_powerhouse],
