@@ -165,4 +165,38 @@ class AllRequestsReportController extends Controller
         $filename = 'requests_export_' . now()->format('Ymd_His') . '.xlsx';
         return Excel::download(new AllRequestsReportExport($rows), $filename);
     }
+
+    public function show(string $caseNumber): View
+    {
+        $row = $this->baseQuery()
+            ->where('c.number', $caseNumber)
+            ->first();
+
+        if (!$row) {
+            abort(404);
+        }
+
+        // $row = $this->prepareRows(collect([$row]))->first();
+
+        /** @var CallHistoryService $callHistoryService */
+        $callHistoryService = app(CallHistoryService::class);
+
+        $callRecords = collect();
+        $callRecordsError = null;
+        $searchedNumbers = [];
+
+        if (!empty($row->mobile)) {
+            $callRecords = $callHistoryService->getCallsByPhone($row->mobile);
+            $callRecordsError = $callHistoryService->getLastError();
+            $searchedNumbers = $callHistoryService->getLastSearchNumbers();
+        }
+
+        return view('SimpleWorkflowReportView::Core.AllRequests.show', [
+            'requestRow' => $row,
+            'conversationViewModel' => ViewModel::find('912880ce-7acf-4735-9170-cbc34b39362b'),
+            'callRecords' => $callRecords,
+            'callRecordsError' => $callRecordsError,
+            'callRecordsSearchedNumbers' => $searchedNumbers,
+        ]);
+    }
 }
