@@ -7,7 +7,7 @@
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                    <input type="hidden" name="caseId" id="caseId" value="{{ $requestRow->number }}">
+                    <input type="hidden" name="caseId" id="caseId" value="{{ $requestRow->id }}">
                     <h4 class="mb-0 fw-bold text-primary">جزئیات درخواست شماره پرونده {{ $requestRow->number ?? '---' }}</h4>
                     <a href="{{ route('simpleWorkflowReport.all-requests.index') }}" class="btn btn-light border-primary text-primary">
                         بازگشت به فهرست
