@@ -1,5 +1,7 @@
 <?php
 
+use BehinInit\App\Http\Middleware\Access;
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -13,7 +15,7 @@ return [
     */
     'user_model' => env('USER_NOTIFICATIONS_USER_MODEL'),
 
-    'admin_middleware' => ['web', 'auth', 'can:manage-user-notifications'],
+    'admin_middleware' => ['web', 'auth', Access::class. ':manage-user-notifications'],
 
     'user_middleware' => ['web', 'auth'],
 ];

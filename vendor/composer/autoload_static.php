@@ -72,6 +72,7 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'U' => 
         array (
             'UserProfile\\' => 12,
+            'UserNotifications\\' => 18,
         ),
         'T' => 
         array (
@@ -264,6 +265,10 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'UserProfile\\' => 
         array (
             0 => __DIR__ . '/../..' . '/packages/behin-user-profile/src',
+        ),
+        'UserNotifications\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/packages/user-notifications/src',
         ),
         'TijsVerkoyen\\CssToInlineStyles\\' => 
         array (
@@ -816,13 +821,15 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'Behin\\Ami\\AmiServiceProvider' => __DIR__ . '/../..' . '/packages/behin-ami/src/AmiServiceProvider.php',
         'Behin\\Ami\\Controllers\\AmiSettingController' => __DIR__ . '/../..' . '/packages/behin-ami/src/Controllers/AmiSettingController.php',
         'Behin\\Ami\\Controllers\\AmiStatusController' => __DIR__ . '/../..' . '/packages/behin-ami/src/Controllers/AmiStatusController.php',
+        'Behin\\Ami\\Controllers\\CallRecordingController' => __DIR__ . '/../..' . '/packages/behin-ami/src/Controllers/CallRecordingController.php',
         'Behin\\Ami\\Models\\AmiSetting' => __DIR__ . '/../..' . '/packages/behin-ami/src/Models/AmiSetting.php',
         'Behin\\Ami\\Services\\AmiClient' => __DIR__ . '/../..' . '/packages/behin-ami/src/Services/AmiClient.php',
+        'Behin\\Ami\\Services\\CallHistoryService' => __DIR__ . '/../..' . '/packages/behin-ami/src/Services/CallHistoryService.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\AllRequestsReportController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/AllRequestsReportController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\MyRequestController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/MyRequestController.php',
+        'Behin\\SimpleWorkflowReport\\Controllers\\Core\\RecordingController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/RecordingController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\StageReportController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/StageReportController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Core\\SummaryReportController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/SummaryReportController.php',
-        'Behin\\SimpleWorkflowReport\\Controllers\\Core\\TimeoffController' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Core/TimeoffController.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Scripts\\TimeoffExport' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Scripts/TimeoffExport.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Scripts\\TimeoffExport2' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Scripts/TimeoffExport2.php',
         'Behin\\SimpleWorkflowReport\\Controllers\\Scripts\\TotalTimeoff' => __DIR__ . '/../..' . '/packages/behin-simple-workflow-report/src/Controllers/Scripts/TotalTimeoff.php',
@@ -8253,6 +8260,11 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Processor' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Processor.php',
         'TijsVerkoyen\\CssToInlineStyles\\Css\\Rule\\Rule' => __DIR__ . '/..' . '/tijsverkoyen/css-to-inline-styles/src/Css/Rule/Rule.php',
         'UnhandledMatchError' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/UnhandledMatchError.php',
+        'UserNotifications\\Events\\NotificationSent' => __DIR__ . '/../..' . '/packages/user-notifications/src/Events/NotificationSent.php',
+        'UserNotifications\\Http\\Controllers\\NotificationController' => __DIR__ . '/../..' . '/packages/user-notifications/src/Http/Controllers/NotificationController.php',
+        'UserNotifications\\Http\\Requests\\StoreNotificationRequest' => __DIR__ . '/../..' . '/packages/user-notifications/src/Http/Requests/StoreNotificationRequest.php',
+        'UserNotifications\\Models\\Notification' => __DIR__ . '/../..' . '/packages/user-notifications/src/Models/Notification.php',
+        'UserNotifications\\Providers\\UserNotificationsServiceProvider' => __DIR__ . '/../..' . '/packages/user-notifications/src/Providers/UserNotificationsServiceProvider.php',
         'UserProfile\\Controllers\\ChangePasswordController' => __DIR__ . '/../..' . '/packages/behin-user-profile/src/Controllers/ChangePasswordController.php',
         'UserProfile\\Controllers\\GetUserAgenciesController' => __DIR__ . '/../..' . '/packages/behin-user-profile/src/Controllers/GetUserAgenciesController.php',
         'UserProfile\\Controllers\\NationalIdController' => __DIR__ . '/../..' . '/packages/behin-user-profile/src/Controllers/NationalIdController.php',
