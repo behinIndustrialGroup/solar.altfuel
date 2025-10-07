@@ -1,5 +1,16 @@
 <?php
 use App\CustomClasses\Access;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+use UserNotifications\Models\Notification;
+
+$unreadNotificationsCount = Auth::check()
+    ? Notification::unreadFor(Auth::id())->count()
+    : 0;
+
+$notificationsUrl = Route::has('notifications.index')
+    ? route('notifications.index')
+    : '#';
 ?>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand" style="background-color: #f9f9f9 !important; color: #fff; border-bottom: none;box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);">
@@ -36,6 +47,18 @@ use App\CustomClasses\Access;
     <ul class="navbar-nav ms-auto align-items-center" >
 
         <!-- Refresh -->
+        <li class="nav-item mr-2">
+            <a href="{{ $notificationsUrl }}" class="btn btn-sm btn-outline-dark notification-button" style="color: black !important" title="{{ __('پیام‌ها') }}">
+                <i class="material-icons" style="font-size: 20px;">notifications</i>
+                <span class="sr-only">{{ __('پیام‌ها') }}</span>
+                @if($unreadNotificationsCount > 0)
+                    <span class="notification-badge">
+                        {{ $unreadNotificationsCount }}
+                    </span>
+                @endif
+            </a>
+        </li>
+
         <li class="mr-2">
             <a href="tel:+982191307571" type="button" class="btn btn-sm btn-outline-dark" style="color: black !important">
                 پشتیبانی: 02191307571 <i class="material-icons" style="font-size: 13px">phone</i>
@@ -89,5 +112,29 @@ use App\CustomClasses\Access;
     }
     .navbar-expand{
         justify-content:space-between !important;
+    }
+    .notification-button {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+    }
+    .notification-badge {
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        min-width: 18px;
+        height: 18px;
+        padding: 0 4px;
+        font-size: 11px;
+        font-weight: 600;
+        color: #fff;
+        background-color: #dc3545;
+        border-radius: 10px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
     }
 </style>
