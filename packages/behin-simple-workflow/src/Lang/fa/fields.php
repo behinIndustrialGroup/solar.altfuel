@@ -99,6 +99,7 @@ return [
     'Task is in preview mode and cannot be started' => 'این تسک در حالت پیش‌نمایش است و امکان شروع آن وجود ندارد.',
     'Task not found' => 'تسک یافت نشد',
     'Show Save Button' => 'نمایش دکمه ذخیره',
+    'Show Reminder Button' => 'نمایش دکمه یادآوری',
     'Yes' => 'بله',
     'No' => 'خیر',
 
@@ -123,5 +124,19 @@ return [
     'Filter Operator Less Than' => 'کوچک‌تر باشد از',
     'Filter Operator Is Empty' => 'خالی باشد',
     'Filter Operator Is Not Empty' => 'خالی نباشد',
+
+    'Add Reminder' => 'افزودن یادآوری',
+    'Reminder Title' => 'عنوان یادآوری',
+    'Reminder Message' => 'پیام یادآوری',
+    'Reminder At' => 'زمان یادآوری',
+    'Send Reminder' => 'ثبت یادآوری',
+    'Reminder scheduled successfully' => 'یادآوری با موفقیت ثبت شد.',
+    'Reminder default message' => 'یادآوری برای تسک :task در پرونده :case',
+    'Reminder Link Label' => 'مشاهده تسک',
+    'You cannot set reminder for this task' => 'شما دسترسی لازم برای ثبت یادآوری این تسک را ندارید.',
+    'Reminder disabled for this task' => 'یادآوری برای این تسک فعال نیست.',
+    'Unknown error' => 'خطای ناشناخته رخ داد.',
+    'Cancel' => 'انصراف',
+    'Close' => 'بستن',
 
 ];

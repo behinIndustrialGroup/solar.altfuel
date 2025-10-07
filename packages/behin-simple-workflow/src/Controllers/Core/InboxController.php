@@ -22,12 +22,58 @@ use Behin\SimpleWorkflow\Jobs\SendPushNotification;
 use Behin\SimpleWorkflow\Models\Entities\CasesManual;
 use Behin\SimpleWorkflow\Models\Core\Variable;
 use Illuminate\Support\Str;
+use Behin\SimpleWorkflow\Jobs\SendTaskReminderNotification;
+use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 
 class InboxController extends Controller
 {
     public static function getById($id)
     {
         return Inbox::find($id);
+    }
+
+    public function storeReminder(Request $request, string $inboxId): JsonResponse
+    {
+        $inbox = Inbox::with(['task', 'case'])->findOrFail($inboxId);
+
+        if ($inbox->actor !== Auth::id()) {
+            abort(403, trans('fields.You cannot set reminder for this task'));
+        }
+
+        if (!$inbox->task || !$inbox->task->show_reminder_button) {
+            abort(403, trans('fields.Reminder disabled for this task'));
+        }
+
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:255'],
+            'message' => ['nullable', 'string'],
+            'remind_at' => ['required', 'date', 'after:now'],
+        ], [], [
+            'title' => trans('fields.Reminder Title'),
+            'message' => trans('fields.Reminder Message'),
+            'remind_at' => trans('fields.Reminder At'),
+        ]);
+
+        $remindAt = Carbon::parse($data['remind_at'], config('app.timezone'));
+
+        $caseName = $inbox->case_name ?: optional($inbox->case)->number;
+        $taskName = optional($inbox->task)->name;
+
+        SendTaskReminderNotification::dispatch(
+            $inbox->id,
+            (int) $inbox->actor,
+            Auth::id(),
+            $data['title'],
+            $data['message'] ?? null,
+            $caseName ? (string) $caseName : null,
+            $taskName ? (string) $taskName : null,
+        )->delay($remindAt);
+
+        return response()->json([
+            'status' => 200,
+            'msg' => trans('fields.Reminder scheduled successfully'),
+        ]);
     }
 
     public static function create($taskId, $caseId, $actor, $status = 'new', $caseName = null)
