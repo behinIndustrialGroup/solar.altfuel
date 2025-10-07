@@ -133,7 +133,9 @@
                                 @forelse($rows as $row)
                                     <tr>
                                         <td>{{ $row->number ?? '---' }}
-                                            {!! $case->history !!}
+                                            <a href="{{ route('simpleWorkflow.inbox.caseHistoryView', [ 'caseNumber' => $row->number ]) }}" target="_blank">
+                                                <i class="material-icons">history</i>
+                                            </a>
                                         </td>
                                         <td>{{ $row->user_firstname ?? '---' }}</td>
                                         <td>{{ $row->user_lastname ?? '---' }}</td>
