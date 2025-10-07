@@ -132,7 +132,9 @@
                                 <tbody>
                                 @forelse($rows as $row)
                                     <tr>
-                                        <td>{{ $row->number ?? '---' }}</td>
+                                        <td>{{ $row->number ?? '---' }}
+                                            {!! $case->history !!}
+                                        </td>
                                         <td>{{ $row->user_firstname ?? '---' }}</td>
                                         <td>{{ $row->user_lastname ?? '---' }}</td>
                                         <td>{{ $row->user_national_id ?? '---' }}</td>
