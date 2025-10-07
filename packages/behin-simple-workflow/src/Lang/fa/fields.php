@@ -124,4 +124,17 @@ return [
     'Filter Operator Is Empty' => 'خالی باشد',
     'Filter Operator Is Not Empty' => 'خالی نباشد',
 
+    'Add Reminder' => 'افزودن یادآوری',
+    'Reminder Title' => 'عنوان یادآوری',
+    'Reminder Message' => 'پیام یادآوری',
+    'Reminder At' => 'زمان یادآوری',
+    'Send Reminder' => 'ثبت یادآوری',
+    'Reminder scheduled successfully' => 'یادآوری با موفقیت ثبت شد.',
+    'Reminder default message' => 'یادآوری برای تسک :task در پرونده :case',
+    'Reminder Link Label' => 'مشاهده تسک',
+    'You cannot set reminder for this task' => 'شما دسترسی لازم برای ثبت یادآوری این تسک را ندارید.',
+    'Unknown error' => 'خطای ناشناخته رخ داد.',
+    'Cancel' => 'انصراف',
+    'Close' => 'بستن',
+
 ];

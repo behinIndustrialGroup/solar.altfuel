@@ -105,6 +105,11 @@
                     {{ trans('fields.Send Manully') }}
                 </button>
 
+                <button class="md-btn md-btn-secondary" type="button" onclick="openReminderModal()">
+                    <i class="material-icons">alarm</i>
+                    {{ trans('fields.Add Reminder') }}
+                </button>
+
                 @if ($task->show_save_button)
                     <button class="md-btn md-btn-primary" onclick="saveForm()">
                         <i class="material-icons">save</i>
@@ -117,6 +122,40 @@
                     {{ trans('fields.Save and next') }}
                 </button>
             @endif
+        </div>
+
+        <div class="modal fade" id="reminderModal" tabindex="-1" role="dialog" aria-labelledby="reminderModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reminderModalLabel">{{ trans('fields.Add Reminder') }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="{{ trans('fields.Close') }}">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form id="reminderForm" action="{{ route('simpleWorkflow.inbox.reminders.store', $inbox->id) }}" method="POST">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="reminder-title" class="col-form-label">{{ trans('fields.Reminder Title') }}</label>
+                                <input type="text" class="form-control" id="reminder-title" name="title" maxlength="255" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="reminder-message" class="col-form-label">{{ trans('fields.Reminder Message') }}</label>
+                                <textarea class="form-control" id="reminder-message" name="message" rows="3"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="reminder-at" class="col-form-label">{{ trans('fields.Reminder At') }}</label>
+                                <input type="datetime-local" class="form-control" id="reminder-at" name="remind_at" required min="{{ now()->format('Y-m-d\TH:i') }}" value="{{ now()->addMinutes(5)->format('Y-m-d\TH:i') }}">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">{{ trans('fields.Cancel') }}</button>
+                            <button type="submit" class="btn btn-primary">{{ trans('fields.Send Reminder') }}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
         <style>
@@ -169,6 +208,10 @@
                 color: #212121;
             }
 
+            .md-btn-secondary {
+                background-color: #607d8b;
+            }
+
             .md-btn-primary {
                 background-color: #3F51B5;
             }
@@ -215,6 +258,50 @@
     <script>
         // initial_view()
         $('#mobile-navigation').fadeOut(1000)
+
+        function formatDateTimeLocal(date) {
+            const pad = (value) => String(value).padStart(2, '0');
+            return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+        }
+
+        function openReminderModal() {
+            const modal = $('#reminderModal');
+            const input = modal.find('#reminder-at');
+            const now = new Date();
+            input.attr('min', formatDateTimeLocal(now));
+            const defaultDate = new Date(now.getTime() + 5 * 60 * 1000);
+            input.val(formatDateTimeLocal(defaultDate));
+            modal.modal('show');
+        }
+
+        $('#reminderForm').on('submit', function(event) {
+            event.preventDefault();
+            const form = this;
+            const fd = new FormData(form);
+            send_ajax_formdata_request(form.action, fd, function(response) {
+                if (response.status === 200) {
+                    show_message(response.msg);
+                    form.reset();
+                    $('#reminderModal').modal('hide');
+                } else {
+                    show_error(response.msg || '{{ trans('fields.Unknown error') }}');
+                }
+            }, function(xhr) {
+                hide_loading();
+                if (xhr.responseJSON && xhr.responseJSON.errors) {
+                    const messages = Object.values(xhr.responseJSON.errors).flat();
+                    show_error(messages.join('<br>'));
+                    return;
+                }
+
+                if (xhr.responseJSON && xhr.responseJSON.message) {
+                    show_error(xhr.responseJSON.message);
+                    return;
+                }
+
+                show_error('{{ trans('fields.Unknown error') }}');
+            });
+        });
 
         function createCaseNumberAndSave() {
             var form = $('#form')[0];
