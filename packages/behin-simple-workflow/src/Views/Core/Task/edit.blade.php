@@ -374,6 +374,13 @@
                                     <option value="0" {{ !$task->show_save_button ? 'selected' : '' }}>{{ trans('fields.No') }}</option>
                                 </select>
                             </div>
+                            <div class="md-form-group">
+                                <label for="show_reminder_button">{{ trans('fields.Show Reminder Button') }}</label>
+                                <select name="show_reminder_button" id="show_reminder_button" class="form-control material-select">
+                                    <option value="1" {{ $task->show_reminder_button ? 'selected' : '' }}>{{ trans('fields.Yes') }}</option>
+                                    <option value="0" {{ !$task->show_reminder_button ? 'selected' : '' }}>{{ trans('fields.No') }}</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <div class="md-form-group">

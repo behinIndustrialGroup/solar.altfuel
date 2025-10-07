@@ -41,6 +41,10 @@ class InboxController extends Controller
             abort(403, trans('fields.You cannot set reminder for this task'));
         }
 
+        if (!$inbox->task || !$inbox->task->show_reminder_button) {
+            abort(403, trans('fields.Reminder disabled for this task'));
+        }
+
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'message' => ['nullable', 'string'],

@@ -40,6 +40,7 @@ class Task extends Model
         'assignment_type',
         'is_preview',
         'show_save_button',
+        'show_reminder_button',
         'case_name',
         'color',
         'background',
@@ -56,6 +57,7 @@ class Task extends Model
     protected $casts = [
         'is_preview' => 'boolean',
         'show_save_button' => 'boolean',
+        'show_reminder_button' => 'boolean',
     ];
 
     public function getStyledNameAttribute()
