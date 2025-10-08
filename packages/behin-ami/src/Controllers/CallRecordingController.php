@@ -74,6 +74,11 @@ class CallRecordingController
         }
 
         if ($remotePath) {
+            $downloadConfig = (array) config('behin-ami.recordings.download', []);
+            if (!empty($downloadConfig['url'])) {
+                return $this->streamFromDownloadScript($remotePath, $fileName, $inline, $downloadConfig);
+            }
+
             return $this->streamFromIssabel($remotePath, $fileName, $inline);
         }
 
@@ -122,6 +127,67 @@ class CallRecordingController
                 fclose($handle);
             }
         }, $fileName, true, $mimeType, $fileSize);
+    }
+
+    /**
+     * @param array<string, mixed> $config
+     */
+    protected function streamFromDownloadScript(string $remotePath, string $fileName, bool $inline, array $config): StreamedResponse
+    {
+        $url = (string) ($config['url'] ?? '');
+        if ($url === '') {
+            abort(404);
+        }
+
+        $username = $config['username'] ?? null;
+        $password = $config['password'] ?? null;
+        $verifySsl = array_key_exists('verify_ssl', $config) ? (bool) $config['verify_ssl'] : true;
+        $timeout = (int) ($config['timeout'] ?? 15);
+
+        $clientOptions = [
+            'timeout' => max($timeout, 1),
+            'http_errors' => false,
+            'verify' => $verifySsl,
+        ];
+
+        if ($username !== null && $password !== null) {
+            $clientOptions['auth'] = [$username, $password];
+        }
+
+        $client = new Client($clientOptions);
+
+        try {
+            $response = $client->get($url, [
+                'query' => ['file' => $remotePath],
+                'stream' => true,
+            ]);
+        } catch (GuzzleException $exception) {
+            Log::warning('AMI call history: Issabel download script request failed', [
+                'exception' => $exception->getMessage(),
+                'path' => $remotePath,
+            ]);
+
+            abort(404);
+        }
+
+        if ($response->getStatusCode() !== 200) {
+            Log::warning('AMI call history: Issabel download script returned unexpected status', [
+                'status' => $response->getStatusCode(),
+                'path' => $remotePath,
+            ]);
+
+            abort(404);
+        }
+
+        $body = $response->getBody();
+        $mimeType = $response->getHeaderLine('Content-Type') ?: 'audio/wav';
+        $contentLength = $response->getHeaderLine('Content-Length') ?: null;
+
+        return $this->streamResponse(function () use ($body) {
+            while (!$body->eof()) {
+                echo $body->read(8192);
+            }
+        }, $fileName, $inline, $mimeType, $contentLength ? (int) $contentLength : null);
     }
 
     protected function streamFromIssabel(string $remotePath, string $fileName, bool $inline): StreamedResponse
