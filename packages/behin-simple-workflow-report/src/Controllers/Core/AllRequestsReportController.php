@@ -187,6 +187,7 @@ class AllRequestsReportController extends Controller
 
         if (!empty($row->mobile)) {
             $callRecords = $callHistoryService->getCallsByPhone($row->mobile);
+            dd($callRecords);
             $callRecordsError = $callHistoryService->getLastError();
             $searchedNumbers = $callHistoryService->getLastSearchNumbers();
         }
