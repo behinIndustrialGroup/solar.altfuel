@@ -18,6 +18,13 @@ return [
         'prefix' => env('AMI_RECORDINGS_PREFIX', ''),
         'base_path' => env('AMI_RECORDINGS_BASE_PATH'),
         'base_url' => env('AMI_RECORDINGS_BASE_URL'),
+        'download' => [
+            'url' => env('AMI_RECORDINGS_DOWNLOAD_URL'),
+            'username' => env('AMI_RECORDINGS_DOWNLOAD_USERNAME'),
+            'password' => env('AMI_RECORDINGS_DOWNLOAD_PASSWORD'),
+            'verify_ssl' => env('AMI_RECORDINGS_DOWNLOAD_VERIFY_SSL', false),
+            'timeout' => env('AMI_RECORDINGS_DOWNLOAD_TIMEOUT'),
+        ],
         'issabel' => [
             'base_url' => env('AMI_ISSABEL_BASE_URL'),
             'username' => env('AMI_ISSABEL_USERNAME'),
