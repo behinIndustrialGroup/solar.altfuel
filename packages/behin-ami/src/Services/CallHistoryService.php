@@ -331,6 +331,18 @@ class CallHistoryService
             }
         }
 
+        $downloadConfig = (array) ($recordingConfig['download'] ?? []);
+        if (!empty($downloadConfig['url'])) {
+            $token = $this->encodeDownloadToken([
+                'remote_path' => ltrim($recording, '/'),
+            ]);
+
+            $result['available'] = true;
+            $result['download_url'] = route('ami.calls.recordings.download', ['token' => $token, 'name' => $fileName]);
+            $result['stream_url'] = route('ami.calls.recordings.download', ['token' => $token, 'name' => $fileName, 'inline' => 1]);
+            $result['token'] = $token;
+        }
+
         if (!$result['available']) {
             $baseUrl = $recordingConfig['base_url'] ?? null;
             if ($baseUrl) {
