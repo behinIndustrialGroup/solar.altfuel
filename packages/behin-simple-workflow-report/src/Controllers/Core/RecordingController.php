@@ -23,16 +23,42 @@ class RecordingController extends Controller
         $recordingFile = $record->recordingfile;
         $fileName = basename($recordingFile);
 
-        // 2️⃣ ساخت URL کامل فایل (فرض بر اینه recordings از طریق وب سرو میشن)
-        $baseUrl = config('behin-ami.recordings.base_url'); // مثلاً https://91.247.171.3/recordings/
-        $url = rtrim($baseUrl, '/') . '/' . ltrim($recordingFile, '/');
+        $recordingsConfig = config('behin-ami.recordings', []);
+        $downloadConfig = $recordingsConfig['download'] ?? [];
+
+        // 2️⃣ ساخت URL کامل فایل با استفاده از اسکریپت دانلود جدید یا مسیر قبلی
+        if (!empty($downloadConfig['url'])) {
+            $downloadUrl = rtrim($downloadConfig['url'], '/');
+            $separator = str_contains($downloadUrl, '?') ? '&' : '?';
+            $url = $downloadUrl . $separator . 'file=' . urlencode($fileName);
+        } else {
+            $baseUrl = $recordingsConfig['base_url'] ?? null; // مثلاً https://91.247.171.3/recordings/
+            if (!$baseUrl) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'آدرس دانلود فایل در تنظیمات تعریف نشده است.'
+                ], 500);
+            }
+            $url = rtrim($baseUrl, '/') . '/' . ltrim($recordingFile, '/');
+        }
 
         // 3️⃣ اگر ایزابل نیاز به Basic Auth دارد
-        $username = env('AMI_WEB_USER', null);
-        $password = env('AMI_WEB_PASSWORD', null);
+        $username = $downloadConfig['username'] ?? env('AMI_WEB_USER', null);
+        $password = $downloadConfig['password'] ?? env('AMI_WEB_PASSWORD', null);
+
+        $verifySsl = $downloadConfig['verify_ssl'] ?? false;
+        if (!is_bool($verifySsl)) {
+            $filteredVerify = filter_var($verifySsl, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+            $verifySsl = $filteredVerify ?? false;
+        }
+
+        $httpOptions = ['verify' => $verifySsl];
+        if (!empty($downloadConfig['timeout'])) {
+            $httpOptions['timeout'] = (int) $downloadConfig['timeout'];
+        }
 
         try {
-            $http = Http::withOptions(['verify' => false]);
+            $http = Http::withOptions($httpOptions);
             if ($username && $password) {
                 $http = $http->withBasicAuth($username, $password);
             }
