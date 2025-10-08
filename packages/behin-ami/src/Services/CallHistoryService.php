@@ -152,12 +152,12 @@ class CallHistoryService
             $direction = 'unknown';
             $sourceNormalized = $this->normalizeForComparison($source);
             if ($source && in_array($sourceNormalized, $normalizedNumbers, true)) {
-                $direction = 'outbound';
+                $direction = 'inbound';
             }
 
             $destinationNormalized = $this->normalizeForComparison($destination);
             if ($direction === 'unknown' && $destination && in_array($destinationNormalized, $normalizedNumbers, true)) {
-                $direction = 'inbound';
+                $direction = 'outbound';
             }
 
             $counterparty = $direction === 'outbound'
