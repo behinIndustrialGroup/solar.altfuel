@@ -120,11 +120,11 @@
                 </div>
                 <div>
                     <h5 class="font-semibold mb-2">مجوزها</h5>
-                    <a referrerpolicy='origin' target='_blank'
+                    {{-- <a referrerpolicy='origin' target='_blank'
                         href='https://trustseal.enamad.ir/?id=642135&Code=Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'><img
                             referrerpolicy='origin'
                             src='https://trustseal.enamad.ir/logo.aspx?id=642135&Code=Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'
-                            alt='' style='cursor:pointer' code='Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'></a>
+                            alt='' style='cursor:pointer' code='Zmyvcsbjmy4wR9QgoHCBdzNN3L93m4qf'></a> --}}
 
                 </div>
             </div>
