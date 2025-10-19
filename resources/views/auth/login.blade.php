@@ -50,7 +50,7 @@
                     <div class="mt-8 grid grid-cols-3 gap-4 md:grid-cols-3">
                         <div class="bg-white/70 p-4 rounded-lg text-center shadow">
                             <div class="text-sm">ظرفیت نصب‌شده</div>
-                            <div class="text-2xl font-bold">۱.۷ مگاوات</div>
+                            <div class="text-2xl font-bold">۱۸ مگاوات</div>
                         </div>
                         <div class="bg-white/70 p-4 rounded-lg text-center shadow">
                             <div class="text-sm">پیمانکار در سراسر ایران</div>
