@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\InstallerRegistrationController;
 use App\Models\User;
 use BaleBot\Controllers\BotController;
 use Behin\SimpleWorkflow\Controllers\Core\CaseController;
@@ -21,6 +22,9 @@ Route::get('', function(){
     }
     return redirect()->route('login');
 })->name('home');
+
+Route::get('installers/apply', [InstallerRegistrationController::class, 'create'])->name('installers.apply');
+Route::post('installers/apply', [InstallerRegistrationController::class, 'store'])->name('installers.store');
 
 
 require __DIR__.'/auth.php';
