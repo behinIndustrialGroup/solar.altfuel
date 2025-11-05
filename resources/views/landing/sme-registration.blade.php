@@ -173,8 +173,8 @@
         <div class="container px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-gray-600">
             <div>ستاپ — سامانه تامین و اجرای پروژه‌های خورشیدی</div>
             <div class="flex items-center gap-3">
-                <span>پشتیبانی: ۰۲۱-xxxxxxx</span>
-                <span>ایمیل: support@setup.ir</span>
+                <span>پشتیبانی: 021-91307571</span>
+                <span>ایمیل: info@s3tup.ir</span>
             </div>
         </div>
     </footer>

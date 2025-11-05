@@ -183,8 +183,8 @@
         <div class="container px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
             <div>ستاپ — سامانه تأمین و اجرای پروژه‌های خورشیدی</div>
             <div class="flex gap-4">
-                <span>تلفن پشتیبانی: ۰۲۱-۱۲۳۴۵۶۷۸</span>
-                <span>ایمیل: hello@setappower.ir</span>
+                <span>تلفن پشتیبانی: 021-91307571</span>
+                <span>ایمیل: info@s3tup.ir</span>
             </div>
         </div>
     </footer>
