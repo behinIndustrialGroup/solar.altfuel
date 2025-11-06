@@ -25,6 +25,7 @@ Route::get('', function(){
 })->name('home');
 
 Route::get('landing/sme-registration', [SmeRegistrationController::class, 'create'])->name('landing.sme-registration');
+Route::post('landing/sme-registration', [SmeRegistrationController::class, 'store'])->name('landing.sme-registration');
 
 Route::get('installers/apply', [InstallerRegistrationController::class, 'create'])->name('installers.apply');
 Route::post('installers/apply', [InstallerRegistrationController::class, 'store'])->name('installers.store');
