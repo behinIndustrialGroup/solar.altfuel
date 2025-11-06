@@ -74,11 +74,11 @@
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">نام</label>
-                                    <input type="text" name="firstname" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="مثال: علی" required>
+                                    <input type="text" name="firstname" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" required>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">نام خانوادگی</label>
-                                    <input type="text" name="lastname" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="مثال: رضایی" required>
+                                    <input type="text" name="lastname" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" required>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">کد ملی</label>
@@ -95,10 +95,6 @@
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">استان</label>
                                     <input type="text" name="province" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="مثال: تهران" required>
-                                </div>
-                                <div class="space-y-2">
-                                    <label class="block text-sm font-medium text-gray-700">شهر</label>
-                                    <input type="text" name="city" class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500" placeholder="مثال: تهران" required>
                                 </div>
                             </div>
                             <div class="space-y-2">
