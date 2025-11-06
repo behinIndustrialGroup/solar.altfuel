@@ -97,7 +97,7 @@
                                             <i class="fa-solid fa-store text-xl"></i>
                                         </div>
                                         <div class="font-bold text-gray-800">ثبت‌نام اصناف</div>
-                                        <div class="text-xs text-gray-600 mt-1">معرفی کسب‌وکار و دریافت پروژه</div>
+                                        <div class="text-xs text-gray-600 mt-1">تامین برق پایدار واحدهای صنفی</div>
                                     </div>
                                 </a>
                             </div>
