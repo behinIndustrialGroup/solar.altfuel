@@ -36,6 +36,7 @@ class SmeRegistrationController extends Controller
         $case->saveVariable('user-lastname', $request->lastname);
         $case->saveVariable('user-mobile', $mobile);
         $case->saveVariable('user-national_id', $request->national_id);
+        $case->saveVariable('user-union', $request->union);
         $case->saveVariable('powerhouse_place_info-province', $request->province);
         $case->saveVariable('user-description', $request->description);
 
