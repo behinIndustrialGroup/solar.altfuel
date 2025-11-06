@@ -25,7 +25,7 @@ class SmeRegistrationController extends Controller
             'password' => Hash::make(rand(100000, 999999)),
         ]);
         $inbox = ProcessController::start(
-            "",
+            "c1462858-5560-431d-a8c0-f0239038bde7",
             $user->id,
             false,
             false
