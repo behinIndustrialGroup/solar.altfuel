@@ -7,6 +7,7 @@ use App\Models\InstallerApplication;
 use Behin\SimpleWorkflow\Controllers\Core\ProcessController;
 use BehinUserRoles\Models\User;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
@@ -17,7 +18,7 @@ class SmeRegistrationController extends Controller
         return view('landing.sme-registration');
     }
 
-    public function store(StoreInstallerApplicationRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
         $mobile = convertPersianToEnglish($request->mobile);
         $user = User::create([
