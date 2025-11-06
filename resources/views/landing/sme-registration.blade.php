@@ -70,6 +70,18 @@
                         <h2 class="text-xl font-semibold mb-4 text-gray-900">اطلاعات واحد صنفی</h2>
                         <p class="text-sm text-gray-600 mb-6">لطفاً اطلاعات خود را وارد کنید؛ کارشناسان ما در اسرع وقت جهت هماهنگی
                             و عقد قرارداد با شما تماس خواهند گرفت.</p>
+                        @if (session('status'))
+                            <div class="mb-4 rounded-lg bg-green-100 text-green-800 px-4 py-3 text-sm">
+                                {{ session('status') }}
+                            </div>
+                        @endif
+                        @if ($errors->any())
+                            <div class="mb-4 rounded-lg bg-red-100 text-red-800 px-4 py-3 text-sm space-y-1">
+                                @foreach ($errors->all() as $error)
+                                    <div>{{ $error }}</div>
+                                @endforeach
+                            </div>
+                        @endif
                         <form id="registration-form" class="space-y-4" method="POST" action="#">
                             @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
