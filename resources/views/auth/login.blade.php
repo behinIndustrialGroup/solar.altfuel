@@ -28,54 +28,50 @@
     <!-- Hero -->
     <header class="bg-gradient-to-l from-yellow-400 via-yellow-300 to-amber-400 text-gray-900">
         <div class="container px-6 py-12">
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="flex-1">
-                    <h1 class="text-3xl md:text-4xl font-bold mb-3">ستاپ — سامانه تأمین و اجرای پروژه‌های خورشیدی</h1>
-                    <p class="mb-6 text-lg md:text-xl">ما متقاضیان نصب پنل خورشیدی را به پیمانکاران معتبر در سراسر ایران
-                        وصل می‌کنیم، تسهیلات مالی فراهم می‌کنیم و از آغاز تا تحویل پروژه همراه شما هستیم.</p>
-                    <div class="flex flex-wrap gap-3">
-                        <!-- فرم لاگین -->
-                        <form id="login-form" method="POST" action="{{ route('otp.send') }}"
-                            class="flex flex-col sm:flex-row sm:items-center gap-2 bg-white p-3 rounded-lg shadow w-full">
-                            @csrf
-                            <input type="text" name="phone"
-                                class="w-full sm:flex-1 p-2 border rounded text-center sm:text-right" id="inputMobile"
-                                placeholder="شماره موبایل" required dir="ltr" inputmode="numeric" autofocus>
-                            <button type="submit" class="w-full sm:w-auto bg-gray-900 text-white px-4 py-2 rounded-lg">
-                                ورود
-                            </button>
-                        </form>
-                    </div>
-                    <!-- stats -->
-                    <div class="mt-8 grid grid-cols-3 gap-4 md:grid-cols-3">
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">ظرفیت نصب‌شده</div>
-                            <div class="text-2xl font-bold">۱۸ مگاوات</div>
+            <div class="flex-1">
+                <div class="rounded-xl overflow-hidden shadow-lg bg-white">
+                    <img src="{{ url('behin/slide1.png') }}" alt="پنل خورشیدی" class="w-full h-64 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-bold mb-2">آغاز پروژه در ۳ مرحله ساده</h3>
+                        <ol class="list-decimal pr-4 space-y-2 text-sm mb-6">
+                            <li>درخواست آنلاین ثبت کنید</li>
+                            <li>پیمانکار مناسب معرفی می‌شود</li>
+                            <li>تأمین مالی و اجرای پروژه</li>
+                        </ol>
+
+                        <!-- 🔹 بخش جدید: باکس‌های ثبت‌نام -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- باکس ثبت‌نام نصاب -->
+                            <a href="{{ route('installers.apply') }}"
+                                class="group block p-4 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100 transition-all duration-300 text-center shadow-sm hover:shadow-md">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="bg-amber-400 text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-solar-panel text-xl"></i>
+                                    </div>
+                                    <div class="font-bold text-gray-800">ثبت‌نام نصاب‌ها</div>
+                                    <div class="text-xs text-gray-600 mt-1">پیوستن به شبکه پیمانکاران خورشیدی</div>
+                                </div>
+                            </a>
+
+                            <!-- باکس ثبت‌نام اصناف -->
+                            <a href="{{ route('landing.sme-registration') }}"
+                                class="group block p-4 rounded-lg border border-yellow-300 bg-yellow-50 hover:bg-yellow-100 transition-all duration-300 text-center shadow-sm hover:shadow-md">
+                                <div class="flex flex-col items-center">
+                                    <div
+                                        class="bg-yellow-400 text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-store text-xl"></i>
+                                    </div>
+                                    <div class="font-bold text-gray-800">ثبت‌نام اصناف</div>
+                                    <div class="text-xs text-gray-600 mt-1">معرفی کسب‌وکار و دریافت پروژه</div>
+                                </div>
+                            </a>
                         </div>
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">پیمانکار در سراسر ایران</div>
-                            <div class="text-2xl font-bold">بله</div>
-                        </div>
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">پروژه‌های تکمیل‌شده</div>
-                            <div class="text-2xl font-bold">۴۸</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex-1">
-                    <div class="rounded-xl overflow-hidden shadow-lg bg-white">
-                        <img src="{{ url('behin/slide1.png') }}" alt="پنل خورشیدی" class="w-full h-64 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-bold mb-2">آغاز پروژه در ۳ مرحله ساده</h3>
-                            <ol class="list-decimal pr-4 space-y-2 text-sm">
-                                <li>درخواست آنلاین ثبت کنید</li>
-                                <li>پیمانکار مناسب معرفی می‌شود</li>
-                                <li>تأمین مالی و اجرای پروژه</li>
-                            </ol>
-                        </div>
+                        <!-- پایان باکس‌ها -->
                     </div>
                 </div>
             </div>
+
         </div>
     </header>
 
