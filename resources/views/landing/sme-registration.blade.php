@@ -71,6 +71,7 @@
                         <p class="text-sm text-gray-600 mb-6">لطفاً اطلاعات خود را وارد کنید؛ کارشناسان ما در اسرع وقت جهت هماهنگی
                             و عقد قرارداد با شما تماس خواهند گرفت.</p>
                         <form id="registration-form" class="space-y-4" method="POST" action="#">
+                            @csrf
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div class="space-y-2">
                                     <label class="block text-sm font-medium text-gray-700">نام</label>
