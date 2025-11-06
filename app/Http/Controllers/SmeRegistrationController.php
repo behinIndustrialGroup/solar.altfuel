@@ -33,6 +33,7 @@ class SmeRegistrationController extends Controller
         );
 
         $case = $inbox->case;
+        $case->saveVariable('use_type', 'صنفی');
         $case->saveVariable('user-firstname', $request->firstname);
         $case->saveVariable('user-lastname', $request->lastname);
         $case->saveVariable('user-mobile', $mobile);
