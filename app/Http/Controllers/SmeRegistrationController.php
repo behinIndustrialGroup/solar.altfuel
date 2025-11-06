@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreInstallerApplicationRequest;
 use App\Models\InstallerApplication;
+use BaleBot\Controllers\BotController;
 use Behin\SimpleWorkflow\Controllers\Core\ProcessController;
 use BehinUserRoles\Models\User;
 use Illuminate\Http\RedirectResponse;
@@ -41,6 +42,10 @@ class SmeRegistrationController extends Controller
         $case->saveVariable('user-union', $request->union);
         $case->saveVariable('powerhouse_place_info-province', $request->province);
         $case->saveVariable('user-description', $request->description);
+
+        BotController::send(
+            "درخواست شماره " . $case->number . "از طریق لینک اصناف ثبت شد"
+        );
 
         return redirect()
             ->route('landing.sme-registration')
