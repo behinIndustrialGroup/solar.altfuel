@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SmeRegistrationController;
 
 Route::get('', function(){
     if(Auth::check()){
@@ -23,7 +24,7 @@ Route::get('', function(){
     return redirect()->route('login');
 })->name('home');
 
-Route::view('landing/sme-registration', 'landing.sme-registration')->name('landing.sme-registration');
+Route::get('landing/sme-registration', [SmeRegistrationController::class, 'create'])->name('landing.sme-registration');
 
 Route::get('installers/apply', [InstallerRegistrationController::class, 'create'])->name('installers.apply');
 Route::post('installers/apply', [InstallerRegistrationController::class, 'store'])->name('installers.store');
