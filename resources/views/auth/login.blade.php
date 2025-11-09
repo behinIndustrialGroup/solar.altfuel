@@ -83,7 +83,7 @@
                                             class="bg-amber-400 text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform">
                                             <i class="fa-solid fa-solar-panel text-xl"></i>
                                         </div>
-                                        <div class="font-bold text-gray-800">ثبت‌نام نصاب‌ها</div>
+                                        <div class="font-bold text-gray-800">ثبت‌نام تیم فنی</div>
                                         <div class="text-xs text-gray-600 mt-1">پیوستن به شبکه پیمانکاران خورشیدی</div>
                                     </div>
                                 </a>
