@@ -46,7 +46,7 @@ class AllRequestsReportExport implements FromCollection, WithHeadings, WithMappi
         }
 
         return [
-            $row['case_number'] ?? null,
+            $row['number'] ?? null,
             $row['user_firstname'] ?? null,
             $row['user_lastname'] ?? null,
             $row['electricity_bill_id'] ?? null,
