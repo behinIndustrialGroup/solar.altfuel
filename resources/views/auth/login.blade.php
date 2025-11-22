@@ -3,162 +3,140 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" href="{{ url('behin/logo.ico') . '?' . config('app.version') }}">
     <title>سامانه جامع اطلاعات خورشیدی NSIS</title>
     <script src="{{ url('behin/behin-dist/dist/js/tailwind-3.4.17.min.js') }}"></script>
     <link href="{{ url('behin/behin-dist/css/css2.css') }}?family=Vazirmatn:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
         html, body { font-family: 'Vazirmatn', sans-serif; }
-        .container { max-width: 1200px; margin-inline: auto }
+        .container { max-width: 1250px; margin-inline: auto }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
-    <!-- Hero -->
-    <header class="bg-gradient-to-l from-yellow-400 via-yellow-300 to-amber-400 text-gray-900">
-        <div class="container px-6 py-12">
-            <div class="flex flex-col md:flex-row items-center gap-8">
-                <div class="flex-1">
-                    <h1 class="text-3xl md:text-4xl font-bold mb-3">سامانه جامع اطلاعات خورشیدی NSIS</h1>
-                    <p class="mb-6 text-lg md:text-xl">
-                        این سامانه زیر نظر اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته طراحی شده و مرجع رسمی اطلاعات، ثبت درخواست‌ها و مدیریت پروژه‌های خورشیدی در کشور است.
+
+    <!-- Hero Section -->
+    <header class="bg-gradient-to-br from-blue-600 via-purple-600 to-red-600 text-white py-20 shadow-lg">
+        <div class="container px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+                <!-- Text -->
+                <div>
+                    <h1 class="text-4xl md:text-5xl font-extrabold leading-snug mb-4">
+                        سامانه جامع اطلاعات خورشیدی NSIS
+                    </h1>
+                    <p class="text-lg md:text-xl opacity-90 mb-6">
+                        پلتفرم ملی اطلاعات و خدمات خورشیدی تحت نظارت اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته.
                     </p>
 
-                    <div class="flex flex-wrap gap-3">
-                        <!-- فرم لاگین -->
-                        <form id="login-form" method="POST" action="{{ route('otp.send') }}"
-                            class="flex flex-col sm:flex-row sm:items-center gap-2 bg-white p-3 rounded-lg shadow w-full">
-                            @csrf
-                            <input type="text" name="phone"
-                                class="w-full sm:flex-1 p-2 border rounded text-center sm:text-right"
-                                id="inputMobile" placeholder="شماره موبایل" required dir="ltr" inputmode="numeric" autofocus>
-                            <button type="submit" class="w-full sm:w-auto bg-gray-900 text-white px-4 py-2 rounded-lg">
-                                ورود
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- stats -->
-                    <div class="mt-8 grid grid-cols-3 gap-4 md:grid-cols-3">
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">ظرفیت ثبت‌شده</div>
-                            <div class="text-2xl font-bold">۱۹ مگاوات</div>
-                        </div>
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">پیمانکاران ثبت‌شده</div>
-                            <div class="text-2xl font-bold">سراسر کشور</div>
-                        </div>
-                        <div class="bg-white/70 p-4 rounded-lg text-center shadow">
-                            <div class="text-sm">پروژه‌های تکمیل‌شده</div>
-                            <div class="text-2xl font-bold">۵۶</div>
-                        </div>
-                    </div>
+                    <!-- Login Form -->
+                    <form method="POST" action="{{ route('otp.send') }}" class="bg-white text-gray-800 p-4 rounded-xl shadow-md flex flex-col sm:flex-row gap-3 w-full md:w-4/5">
+                        @csrf
+                        <input type="text" name="phone" placeholder="شماره موبایل"
+                            class="flex-1 p-2 rounded border text-center sm:text-right" dir="ltr" inputmode="numeric" required>
+                        <button class="bg-purple-600 text-white px-5 py-2 rounded-lg hover:bg-purple-700 transition">
+                            ورود
+                        </button>
+                    </form>
                 </div>
 
-                <div class="flex-1">
-                    <div class="rounded-xl overflow-hidden shadow-lg bg-white">
-                        <img src="{{ url('behin/slide1.png') }}" alt="پنل خورشیدی" class="w-full h-64 object-cover">
-                        <div class="p-4">
-                            <h3 class="font-bold mb-2">فعالیت‌ها در ۳ مرحله ساده</h3>
-                            <ol class="list-decimal pr-4 space-y-2 text-sm mb-6">
-                                <li>ثبت درخواست یا اطلاعات</li>
-                                <li>بررسی و معرفی پیمانکار یا مرجع مرتبط</li>
-                                <li>پیگیری، نظارت و تکمیل فرآیند</li>
-                            </ol>
-
-                            <!-- باکس‌های ثبت‌نام -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                <!-- باکس ثبت‌نام پیمانکار -->
-                                <a href="{{ route('installers.apply') }}"
-                                    class="group block p-4 rounded-lg border border-amber-300 bg-amber-50 hover:bg-amber-100 transition-all duration-300 text-center shadow-sm hover:shadow-md">
-                                    <div class="flex flex-col items-center">
-                                        <div class="bg-amber-400 text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform">
-                                            <i class="fa-solid fa-solar-panel text-xl"></i>
-                                        </div>
-                                        <div class="font-bold text-gray-800">ثبت‌نام پیمانکاران</div>
-                                        <div class="text-xs text-gray-600 mt-1">پیوستن به شبکه رسمی اتحادیه</div>
-                                    </div>
-                                </a>
-
-                                <!-- باکس ثبت‌نام کسب‌وکارها -->
-                                <a href="{{ route('landing.sme-registration') }}"
-                                    class="group block p-4 rounded-lg border border-yellow-300 bg-yellow-50 hover:bg-yellow-100 transition-all duration-300 text-center shadow-sm hover:shadow-md">
-                                    <div class="flex flex-col items-center">
-                                        <div class="bg-yellow-400 text-white p-2 rounded-full mb-2 group-hover:scale-110 transition-transform">
-                                            <i class="fa-solid fa-store text-xl"></i>
-                                        </div>
-                                        <div class="font-bold text-gray-800">ثبت‌نام اصناف</div>
-                                        <div class="text-xs text-gray-600 mt-1">دریافت خدمات و توسعه انرژی خورشیدی</div>
-                                    </div>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Illustration -->
+                <div class="flex justify-center">
+                    <img src="{{ url('behin/slide1.png') }}" class="rounded-2xl shadow-2xl w-full h-72 object-cover" alt="خورشیدی">
                 </div>
-
             </div>
         </div>
     </header>
 
-    <main class="container px-6 py-12">
-        <!-- Features -->
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">ویژگی‌های اصلی سامانه NSIS</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h4 class="font-semibold mb-2">بانک جامع اطلاعاتی</h4>
-                    <p class="text-sm">دسترسی به اطلاعات و آمار رسمی حوزه خورشیدی کشور.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h4 class="font-semibold mb-2">سامانه یکپارچه خدمات</h4>
-                    <p class="text-sm">ثبت، پیگیری و مدیریت درخواست‌های مردمی و صنفی.</p>
-                </div>
-                <div class="bg-white p-6 rounded-lg shadow">
-                    <h4 class="font-semibold mb-2">شبکه سراسری پیمانکاران</h4>
-                    <p class="text-sm">معرفی پیمانکاران تاییدشده توسط اتحادیه کشوری.</p>
-                </div>
-            </div>
-        </section>
 
-        <!-- How it works -->
-        <section id="how" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">نحوه کار</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="p-6 bg-gradient-to-tr from-white to-gray-50 rounded-lg shadow">
-                    <div class="text-xl font-bold mb-2">۱. ثبت</div>
-                    <p class="text-sm">کاربر یا پیمانکار درخواست یا اطلاعات خود را وارد می‌کند.</p>
-                </div>
-                <div class="p-6 bg-gradient-to-tr from-white to-gray-50 rounded-lg shadow">
-                    <div class="text-xl font-bold mb-2">۲. بررسی</div>
-                    <p class="text-sm">اتحادیه و کارشناسان مربوطه موضوع را ارزیابی می‌کنند.</p>
-                </div>
-                <div class="p-6 bg-gradient-to-tr from-white to-gray-50 rounded-lg shadow">
-                    <div class="text-xl font-bold mb-2">۳. اقدام</div>
-                    <p class="text-sm">معرفی پیمانکار، صدور مجوز، یا انجام فرآیند مرتبط.</p>
-                </div>
-            </div>
-        </section>
+    <!-- Features Section -->
+    <section class="container px-6 py-16">
+        <h2 class="text-3xl font-bold mb-10 text-gray-800 text-center">چرا NSIS؟</h2>
 
-    </main>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
-    <footer class="bg-gray-900 text-white py-8">
-        <div class="container px-6">
-            <div class="flex flex-col md:flex-row justify-between items-start gap-6">
-                <div>
-                    <h4 class="font-bold mb-2">سامانه جامع اطلاعات خورشیدی NSIS</h4>
-                    <p class="text-sm">مرجع رسمی اطلاعات و خدمات حوزه انرژی خورشیدی تحت نظارت اتحادیه کشوری سوخت‌های جایگزین.</p>
-                </div>
-                <div>
-                    <h5 class="font-semibold mb-2">تماس</h5>
-                    <p class="text-sm">تلفن: 02191307571</p>
-                </div>
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="font-bold text-lg mb-2">بانک اطلاعات خورشیدی</h3>
+                <p class="text-sm text-gray-600">مرجع رسمی داده‌ها، ظرفیت‌ها و اطلاعات پروژه‌های خورشیدی کشور.</p>
             </div>
 
-            <div class="text-sm text-gray-400 mt-6">
-                © تمامی حقوق برای اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته محفوظ است.
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="font-bold text-lg mb-2">سامانه خدمات یکپارچه</h3>
+                <p class="text-sm text-gray-600">ثبت و پیگیری هوشمند درخواست‌های مردمی، سازمانی و صنفی.</p>
+            </div>
+
+            <div class="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+                <h3 class="font-bold text-lg mb-2">شبکه ملی پیمانکاران</h3>
+                <p class="text-sm text-gray-600">اتصال مستقیم به پیمانکاران دارای تاییدیه اتحادیه.</p>
             </div>
         </div>
+    </section>
+
+
+    <!-- Process Section -->
+    <section class="bg-gray-100 py-16">
+        <div class="container px-6">
+            <h2 class="text-3xl font-bold mb-10 text-center">نحوه عملکرد سامانه</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <div class="text-3xl font-extrabold text-purple-600 mb-3">۱</div>
+                    <h4 class="font-bold mb-2">ثبت اطلاعات</h4>
+                    <p class="text-sm text-gray-600">کاربر، کسب‌وکار یا پیمانکار اطلاعات یا درخواست خود را وارد می‌کند.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <div class="text-3xl font-extrabold text-blue-600 mb-3">۲</div>
+                    <h4 class="font-bold mb-2">بررسی کارشناسی</h4>
+                    <p class="text-sm text-gray-600">اطلاعات توسط کارشناسان اتحادیه ارزیابی و پردازش می‌شود.</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl shadow text-center">
+                    <div class="text-3xl font-extrabold text-red-600 mb-3">۳</div>
+                    <h4 class="font-bold mb-2">اقدام و نتیجه</h4>
+                    <p class="text-sm text-gray-600">معرفی پیمانکار، ثبت نهایی، پیگیری یا انجام فرایند مرتبط.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Registration Boxes -->
+    <section class="container px-6 py-16">
+        <h2 class="text-2xl font-bold mb-8 text-gray-800">ثبت‌نام‌ها</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+            <a href="{{ route('installers.apply') }}" class="block p-6 rounded-xl border bg-blue-50 border-blue-200 shadow hover:shadow-lg transition group text-center">
+                <div class="text-blue-600 text-4xl mb-3 group-hover:scale-110 transition">🔧</div>
+                <div class="font-bold text-lg">ثبت‌نام پیمانکاران</div>
+                <p class="text-sm text-gray-600 mt-2">پیوستن به شبکه رسمی پیمانکاران خورشیدی کشور.</p>
+            </a>
+
+            <a href="{{ route('landing.sme-registration') }}" class="block p-6 rounded-xl border bg-purple-50 border-purple-200 shadow hover:shadow-lg transition group text-center">
+                <div class="text-purple-600 text-4xl mb-3 group-hover:scale-110 transition">🏪</div>
+                <div class="font-bold text-lg">ثبت‌نام اصناف</div>
+                <p class="text-sm text-gray-600 mt-2">استفاده از خدمات و زیرساخت انرژی خورشیدی.</p>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-10 mt-16">
+        <div class="container px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="font-bold text-lg mb-2">سامانه جامع اطلاعات خورشیدی NSIS</h3>
+                    <p class="text-sm opacity-80">سامانه رسمی اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-2">تماس</h4>
+                    <p class="text-sm opacity-80">تلفن: 02191307571</p>
+                </div>
+            </div>
+            <div class="text-center text-sm text-gray-400 mt-8">© تمامی حقوق متعلق به اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته است.</div>
+        </div>
     </footer>
+
 </body>
 </html>
