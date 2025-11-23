@@ -38,17 +38,13 @@
                     </form>
                 </div>
 
-                <!-- Illustration -->
-                <div class="flex justify-center">
-                    <img src="{{ url('behin/slide1.png') }}" class="rounded-2xl shadow-2xl w-full h-72 object-cover" alt="خورشیدی">
-                </div>
             </div>
         </div>
     </header>
 
 
     <!-- Features Section -->
-    <section class="container px-6 py-16">
+    {{-- <section class="container px-6 py-16">
         <h2 class="text-3xl font-bold mb-10 text-gray-800 text-center">چرا NSIS؟</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -68,11 +64,11 @@
                 <p class="text-sm text-gray-600">اتصال مستقیم به پیمانکاران دارای تاییدیه اتحادیه.</p>
             </div>
         </div>
-    </section>
+    </section> --}}
 
 
     <!-- Process Section -->
-    <section class="bg-gray-100 py-16">
+    {{-- <section class="bg-gray-100 py-16">
         <div class="container px-6">
             <h2 class="text-3xl font-bold mb-10 text-center">نحوه عملکرد سامانه</h2>
 
@@ -96,11 +92,11 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
 
     <!-- Registration Boxes -->
-    <section class="container px-6 py-16">
+    {{-- <section class="container px-6 py-16">
         <h2 class="text-2xl font-bold mb-8 text-gray-800">ثبت‌نام‌ها</h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -117,7 +113,7 @@
                 <p class="text-sm text-gray-600 mt-2">استفاده از خدمات و زیرساخت انرژی خورشیدی.</p>
             </a>
         </div>
-    </section>
+    </section> --}}
 
 
     <!-- Footer -->
@@ -131,7 +127,7 @@
 
                 <div>
                     <h4 class="font-semibold mb-2">تماس</h4>
-                    <p class="text-sm opacity-80">تلفن: 02191307571</p>
+                    <p class="text-sm opacity-80">تلفن: 02191013791</p>
                 </div>
             </div>
             <div class="text-center text-sm text-gray-400 mt-8">© تمامی حقوق متعلق به اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته است.</div>
