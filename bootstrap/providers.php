@@ -15,4 +15,5 @@ return [
     BaleBot\BaleBotProvider::class,
     Behin\Ami\AmiServiceProvider::class,
     UserNotifications\Providers\UserNotificationsServiceProvider::class,
+    SolarPlantRequests\SolarPlantRequestsServiceProvider::class,
 ];
