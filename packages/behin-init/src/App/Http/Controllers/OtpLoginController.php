@@ -36,7 +36,7 @@ class OtpLoginController extends Controller
         $user->save();
         $msg = view('SmsTempView::otp', compact('otp'));
         Log::info($msg);
-        SmsController::send($user->email, $msg);
+        SmsController::send($user->email, "test");
         
         return $this->view($user->email);
         return response()->json(['message' => 'کد ارسال شد.']);
