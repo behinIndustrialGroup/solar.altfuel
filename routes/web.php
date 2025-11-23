@@ -21,15 +21,8 @@ Route::get('', function(){
     if(Auth::check()){
         return redirect()->route('admin.dashboard');
     }
-    return redirect()->route('login');
+    return view('welcome');
 })->name('home');
-
-Route::get('landing/sme-registration', [SmeRegistrationController::class, 'create'])->name('landing.sme-registration');
-Route::post('landing/sme-registration', [SmeRegistrationController::class, 'store'])->name('landing.sme-registration');
-
-Route::get('installers/apply', [InstallerRegistrationController::class, 'create'])->name('installers.apply');
-Route::post('installers/apply', [InstallerRegistrationController::class, 'store'])->name('installers.store');
-
 
 require __DIR__.'/auth.php';
 require __DIR__.'/services.php';
