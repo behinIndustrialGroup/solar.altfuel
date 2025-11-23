@@ -34,9 +34,8 @@ class OtpLoginController extends Controller
         $otp = random_int(100000, 999999);
         $user->reset_password_code = $otp;
         $user->save();
-        $msg = view('SmsTempView::otp', compact('otp'));
-        Log::info($msg);
-        SmsController::send($user->email, "test");
+        $msg = (string) view('SmsTempView::otp', compact('otp'));
+        SmsController::send($user->email, $msg);
         
         return $this->view($user->email);
         return response()->json(['message' => 'کد ارسال شد.']);
