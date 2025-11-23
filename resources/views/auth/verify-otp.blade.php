@@ -68,21 +68,6 @@
                     </div>
                 </div>
 
-                <!-- Illustration -->
-                <div class="hidden md:block">
-                    <div class="rounded-2xl overflow-hidden shadow-2xl bg-white">
-                        <img src="{{ url('behin/slide1.png') }}" class="w-full h-70 object-cover" />
-                        <div class="p-5">
-                            <h3 class="font-bold mb-3">چرا NSIS؟</h3>
-                            <ul class="list-disc pr-6 text-sm text-gray-600 leading-6">
-                                <li>ثبت سریع و آنلاین درخواست‌ها</li>
-                                <li>شبکه رسمی پیمانکاران مورد تأیید اتحادیه</li>
-                                <li>نظارت کامل تا پایان اجرای پروژه</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </header>
@@ -121,7 +106,7 @@
                 </div>
                 <div>
                     <h5 class="font-semibold mb-2">تماس</h5>
-                    <p class="text-sm opacity-80">تلفن: 02191307571</p>
+                    <p class="text-sm opacity-80">تلفن: 02191017175</p>
                 </div>
             </div>
             <p class="text-center text-sm text-gray-400 mt-8">© تمامی حقوق متعلق به اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته.</p>
