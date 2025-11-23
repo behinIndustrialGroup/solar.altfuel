@@ -5,6 +5,7 @@ namespace Behin\Sms\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Log;
 use Melipayamak\MelipayamakApi;
+use Illuminate\Support\Facades\Http;
 
 class SmsController extends Controller
 {
@@ -13,77 +14,40 @@ class SmsController extends Controller
     private $pass;
     private $org;
 
-    public function __construct() {
-        
-    }
-    public static function send($to, $code)
+    public function __construct() {}
+    public static function send($to, $msg)
     {
-        $curl = curl_init();
-        $postFields = array(
-            "mobile" => $to,
-            "templateId" => 187709,
-            "parameters" => array([
-                "name" => "CODE",
-                "value" => $code
+        $url = 'https://payamsms.com/services/rest/index.php';
+        $data = array(
+            'organization' => env('SMS_ORG'),
+            'username' => env('SMS_USER'),
+            'password' => env('SMS_PASS'),
+            'method' => 'send',
+            'messages' => array([
+                'sender' => env('SMS_SENDER'),
+                'recipient' => $to,
+                'body' => $msg,
+                'customerId' => 1,
             ])
         );
-        $postFields = json_encode($postFields);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.sms.ir/v1/send/verify',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => $postFields,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Accept: text/plain',
-                'x-api-key: '.env('SMS_IR_API_KEY')
-            ),
-        ));
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($data));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type:application/json']);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-        $response = curl_exec($curl);
+        $response = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
 
-        curl_close($curl);
-        return json_decode($response);
+        if ($error) {
+            Log::error($error);
+            return false;
+        }
+        return true;
     }
-
-    public static function sendByTemp($to, $tempCode, array $parameter)
-    {
-        $curl = curl_init();
-        $postFields = array(
-            "mobile" => $to,
-            "templateId" => $tempCode,
-            "parameters" => $parameter
-        );
-        $postFields = json_encode($postFields);
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api.sms.ir/v1/send/verify',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => $postFields,
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Accept: text/plain',
-                'x-api-key: '.env('SMS_IR_API_KEY')
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        return json_decode($response);
-    }
-
 
 }
