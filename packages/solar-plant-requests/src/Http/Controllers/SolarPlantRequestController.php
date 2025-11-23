@@ -4,12 +4,13 @@ namespace SolarPlantRequests\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
 class SolarPlantRequestController
 {
-    public function index(Request $request): JsonResponse
+    public function index(Request $request): View|JsonResponse
     {
         $user = $request->user();
 
@@ -18,7 +19,13 @@ class SolarPlantRequestController
             ->latest()
             ->get();
 
-        return response()->json(['data' => $requests]);
+        if ($request->wantsJson()) {
+            return response()->json(['data' => $requests]);
+        }
+
+        return view('solar-plant-requests::index', [
+            'requests' => $requests,
+        ]);
     }
 
     public function store(Request $request): JsonResponse

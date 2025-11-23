@@ -19,5 +19,6 @@ class SolarPlantRequestsServiceProvider extends ServiceProvider
 
         $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
         $this->loadMigrationsFrom(__DIR__ . '/Database/Migrations');
+        $this->loadViewsFrom(__DIR__ . '/../resources/views', 'solar-plant-requests');
     }
 }
