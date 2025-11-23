@@ -35,6 +35,7 @@ class OtpLoginController extends Controller
         $user->reset_password_code = $otp;
         $user->save();
         $msg = view('SmsTempView::otp', compact('otp'));
+        Log::info($msg);
         SmsController::send($user->email, $msg);
         
         return $this->view($user->email);
