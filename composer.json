@@ -40,16 +40,13 @@
             "BehinFileControl\\": "packages/behin-file-control/src/",
             "BehinLogging\\": "packages/behin-logging/src/",
             "Behin\\Sms\\": "packages/behin-sms/src/",
-            "Behin\\SimpleWorkflow\\": "packages/behin-simple-workflow/src/",
-            "Behin\\SimpleWorkflowReport\\": "packages/behin-simple-workflow-report/src/",
             "MyFormBuilder\\": "packages/behin-form-builder/src/",
             "BaleBot\\": "packages/behin-bale-bot/src/",
             "Behin\\Ami\\": "packages/behin-ami/src/",
             "UserNotifications\\": "packages/user-notifications/src/"
         },
         "files": [
-            "packages/behin-init/src/App/Helpers/behin-helpers.php",
-            "packages/behin-simple-workflow/src/Helper/behin-simple-workflow.php"
+            "packages/behin-init/src/App/Helpers/behin-helpers.php"
         ]
     },
     "autoload-dev": {

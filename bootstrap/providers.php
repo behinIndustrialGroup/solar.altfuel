@@ -8,8 +8,6 @@ return [
     BehinInit\BehinInitProvider::class,
     BehinLogging\ServiceProvider::class,
     BehinUserRoles\UserRolesServiceProvider::class,
-    Behin\SimpleWorkflowReport\SimpleWorkflowReportProvider::class,
-    Behin\SimpleWorkflow\SimpleWorkflowProvider::class,
     Behin\Sms\SmsProvider::class,
     Maatwebsite\Excel\ExcelServiceProvider::class,
     MyFormBuilder\FormBuilderServiceProvider::class,
