@@ -59,15 +59,9 @@ $notificationsUrl = Route::has('notifications.index')
             </a>
         </li>
         <li class="nav-item mr-2">
-            <a href="{{ route('logout') }}" class="btn btn-sm btn-outline-danger " style="color: red !important" title="{{ __('خروج') }}">
+            <a href="{{ route('logout') }}" class="btn btn-sm btn-outline-danger notification-button" style="color: red !important" title="{{ __('خروج') }}">
                 <i class="material-icons" style="font-size: 20px;">logout</i>
                 <span class="sr-only">{{ __('خروج') }}</span>
-            </a>
-        </li>
-
-        <li class="mr-2">
-            <a href="tel:+982191307571" type="button" class="btn btn-sm btn-outline-dark" style="color: black !important">
-                پشتیبانی: 02191307571 <i class="material-icons" style="font-size: 13px">phone</i>
             </a>
         </li>
 
