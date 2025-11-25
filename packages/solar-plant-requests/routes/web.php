@@ -16,6 +16,6 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
 
     Route::prefix('contractor')->name('contractor.')->group(function(){
         Route::get('/', [ContractorSolarPlantRequestController::class, 'index'])->name('index');
-        Route::post('{solarPlantRequest}/assign-contractor', [ContractorSolarPlantRequestController::class, 'assignContractor'])->name('assign-contractor');
+        Route::get('{solarPlantRequest}/show', [ContractorSolarPlantRequestController::class, 'show'])->name('show');
     }); 
 });
