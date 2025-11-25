@@ -6,6 +6,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
+use SolarPlantRequests\Http\Controllers\Contractor\GetController;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
 class AllSolarPlantRequestController
@@ -18,12 +19,15 @@ class AllSolarPlantRequestController
             ->latest()
             ->get();
 
+        $contractors = GetController::getAll();
+
         if ($request->wantsJson()) {
             return response()->json(['data' => $requests]);
         }
 
         return view('solar-plant-requests::requests.all-requests', [
             'requests' => $requests,
+            'contractors' => $contractors,
         ]);
     }
 

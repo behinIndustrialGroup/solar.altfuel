@@ -35,10 +35,11 @@
                                                 action="{{ route('solar-plant-requests.assign-contractor', $requestItem) }}"
                                                 class="d-flex gap-2 flex-wrap justify-content-end">
                                                 @csrf
-                                                <input type="number" name="contractor_id" class="form-control form-control-sm"
-                                                    placeholder="شناسه پیمانکار" required>
-                                                <input type="text" name="contractor_name" class="form-control form-control-sm"
-                                                    placeholder="نام پیمانکار" required>
+                                                <select name="contractor_id" class="form-select form-select-sm select2">
+                                                    @foreach ($contractors as $contractor)
+                                                        <option value="{{ $contractor->id }}">{{ $contractor->name }}</option>
+                                                    @endforeach
+                                                </select>
                                                 <button class="btn btn-primary btn-sm" type="submit">تخصیص پیمانکار</button>
                                             </form>
                                         </td>
