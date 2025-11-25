@@ -21,7 +21,7 @@ Route::get('', function(){
     if(Auth::check()){
         return redirect()->route('admin.dashboard');
     }
-    return view('welcome');
+    return view('auth.login');
 })->name('home');
 
 require __DIR__.'/auth.php';
