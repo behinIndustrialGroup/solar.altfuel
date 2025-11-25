@@ -39,6 +39,6 @@ Route::prefix('/user')->middleware(['web', 'auth',Access::class])->group(functio
 
 });
 
-Route::resource('users', UserController::class)->middleware(['web', 'auth',Access::class]);
+Route::resource('users', UserController::class)->middleware(['web', 'auth','access:کاربران']);
 
 Route::resource('department', DepartmentController::class)->middleware(['web', 'auth',Access::class]);
