@@ -22,7 +22,7 @@ Route::name('method.')->prefix('method')->middleware(['web', 'auth',Access::clas
     Route::post('edit', [GetMethodsController::class, 'edit'])->name('edit');
 });
 
-Route::prefix('/user')->middleware(['web', 'auth',Access::class])->group(function () {
+Route::prefix('/user')->middleware(['web', 'auth','access:کاربران'])->group(function () {
     Route::get('/{id}', [UserController::class, 'index'])->name('user.all');
     Route::post('/{id}', [UserController::class, 'AccessReg']);
     Route::put('/{id}/update', [UserController::class, 'update'])->name('user.update');
