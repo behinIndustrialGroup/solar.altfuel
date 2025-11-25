@@ -23,7 +23,7 @@ class SolarPlantRequestController
             return response()->json(['data' => $requests]);
         }
 
-        return view('solar-plant-requests::index', [
+        return view('solar-plant-requests::requests.index', [
             'requests' => $requests,
         ]);
     }

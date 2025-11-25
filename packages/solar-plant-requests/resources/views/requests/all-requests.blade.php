@@ -1,0 +1,58 @@
+@extends('behin-layouts.app')
+
+@section('content')
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">لیست درخواست‌ها</h5>
+                    </div>
+                    <div class="card-body table-responsive">
+                        <table class="table table-striped align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>درخواست دهنده</th>
+                                    <th>شماره همراه</th>
+                                    <th>وضعیت</th>
+                                    <th>پیمانکار</th>
+                                    <th>آدرس</th>
+                                    <th class="text-end">اقدامات</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($requests as $requestItem)
+                                    <tr>
+                                        <td>{{ $requestItem->id }}</td>
+                                        <td>{{ $requestItem->first_name }} {{ $requestItem->last_name }}</td>
+                                        <td>{{ $requestItem->mobile }}</td>
+                                        <td>{{ $requestItem->status_label }}</td>
+                                        <td>{{ $requestItem->contractor_name ?? '---' }}</td>
+                                        <td>{{ $requestItem->address }}</td>
+                                        <td>
+                                            <form method="POST"
+                                                action="{{ route('solar-plant-requests.assign-contractor', $requestItem) }}"
+                                                class="d-flex gap-2 flex-wrap justify-content-end">
+                                                @csrf
+                                                <input type="number" name="contractor_id" class="form-control form-control-sm"
+                                                    placeholder="شناسه پیمانکار" required>
+                                                <input type="text" name="contractor_name" class="form-control form-control-sm"
+                                                    placeholder="نام پیمانکار" required>
+                                                <button class="btn btn-primary btn-sm" type="submit">تخصیص پیمانکار</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="7" class="text-center">درخواستی ثبت نشده است.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
