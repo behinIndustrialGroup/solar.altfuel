@@ -7,7 +7,7 @@ use BehinUserRoles\Controllers\GetMethodsController;
 use BehinUserRoles\Controllers\GetRoleController;
 use BehinUserRoles\Controllers\UserController;
 
-Route::name('role.')->prefix('role')->middleware(['web', 'auth'])->group(function(){
+Route::name('role.')->prefix('role')->middleware(['web', 'auth', 'access:نقش ها'])->group(function(){
     Route::get('list-form', [GetRoleController::class, 'listForm'])->name('listForm');
     Route::get('list', [GetRoleController::class, 'list'])->name('list');
     Route::get('show/{id}', [GetRoleController::class, 'show'])->name('show');
