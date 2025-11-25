@@ -18,7 +18,7 @@
                     @endif
 
                     <div class="card-header">
-                        <h5 class="mb-0">لیست درخواست‌ها</h5>
+                        <h5 class="mb-0">جزئیات درخواست</h5>
                     </div>
                     <div class="card-body table-responsive">
                         
