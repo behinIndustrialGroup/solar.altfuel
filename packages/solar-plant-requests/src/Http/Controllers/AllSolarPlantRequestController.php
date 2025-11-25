@@ -16,6 +16,7 @@ class AllSolarPlantRequestController
         $user = $request->user();
 
         $requests = SolarPlantRequest::query()
+            ->whereNull('contractor_id')
             ->latest()
             ->get();
 
