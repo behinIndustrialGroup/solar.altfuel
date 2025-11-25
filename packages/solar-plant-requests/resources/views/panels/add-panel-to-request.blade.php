@@ -15,7 +15,7 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label">سازنده / واردکننده</label>
-                    <select name="manufacturer_user_id" class="form-select" required>
+                    <select name="manufacturer_user_id" class="form-select select2" required>
                         <option value="" disabled {{ old('manufacturer_user_id') ? '' : 'selected' }}>انتخاب کنید</option>
                         @foreach($manufacturers as $manufacturer)
                             <option value="{{ $manufacturer->id }}" @selected(old('manufacturer_user_id') == $manufacturer->id)>
@@ -38,18 +38,6 @@
                     <label class="form-label">سال انقضا</label>
                     <input type="number" name="expiration_year" class="form-control" value="{{ old('expiration_year') }}" required>
                     @error('expiration_year')
-                        <div class="text-danger small">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">وضعیت</label>
-                    <select name="status" class="form-select" required>
-                        <option value="" disabled {{ old('status') ? '' : 'selected' }}>انتخاب کنید</option>
-                        @foreach($panelStatuses as $value => $label)
-                            <option value="{{ $value }}" @selected(old('status') === $value)>{{ $label }}</option>
-                        @endforeach
-                    </select>
-                    @error('status')
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>

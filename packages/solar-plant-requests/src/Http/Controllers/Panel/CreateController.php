@@ -17,11 +17,11 @@ class CreateController
             'manufacturer_user_id' => ['required', 'exists:users,id'],
             'production_year' => ['required', 'integer', 'digits:4', 'min:1300'],
             'expiration_year' => ['required', 'integer', 'digits:4', 'gte:production_year'],
-            'status' => ['required', Rule::in(collect(PanelStatus::cases())->map->value->all())],
         ]);
 
         Panel::query()->create([
             ...$validated,
+            'status' => PanelStatus::RESERVED,
             'solar_plant_request_id' => $solarPlantRequest->id,
         ]);
 
