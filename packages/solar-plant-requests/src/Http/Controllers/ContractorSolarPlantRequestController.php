@@ -5,10 +5,8 @@ namespace SolarPlantRequests\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
-use SolarPlantRequests\Enums\SolarPlantRequestStatus;
-use SolarPlantRequests\Http\Controllers\Contractor\GetController;
 use SolarPlantRequests\Http\Controllers\PanelManufacturer\GetController as PanelManufacturerGetController;
-use SolarPlantRequests\Enums\PanelStatus;
+use SolarPlantRequests\Http\Controllers\InverterManufacturer\GetController as InverterManufacturerGetController;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
 class ContractorSolarPlantRequestController
@@ -37,6 +35,7 @@ class ContractorSolarPlantRequestController
         return view('solar-plant-requests::requests.contractor-show-request', [
             'solarPlantRequest' => $solarPlantRequest,
             'manufacturers' => PanelManufacturerGetController::getAll(),
+            'inverterManufacturers' => InverterManufacturerGetController::getAll(),
         ]);
     }
 }

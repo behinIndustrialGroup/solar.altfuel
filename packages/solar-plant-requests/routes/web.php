@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use SolarPlantRequests\Http\Controllers\AllSolarPlantRequestController;
 use SolarPlantRequests\Http\Controllers\ContractorSolarPlantRequestController;
 use SolarPlantRequests\Http\Controllers\Panel\CreateController;
+use SolarPlantRequests\Http\Controllers\Inverter\CreateController as InverterCreateController;
 use SolarPlantRequests\Http\Controllers\SolarPlantRequestController;
 
 Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-plant-requests.')->group(function () {
@@ -22,5 +23,9 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
 
     Route::prefix('panel')->name('panel.')->group(function(){
         Route::post('{solarPlantRequest}/store', [CreateController::class, 'addPanelToRequest'])->name('store');
-    }); 
+    });
+
+    Route::prefix('inverter')->name('inverter.')->group(function(){
+        Route::post('{solarPlantRequest}/store', [InverterCreateController::class, 'addInverterToRequest'])->name('store');
+    });
 });
