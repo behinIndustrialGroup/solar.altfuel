@@ -15,7 +15,7 @@ class SolarPlantRequestController
         $user = $request->user();
 
         $requests = SolarPlantRequest::query()
-            ->visibleTo($user)
+            ->where('user_id', $user->id)
             ->latest()
             ->get();
 
