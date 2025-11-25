@@ -31,49 +31,20 @@ class AllSolarPlantRequestController
         ]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function assignContractor(Request $request, SolarPlantRequest $solarPlantRequest)
     {
-        $validated = $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'mobile' => ['required', 'string', 'max:20'],
-            'national_code' => ['required', 'string', 'max:20'],
-            'postal_code' => ['required', 'string', 'max:20'],
-            'address' => ['required', 'string'],
-            'bill_identifier' => ['nullable', 'string', 'max:255'],
-            'area' => ['nullable', 'integer', 'min:0'],
-        ]);
-
-        $solarPlantRequest = SolarPlantRequest::create([
-            ...$validated,
-            'user_id' => $request->user()->id,
-            'status' => SolarPlantRequestStatus::UNDER_REVIEW,
-        ]);
-
-        return $this->index($request);
-    }
-
-    public function assignContractor(Request $request, SolarPlantRequest $solarPlantRequest): JsonResponse
-    {
-        abort_unless(
-            SolarPlantRequest::userHasRole($request->user(), 'leader'),
-            403,
-            'فقط کاربر دارای نقش راهبر می‌تواند پیمانکار تخصیص دهد.'
-        );
-
         $validated = $request->validate([
             'contractor_id' => ['required', 'integer', 'exists:users,id'],
-            'contractor_name' => ['required', 'string', 'max:255'],
         ]);
 
         $solarPlantRequest->fill([
             'contractor_id' => $validated['contractor_id'],
-            'contractor_name' => $validated['contractor_name'],
+            'contractor_name' => GetController::getById($validated['contractor_id'])->name,
             'status' => SolarPlantRequestStatus::EQUIPMENT_INSTALLATION,
         ]);
 
         $solarPlantRequest->save();
 
-        return response()->json($solarPlantRequest->fresh());
+        return redirect()->route('solar-plant-requests.all-requests.index')->with('success', 'پیمانکار تخصیص شد.');
     }
 }

@@ -15,4 +15,12 @@ class GetController
         ->where('role_id', 5)
         ->get();
     }
+
+    public static function getById($id)
+    {
+        return User::query()
+        ->where('role_id', 5)
+        ->where('id', $id)
+        ->first();
+    }
 }

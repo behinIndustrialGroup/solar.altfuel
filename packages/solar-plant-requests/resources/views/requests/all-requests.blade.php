@@ -5,6 +5,18 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    @if (session()->has('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if (session()->has('error'))
+                        <div class="alert alert-danger">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     <div class="card-header">
                         <h5 class="mb-0">لیست درخواست‌ها</h5>
                     </div>
@@ -32,7 +44,7 @@
                                         <td>{{ $requestItem->address }}</td>
                                         <td>
                                             <form method="POST"
-                                                action="{{ route('solar-plant-requests.assign-contractor', $requestItem) }}"
+                                                action="{{ route('solar-plant-requests.all-requests.assign-contractor', $requestItem) }}"
                                                 class="d-flex gap-2 flex-wrap justify-content-end">
                                                 @csrf
                                                 <select name="contractor_id" class="form-select form-select-sm select2">
