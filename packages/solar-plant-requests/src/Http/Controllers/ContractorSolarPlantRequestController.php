@@ -30,20 +30,10 @@ class ContractorSolarPlantRequestController
         ]);
     }
 
-    public function assignContractor(Request $request, SolarPlantRequest $solarPlantRequest)
+    public function show(Request $request, SolarPlantRequest $solarPlantRequest): View|JsonResponse
     {
-        $validated = $request->validate([
-            'contractor_id' => ['required', 'integer', 'exists:users,id'],
+        return view('solar-plant-requests::requests.contractor-show-request', [
+            'solarPlantRequest' => $solarPlantRequest,
         ]);
-
-        $solarPlantRequest->fill([
-            'contractor_id' => $validated['contractor_id'],
-            'contractor_name' => GetController::getById($validated['contractor_id'])->name,
-            'status' => SolarPlantRequestStatus::EQUIPMENT_INSTALLATION,
-        ]);
-
-        $solarPlantRequest->save();
-
-        return redirect()->route('solar-plant-requests.all-requests.index')->with('success', 'پیمانکار تخصیص شد.');
     }
 }
