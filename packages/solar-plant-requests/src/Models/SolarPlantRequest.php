@@ -6,7 +6,9 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
+use SolarPlantRequests\Models\Panel;
 
 class SolarPlantRequest extends Model
 {
@@ -46,6 +48,11 @@ class SolarPlantRequest extends Model
     public function inspector(): BelongsTo
     {
         return $this->belongsTo(User::class, 'inspector_user_id');
+    }
+
+    public function panels(): HasMany
+    {
+        return $this->hasMany(Panel::class, 'solar_plant_request_id');
     }
 
     public function scopeVisibleTo(Builder $query, User $user): Builder

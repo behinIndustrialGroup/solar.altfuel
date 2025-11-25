@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Http\Controllers\Contractor\GetController;
+use SolarPlantRequests\Http\Controllers\Panel\GetController as PanelGetController;
+use SolarPlantRequests\Enums\PanelStatus;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
 class ContractorSolarPlantRequestController
@@ -34,6 +36,8 @@ class ContractorSolarPlantRequestController
     {
         return view('solar-plant-requests::requests.contractor-show-request', [
             'solarPlantRequest' => $solarPlantRequest,
+            'panelStatuses' => PanelStatus::labels(),
+            'manufacturers' => PanelGetController::getAll(),
         ]);
     }
 }
