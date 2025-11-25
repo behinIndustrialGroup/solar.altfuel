@@ -13,7 +13,7 @@ class GetRoleController extends Controller
 {
     public static function hasNotAccess(){
         
-        return true;
+        return false;
     }
     function listForm() {
         if(self::hasNotAccess()){
