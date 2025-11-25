@@ -8,7 +8,7 @@ use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
-class SolarPlantRequestController
+class AllSolarPlantRequestController
 {
     public function index(Request $request): View|JsonResponse
     {
