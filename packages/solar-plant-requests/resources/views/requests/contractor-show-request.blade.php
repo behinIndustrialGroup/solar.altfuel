@@ -44,11 +44,11 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">شناسه قبض</label>
-                                <input type="text" name="bill_identifier" value="{{ $solarPlantRequest->bill_identifier }}" class="form-control" maxlength="255">
+                                <input type="text" name="bill_identifier" value="{{ $solarPlantRequest->bill_identifier }}" class="form-control" readonly maxlength="255">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label">متراژ (متر مربع)</label>
-                                <input type="number" name="area" value="{{ $solarPlantRequest->area }}" class="form-control" min="0">
+                                <input type="number" name="area" value="{{ $solarPlantRequest->area }}" class="form-control" readonly min="0">
                             </div>
                             <div class="col-12">
                                 <label class="form-label">آدرس</label>
