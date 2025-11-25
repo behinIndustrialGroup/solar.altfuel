@@ -12,10 +12,7 @@ use BehinUserRoles\Models\Role;
 class GetRoleController extends Controller
 {
     public static function hasNotAccess(){
-        $access = new AccessController('User Roles');
-        if($access->check()){
-            return false;
-        }
+        
         return true;
     }
     function listForm() {
