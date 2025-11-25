@@ -70,7 +70,6 @@
                                     <th>وضعیت</th>
                                     <th>پیمانکار</th>
                                     <th>آدرس</th>
-                                    <th class="text-end">اقدامات</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,18 +81,6 @@
                                         <td>{{ $requestItem->status_label }}</td>
                                         <td>{{ $requestItem->contractor_name ?? '---' }}</td>
                                         <td>{{ $requestItem->address }}</td>
-                                        <td>
-                                            <form method="POST"
-                                                action="{{ route('solar-plant-requests.assign-contractor', $requestItem) }}"
-                                                class="d-flex gap-2 flex-wrap justify-content-end">
-                                                @csrf
-                                                <input type="number" name="contractor_id" class="form-control form-control-sm"
-                                                    placeholder="شناسه پیمانکار" required>
-                                                <input type="text" name="contractor_name" class="form-control form-control-sm"
-                                                    placeholder="نام پیمانکار" required>
-                                                <button class="btn btn-primary btn-sm" type="submit">تخصیص پیمانکار</button>
-                                            </form>
-                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
