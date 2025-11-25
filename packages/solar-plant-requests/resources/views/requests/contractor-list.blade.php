@@ -43,17 +43,7 @@
                                         <td>{{ $requestItem->contractor_name ?? '---' }}</td>
                                         <td>{{ $requestItem->address }}</td>
                                         <td>
-                                            <form method="POST"
-                                                action="{{ route('solar-plant-requests.all-requests.assign-contractor', $requestItem) }}"
-                                                class="d-flex gap-2 flex-wrap justify-content-end">
-                                                @csrf
-                                                <select name="contractor_id" class="form-select form-select-sm select2">
-                                                    @foreach ($contractors as $contractor)
-                                                        <option value="{{ $contractor->id }}">{{ $contractor->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                <button class="btn btn-primary btn-sm" type="submit">تخصیص پیمانکار</button>
-                                            </form>
+                                            
                                         </td>
                                     </tr>
                                 @empty
