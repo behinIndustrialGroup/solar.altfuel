@@ -28,7 +28,7 @@ class SolarPlantRequestController
         ]);
     }
 
-    public function store(Request $request): JsonResponse
+    public function store(Request $request): View|JsonResponse
     {
         $validated = $request->validate([
             'first_name' => ['required', 'string', 'max:255'],
