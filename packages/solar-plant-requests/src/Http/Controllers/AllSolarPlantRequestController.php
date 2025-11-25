@@ -34,7 +34,6 @@ class AllSolarPlantRequestController
 
     public function assignContractor(Request $request, SolarPlantRequest $solarPlantRequest)
     {
-        dd($solarPlantRequest);
         $validated = $request->validate([
             'contractor_id' => ['required', 'integer', 'exists:users,id'],
         ]);
