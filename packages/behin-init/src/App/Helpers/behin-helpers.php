@@ -1,6 +1,9 @@
 <?php
 
 use BehinInit\App\Http\Controllers\AccessController;
+use Illuminate\Support\Carbon;
+use Morilog\Jalali\Jalalian;
+
 
 if (!function_exists('access')) {
     function access($method_name) {
@@ -24,5 +27,24 @@ if (!function_exists('convertPersianToEnglish')) {
         ];
 
         return strtr($string, $map);
+    }
+}
+
+if(!function_exists('toJalali')){
+    function toJalali($date){
+        try{
+            if (is_string($date)) {
+                $date = Carbon::parse($date);
+            }
+            if (is_int($date)) {
+                $date = Carbon::createFromTimestamp($date, 'Asia/Tehran');
+            }
+            // Log::info("function toJalali Used By user". Auth::user()->name);
+            $jDate = Jalalian::fromCarbon($date);
+            return $jDate;
+        }catch(Exception $e){
+            return $date;
+        }
+        
     }
 }
