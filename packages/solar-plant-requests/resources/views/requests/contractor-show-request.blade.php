@@ -95,6 +95,39 @@
                 @endif
 
                 @include('solar-plant-requests::panels.add-panel-to-request')
+                @if ($solarPlantRequest->inverters->count())
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">اینورترهای ثبت شده</h5>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>سریال</th>
+                                        <th>سازنده / واردکننده</th>
+                                        <th>سال تولید</th>
+                                        <th>سال انقضا</th>
+                                        <th>وضعیت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($solarPlantRequest->inverters as $inverter)
+                                        <tr>
+                                            <td>{{ $inverter->serial }}</td>
+                                            <td>{{ $inverter->manufacturer?->name ?? $inverter->manufacturer?->email }}</td>
+                                            <td>{{ $inverter->production_year }}</td>
+                                            <td>{{ $inverter->expiration_year }}</td>
+                                            <td>{{ $inverter->status?->label() }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                @endif
+
+                @include('solar-plant-requests::inverters.add-inverter-to-request')
             </div>
         </div>
     </div>

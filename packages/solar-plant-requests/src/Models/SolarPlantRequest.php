@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Models\Panel;
+use SolarPlantRequests\Models\Inverter;
 
 class SolarPlantRequest extends Model
 {
@@ -53,6 +54,11 @@ class SolarPlantRequest extends Model
     public function panels(): HasMany
     {
         return $this->hasMany(Panel::class, 'solar_plant_request_id');
+    }
+
+    public function inverters(): HasMany
+    {
+        return $this->hasMany(Inverter::class, 'solar_plant_request_id');
     }
 
     public function scopeVisibleTo(Builder $query, User $user): Builder
