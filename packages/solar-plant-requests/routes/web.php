@@ -10,6 +10,6 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
 
     Route::prefix('all-requests')->name('all-requests.')->group(function(){
         Route::get('/', [AllSolarPlantRequestController::class, 'index'])->name('index');
-        Route::post('{solarPlantRequest}/assign-contractor', [SolarPlantRequestController::class, 'assignContractor'])->name('assign-contractor');
+        Route::post('{solarPlantRequest}/assign-contractor', [AllSolarPlantRequestController::class, 'assignContractor'])->name('assign-contractor');
     }); 
 });
