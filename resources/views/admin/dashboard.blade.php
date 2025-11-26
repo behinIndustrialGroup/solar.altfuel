@@ -73,30 +73,62 @@
                         </a>
                     </div>
                 </div>
+            @endauth
+            @if (auth()->user()->role_id == 7)
+                    <div class="col-sm-3 ">
+                        <!-- small box -->
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h6>{{ trans('اینورتر') }}</h6>
 
-                <div class="col-sm-3">
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h6>{{ trans('اینورتر') }}</h6>
-                            <p>{{ trans('لیست اینورترها') }}</p>
+                                <p>{{ trans('افزودن اینورتر جدید') }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="{{ route('solar-plant-requests.inverter.create') }}"
+                                class="small-box-footer">{{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i></a>
                         </div>
-                        <div class="icon">
-                            <i class="ion ion-bolt"></i>
-                        </div>
-                        <a href="{{ route('solar-plant-requests.inverter.my-inverters') }}" class="small-box-footer">
-                            {{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i>
-                        </a>
                     </div>
-                </div>
-
-                <div class="col-sm-3">
-                    <div class="small-box bg-warning">
+                    <div class="col-sm-3">
+                        <div class="small-box bg-primary">
+                            <div class="inner">
+                                <h6>{{ trans('اینورتر') }}</h6>
+                                <p>{{ trans('لیست اینورترها') }}</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-bag"></i>
+                            </div>
+                            <a href="{{ route('solar-plant-requests.inverter.my-inverters') }}" class="small-box-footer">
+                                {{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i>
+                            </a>
+                        </div>
+                    </div>
+            @endauth
+            @if (auth()->user()->role_id == 8)
+                <div class="col-sm-3 ">
+                    <!-- small box -->
+                    <div class="small-box bg-primary">
                         <div class="inner">
                             <h6>{{ trans('باتری') }}</h6>
-                            <p>{{ trans('لیست باتری‌ها') }}</p>
+
+                            <p>{{ trans('افزودن باتری جدید') }}</p>
                         </div>
                         <div class="icon">
-                            <i class="ion ion-battery-charging"></i>
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="{{ route('solar-plant-requests.battery.create') }}"
+                            class="small-box-footer">{{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i></a>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h6>{{ trans('باتری') }}</h6>
+                            <p>{{ trans('لیست باتریها') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
                         </div>
                         <a href="{{ route('solar-plant-requests.battery.my-batteries') }}" class="small-box-footer">
                             {{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i>
