@@ -1,5 +1,7 @@
 @extends('behin-layouts.app')
-
+@php
+use SolarPlantRequests\Enums\SolarPlantRequestStatus;
+@endphp
 @section('content')
     <div class="container">
         <div class="row">
