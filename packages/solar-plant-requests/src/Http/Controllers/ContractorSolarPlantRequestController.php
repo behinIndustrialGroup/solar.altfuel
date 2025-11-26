@@ -46,12 +46,6 @@ class ContractorSolarPlantRequestController
     public function sendToInspection(Request $request, SolarPlantRequest $solarPlantRequest): RedirectResponse|JsonResponse
     {
         abort_unless(
-            SolarPlantRequest::userHasRole($request->user(), 'contractor'),
-            403,
-            'فقط پیمانکار می‌تواند درخواست را برای بازرسی ارسال کند.'
-        );
-
-        abort_unless(
             $solarPlantRequest->contractor_id === $request->user()->id,
             403,
             'شما به این درخواست دسترسی ندارید.'
