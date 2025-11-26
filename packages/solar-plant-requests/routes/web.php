@@ -20,7 +20,8 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
     Route::prefix('contractor')->name('contractor.')->group(function(){
         Route::get('/', [ContractorSolarPlantRequestController::class, 'index'])->name('index');
         Route::get('{solarPlantRequest}/show', [ContractorSolarPlantRequestController::class, 'show'])->name('show');
-    }); 
+        Route::post('{solarPlantRequest}/send-to-inspection', [ContractorSolarPlantRequestController::class, 'sendToInspection'])->name('send-to-inspection');
+    });
 
     Route::prefix('panel')->name('panel.')->group(function(){
         Route::post('{solarPlantRequest}/store', [CreateController::class, 'addPanelToRequest'])->name('store');

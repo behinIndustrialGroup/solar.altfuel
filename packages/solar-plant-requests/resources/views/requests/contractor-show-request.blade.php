@@ -1,4 +1,7 @@
 @extends('behin-layouts.app')
+@php
+    use SolarPlantRequests\Enums\SolarPlantRequestStatus;
+@endphp
 
 @section('content')
     <div class="container">
@@ -163,5 +166,17 @@
                 @include('solar-plant-requests::inverters.add-inverter-to-request')
             </div>
         </div>
+
+        @if ($solarPlantRequest->status !== SolarPlantRequestStatus::INSPECTION)
+            <div class="row mt-4">
+                <div class="col-12">
+                    <form method="POST"
+                        action="{{ route('solar-plant-requests.contractor.send-to-inspection', $solarPlantRequest) }}">
+                        @csrf
+                        <button class="btn btn-primary w-100" type="submit">ارسال جهت بازرسی</button>
+                    </form>
+                </div>
+            </div>
+        @endif
     </div>
 @endsection
