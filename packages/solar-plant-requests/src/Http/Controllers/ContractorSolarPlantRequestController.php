@@ -20,6 +20,9 @@ class ContractorSolarPlantRequestController
 
         $requests = SolarPlantRequest::query()
             ->where('contractor_id', $user->id)
+            ->whereIn('status', [
+                SolarPlantRequestStatus::EQUIPMENT_INSTALLATION,
+            ])
             ->latest()
             ->get();
 
