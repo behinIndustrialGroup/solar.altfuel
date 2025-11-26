@@ -41,6 +41,23 @@
                     </div>
                 </div>
             @endauth
+            @if (auth()->user()->role_id == 6)
+                <div class="col-sm-3 ">
+                    <!-- small box -->
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h6>{{ trans('پنل') }}</h6>
+
+                            <p>{{ trans('افزودن پنل جدید') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="{{ route('solar-plant-requests.panel.create') }}"
+                            class="small-box-footer">{{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i></a>
+                    </div>
+                </div>
+            @endauth
         </div>
     </div>
 @endsection
