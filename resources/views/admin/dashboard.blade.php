@@ -12,7 +12,7 @@
                     <!-- small box -->
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>{{ trans('احداث نیروگاه') }}</h3>
+                            <h6>{{ trans('احداث نیروگاه') }}</h6>
 
                             <p>{{ trans('ثبت درخواست جدید') }}</p>
                         </div>
@@ -29,7 +29,7 @@
                     <!-- small box -->
                     <div class="small-box bg-primary">
                         <div class="inner">
-                            <h3>{{ trans('درخواست ها') }}</h3>
+                            <h6>{{ trans('درخواست ها') }}</h6>
 
                             <p>{{ trans('در مرحله نصب تجهیزات') }}</p>
                         </div>
