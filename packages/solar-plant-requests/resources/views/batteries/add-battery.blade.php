@@ -14,7 +14,7 @@
     </div>
 @endif
 
-<form action="{{ route('battery.store') }}" method="POST" class="form-horizontal">
+<form action="{{ route('solar-plant-requests.battery.store') }}" method="POST" class="form-horizontal">
     @csrf
     
     <div class="form-group row mb-3">
