@@ -43,6 +43,7 @@
                                         <td>{{ $requestItem->contractor_name ?? '---' }}</td>
                                         <td>{{ $requestItem->address }}</td>
                                         <td>
+                                        @if($requestItem->status == SolarPlantRequestStatus::UNDER_REVIEW)
                                             <form method="POST"
                                                 action="{{ route('solar-plant-requests.all-requests.assign-contractor', $requestItem) }}"
                                                 class="d-flex gap-2 flex-wrap justify-content-end">
@@ -54,6 +55,11 @@
                                                 </select>
                                                 <button class="btn btn-primary btn-sm" type="submit">تخصیص پیمانکار</button>
                                             </form>
+                                        @endif
+                                        @if($requestItem->status == SolarPlantRequestStatus::INSPECTION)
+
+                                        @endif
+
                                         </td>
                                     </tr>
                                 @empty
