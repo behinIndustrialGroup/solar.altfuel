@@ -162,12 +162,10 @@
                         </div>
                     </div>
                 @endif
-
-                @include('solar-plant-requests::inverters.add-inverter-to-request')
             </div>
         </div>
 
-        @if ($solarPlantRequest->status == SolarPlantRequestStatus::EQUIPMENT_INSTALLATION)
+        @if (!$readOnly)
             <div class="row mt-4">
                 <div class="col-12">
                     <form method="POST"

@@ -40,6 +40,7 @@ class ContractorSolarPlantRequestController
     {
         return view('solar-plant-requests::requests.contractor-show-request', [
             'solarPlantRequest' => $solarPlantRequest,
+            'readOnly' => $solarPlantRequest->status == SolarPlantRequestStatus::EQUIPMENT_INSTALLATION ? false : true,
             'manufacturers' => PanelManufacturerGetController::getAll(),
             'inverterManufacturers' => InverterManufacturerGetController::getAll(),
             'batteryManufacturers' => BatteryManufacturerGetController::getAll(),
