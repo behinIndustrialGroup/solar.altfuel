@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Models\SolarPlantRequest;
+use SolarPlantRequests\Http\Controllers\PanelManufacturer\GetController as PanelManufacturerGetController;
+use SolarPlantRequests\Http\Controllers\InverterManufacturer\GetController as InverterManufacturerGetController;
+use SolarPlantRequests\Http\Controllers\BatteryManufacturer\GetController as BatteryManufacturerGetController;
 
 class SolarPlantRequestController
 {
@@ -72,5 +75,27 @@ class SolarPlantRequestController
         $solarPlantRequest->save();
 
         return response()->json($solarPlantRequest->fresh());
+    }
+
+    public function show(Request $request, SolarPlantRequest $solarPlantRequest): View
+    {
+        abort_unless(
+            $solarPlantRequest->status === SolarPlantRequestStatus::CERTIFICATE_ISSUED,
+            403,
+            'درخواست در مرحله صدور گواهی سلامت نیست'
+        );
+
+        abort_unless(
+            $solarPlantRequest->user_id === $request->user()->id,
+            403,
+            'شما دسترسی به این ادرس ندارید'
+        );
+
+        return view('solar-plant-requests::requests.certificate',[
+            'solarPlantRequest' => $solarPlantRequest,
+            'manufacturers' => PanelManufacturerGetController::getAll(),
+            'inverterManufacturers' => InverterManufacturerGetController::getAll(),
+            'batteryManufacturers' => BatteryManufacturerGetController::getAll(),
+        ]);
     }
 }

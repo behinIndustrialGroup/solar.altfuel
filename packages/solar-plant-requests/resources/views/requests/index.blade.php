@@ -81,6 +81,14 @@
                                         <td>{{ $requestItem->status_label }}</td>
                                         <td>{{ $requestItem->contractor_name ?? '---' }}</td>
                                         <td>{{ $requestItem->address }}</td>
+                                        <td>
+                                            @if ($requestItem->status == SolarPlantRequestStatus::CERTIFICATE_ISSUED)
+                                                <a href="{{ route('solar-plant-requests.show', $requestItem) }}"
+                                                    class="btn btn-primary">
+                                                    مشاهده گواهی سلامت
+                                                </a>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
