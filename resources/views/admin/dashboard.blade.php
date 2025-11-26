@@ -88,6 +88,21 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="col-sm-3">
+                    <div class="small-box bg-warning">
+                        <div class="inner">
+                            <h6>{{ trans('باتری') }}</h6>
+                            <p>{{ trans('لیست باتری‌ها') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-battery-charging"></i>
+                        </div>
+                        <a href="{{ route('solar-plant-requests.battery.my-batteries') }}" class="small-box-footer">
+                            {{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i>
+                        </a>
+                    </div>
+                </div>
             @endauth
         </div>
     </div>

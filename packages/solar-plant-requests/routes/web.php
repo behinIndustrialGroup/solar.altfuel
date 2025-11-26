@@ -33,7 +33,10 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
     });
 
     Route::prefix('battery')->name('battery.')->group(function () {
-        Route::post('{solarPlantRequest}/store', [BatteryCreateController::class, 'addBatteryToRequest'])->name('store');
+        Route::get('my-batteries', [BatteryCreateController::class, 'myBatteries'])->name('my-batteries');
+        Route::get('create', [BatteryCreateController::class, 'create'])->name('create');
+        Route::post('store', [BatteryCreateController::class, 'store'])->name('store');
+        Route::post('{solarPlantRequest}/store', [BatteryCreateController::class, 'addBatteryToRequest'])->name('addBatteryToRequest');
     });
 
     Route::prefix('inverter')->name('inverter.')->group(function () {
