@@ -95,6 +95,39 @@
                 @endif
 
                 @include('solar-plant-requests::panels.add-panel-to-request')
+                @if ($solarPlantRequest->batteries->count())
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h5 class="mb-0">باتری‌های ثبت شده</h5>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>سریال</th>
+                                        <th>سازنده / واردکننده</th>
+                                        <th>سال تولید</th>
+                                        <th>سال انقضا</th>
+                                        <th>وضعیت</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($solarPlantRequest->batteries as $battery)
+                                        <tr>
+                                            <td>{{ $battery->serial }}</td>
+                                            <td>{{ $battery->manufacturer?->name ?? $battery->manufacturer?->email }}</td>
+                                            <td>{{ $battery->production_year }}</td>
+                                            <td>{{ $battery->expiration_year }}</td>
+                                            <td>{{ $battery->status?->label() }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                @endif
+
+                @include('solar-plant-requests::batteries.add-battery-to-request')
                 @if ($solarPlantRequest->inverters->count())
                     <div class="card mb-4">
                         <div class="card-header">
