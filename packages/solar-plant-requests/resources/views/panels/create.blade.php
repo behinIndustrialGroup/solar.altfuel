@@ -14,6 +14,6 @@
             </div>
         @endif
 
-        @include('solar-plant-requests::panels.add-panel-to-request')
+        @include('solar-plant-requests::panels.add-panel')
     </div>
 @endsection

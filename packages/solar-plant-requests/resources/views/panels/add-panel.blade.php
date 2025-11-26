@@ -3,27 +3,13 @@
         <h5 class="mb-0">افزودن پنل جدید</h5>
     </div>
     <div class="card-body">
-        <form method="POST" action="{{ route('solar-plant-requests.panel.addPanelToRequest', $solarPlantRequest) }}">
+        <form method="POST" action="{{ route('solar-plant-requests.panel.store') }}">
             @csrf
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label">سریال</label>
                     <input type="text" name="serial" class="form-control" value="{{ old('serial') }}" required maxlength="255">
                     @error('serial')
-                        <div class="text-danger small">{{ $message }}</div>
-                    @enderror
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label">سازنده / واردکننده</label>
-                    <select name="manufacturer_user_id" class="form-select select2" required>
-                        <option value="" disabled {{ old('manufacturer_user_id') ? '' : 'selected' }}>انتخاب کنید</option>
-                        @foreach($manufacturers as $manufacturer)
-                            <option value="{{ $manufacturer->id }}" @selected(old('manufacturer_user_id') == $manufacturer->id)>
-                                {{ $manufacturer->name ?? $manufacturer->email }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('manufacturer_user_id')
                         <div class="text-danger small">{{ $message }}</div>
                     @enderror
                 </div>
