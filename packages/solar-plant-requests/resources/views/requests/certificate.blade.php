@@ -4,7 +4,7 @@
     use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 @endphp
 
-@push('styles')
+@section('content')
 <style>
     /* ---------- GLOBAL ---------- */
     body {
@@ -143,9 +143,6 @@
         }
     }
 </style>
-@endpush
-
-@section('content')
 <div class="container py-4">
 
     <div class="print-actions mb-3 text-end">
