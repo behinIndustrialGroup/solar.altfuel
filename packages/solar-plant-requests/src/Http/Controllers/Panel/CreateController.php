@@ -14,7 +14,24 @@ class CreateController
 {
     public function create(): View
     {
+
         return view('solar-plant-requests::panels.create');
+    }
+
+    /**
+     * Display a listing of the user's panels.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function myPanels(): View
+    {
+        $panels = \SolarPlantRequests\Models\Panel::query()
+            ->with('request')
+            ->where('manufacturer_user_id', auth()->id())
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('solar-plant-requests::panels.my-panels', compact('panels'));
     }
 
     public function store(Request $request)
