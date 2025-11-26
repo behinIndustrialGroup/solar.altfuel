@@ -6,6 +6,7 @@ use SolarPlantRequests\Http\Controllers\ContractorSolarPlantRequestController;
 use SolarPlantRequests\Http\Controllers\Panel\CreateController;
 use SolarPlantRequests\Http\Controllers\Inverter\CreateController as InverterCreateController;
 use SolarPlantRequests\Http\Controllers\Battery\CreateController as BatteryCreateController;
+use SolarPlantRequests\Http\Controllers\InspectionSolarPlantRequestController;
 use SolarPlantRequests\Http\Controllers\SolarPlantRequestController;
 
 Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-plant-requests.')->group(function () {
@@ -33,5 +34,11 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
 
     Route::prefix('inverter')->name('inverter.')->group(function(){
         Route::post('{solarPlantRequest}/store', [InverterCreateController::class, 'addInverterToRequest'])->name('store');
+    });
+
+    Route::prefix('inspection')->name('inspection.')->group(function(){
+        Route::get('/', [InspectionSolarPlantRequestController::class, 'index'])->name('index');
+        Route::get('{solarPlantRequest}/show', [InspectionSolarPlantRequestController::class, 'show'])->name('show');
+        Route::post('{solarPlantRequest}/send-to-inspection', [InspectionSolarPlantRequestController::class, 'sendToInspection'])->name('send-to-inspection');
     });
 });

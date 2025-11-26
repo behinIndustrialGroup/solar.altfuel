@@ -1,7 +1,5 @@
 @extends('behin-layouts.app')
-@php
-    use SolarPlantRequests\Enums\SolarPlantRequestStatus;
-@endphp
+
 @section('content')
     <div class="container">
         <div class="row">
@@ -45,28 +43,8 @@
                                         <td>{{ $requestItem->contractor_name ?? '---' }}</td>
                                         <td>{{ $requestItem->address }}</td>
                                         <td>
-                                            @if ($requestItem->status == SolarPlantRequestStatus::UNDER_REVIEW)
-                                                <form method="POST"
-                                                    action="{{ route('solar-plant-requests.all-requests.assign-contractor', $requestItem) }}"
-                                                    class="d-flex gap-2 flex-wrap justify-content-end">
-                                                    @csrf
-                                                    <select name="contractor_id" class="form-select form-select-sm select2">
-                                                        @foreach ($contractors as $contractor)
-                                                            <option value="{{ $contractor->id }}">{{ $contractor->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    <button class="btn btn-primary btn-sm" type="submit">تخصیص
-                                                        پیمانکار</button>
-                                                </form>
-                                            @endif
-                                            @if ($requestItem->status == SolarPlantRequestStatus::INSPECTION)
-                                                <a href="{{ route('solar-plant-requests.inspection.show', $requestItem) }}"
-                                                    class="btn btn-primary">
-                                                    مشاهده 
-                                                </a>
-                                            @endif
-
+                                            <a href="{{ route('solar-plant-requests.contractor.show', $requestItem) }}"
+                                                class="btn btn-primary btn-sm">مشاهده</a>
                                         </td>
                                     </tr>
                                 @empty
