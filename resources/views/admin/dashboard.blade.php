@@ -7,6 +7,23 @@
 @section('content')
     <div class="row">
         <div class="col-12">
+            @if (auth()->user()->role_id == 1)
+                <div class="col-sm-3 ">
+                    <!-- small box -->
+                    <div class="small-box bg-primary">
+                        <div class="inner">
+                            <h6>{{ trans('درخواست ها') }}</h6>
+
+                            <p>{{ trans('مراحل تخصیص پیمانکار و ثبت بازرسی') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bag"></i>
+                        </div>
+                        <a href="{{ route('solar-plant-requests.all-requests.index') }}"
+                            class="small-box-footer">{{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i></a>
+                    </div>
+                </div>
+            @endauth
             @if (auth()->user()->role_id == 3)
                 <div class="col-sm-3 ">
                     <!-- small box -->
