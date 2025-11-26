@@ -21,7 +21,6 @@ class CreateController
     {
         $validated = $request->validate([
             'serial' => ['required', 'string', 'max:255', 'unique:solar_plant_panels,serial'],
-            'manufacturer_user_id' => ['required', 'exists:users,id'],
             'production_year' => ['required', 'integer', 'digits:4', 'min:1300'],
             'expiration_year' => ['required', 'integer', 'digits:4', 'gte:production_year'],
         ]);
@@ -29,6 +28,7 @@ class CreateController
         Panel::query()->create([
             ...$validated,
             'status' => PanelStatus::APPROVED,
+            'manufacturer_user_id' => $request->user()->id,
         ]);
 
         return redirect()
