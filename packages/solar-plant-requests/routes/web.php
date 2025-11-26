@@ -26,6 +26,7 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
     });
 
     Route::prefix('panel')->name('panel.')->group(function () {
+        Route::get('{solarPlantRequest}/create', [CreateController::class, 'create'])->name('create');
         Route::post('{solarPlantRequest}/store', [CreateController::class, 'addPanelToRequest'])->name('store');
     });
 

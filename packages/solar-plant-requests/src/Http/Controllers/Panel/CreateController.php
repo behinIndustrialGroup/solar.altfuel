@@ -2,14 +2,24 @@
 
 namespace SolarPlantRequests\Http\Controllers\Panel;
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use SolarPlantRequests\Enums\PanelStatus;
+use SolarPlantRequests\Http\Controllers\PanelManufacturer\GetController as PanelManufacturerGetController;
 use SolarPlantRequests\Models\Panel;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
 class CreateController
 {
+    public function create(SolarPlantRequest $solarPlantRequest): View
+    {
+        return view('solar-plant-requests::panels.create', [
+            'solarPlantRequest' => $solarPlantRequest,
+            'manufacturers' => PanelManufacturerGetController::getAll(),
+        ]);
+    }
+
     public function addPanelToRequest(Request $request, SolarPlantRequest $solarPlantRequest)
     {
         $validated = $request->validate([
