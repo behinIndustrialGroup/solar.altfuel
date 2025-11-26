@@ -6,7 +6,7 @@
     <div class="mb-5 mb-lg-0">
         <div class="row g-2">
             <div class="col-12">
-                <a href="{{ route('battery.my-batteries') }}" class="btn btn-sm btn-primary">
+                <a href="{{ route('solar-plant-requests.battery.my-batteries') }}" class="btn btn-sm btn-primary">
                     <i class="fa fa-arrow-right"></i>
                     بازگشت به لیست باتری‌ها
                 </a>
