@@ -167,7 +167,7 @@
             </div>
         </div>
 
-        @if ($solarPlantRequest->status !== SolarPlantRequestStatus::INSPECTION)
+        @if ($solarPlantRequest->status == SolarPlantRequestStatus::EQUIPMENT_INSTALLATION)
             <div class="row mt-4">
                 <div class="col-12">
                     <form method="POST"
