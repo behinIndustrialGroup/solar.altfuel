@@ -97,7 +97,9 @@
                     </div>
                 @endif
 
-                @include('solar-plant-requests::panels.add-panel-to-request')
+                @if (!$readOnly)
+                    @include('solar-plant-requests::panels.add-panel-to-request')
+                @endif
                 @if ($solarPlantRequest->batteries->count())
                     <div class="card mb-4">
                         <div class="card-header">
@@ -129,8 +131,9 @@
                         </div>
                     </div>
                 @endif
-
-                @include('solar-plant-requests::batteries.add-battery-to-request')
+                @if (!$readOnly)
+                    @include('solar-plant-requests::batteries.add-battery-to-request')
+                @endif
                 @if ($solarPlantRequest->inverters->count())
                     <div class="card mb-4">
                         <div class="card-header">
@@ -161,6 +164,9 @@
                             </table>
                         </div>
                     </div>
+                @endif
+                @if (!$readOnly)
+                    @include('solar-plant-requests::inverters.add-inverter-to-request')
                 @endif
             </div>
         </div>
