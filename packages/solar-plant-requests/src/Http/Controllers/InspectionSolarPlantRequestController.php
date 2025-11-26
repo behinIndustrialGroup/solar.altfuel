@@ -10,6 +10,7 @@ use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Http\Controllers\PanelManufacturer\GetController as PanelManufacturerGetController;
 use SolarPlantRequests\Http\Controllers\InverterManufacturer\GetController as InverterManufacturerGetController;
 use SolarPlantRequests\Http\Controllers\BatteryManufacturer\GetController as BatteryManufacturerGetController;
+use SolarPlantRequests\Http\Controllers\Inspector\GetController;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
 class InspectionSolarPlantRequestController
@@ -46,7 +47,27 @@ class InspectionSolarPlantRequestController
     public function approvedResult(Request $request, SolarPlantRequest $solarPlantRequest): RedirectResponse|JsonResponse
     {
         
-        $solarPlantRequest->update(['status' => SolarPlantRequestStatus::CERTIFICATE_ISSUED]);
+        $solarPlantRequest->update([
+            'inspector_user_id' => $request->user()->id,
+            'inspector_name' => GetController::getById($request->user()->id)->name,
+            'status' => SolarPlantRequestStatus::CERTIFICATE_ISSUED
+        ]);
+
+        if ($request->wantsJson()) {
+            return response()->json(['data' => $solarPlantRequest->fresh()]);
+        }
+
+        return back()->with('success', 'درخواست با موفقیت تایید شد');
+    }
+
+    public function declinedResult(Request $request, SolarPlantRequest $solarPlantRequest): RedirectResponse|JsonResponse
+    {
+        
+        $solarPlantRequest->update([
+            'inspector_user_id' => $request->user()->id,
+            'inspector_name' => GetController::getById($request->user()->id)->name,
+            'status' => SolarPlantRequestStatus::EQUIPMENT_INSTALLATION
+        ]);
 
         if ($request->wantsJson()) {
             return response()->json(['data' => $solarPlantRequest->fresh()]);

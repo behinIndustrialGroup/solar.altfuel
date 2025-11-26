@@ -87,7 +87,7 @@
                                         <td>
                                             @if ($requestItem->status == SolarPlantRequestStatus::CERTIFICATE_ISSUED)
                                                 <a href="{{ route('solar-plant-requests.show', $requestItem) }}"
-                                                    class="btn btn-primary">
+                                                    class="btn btn-sm btn-primary">
                                                     مشاهده گواهی سلامت
                                                 </a>
                                             @endif

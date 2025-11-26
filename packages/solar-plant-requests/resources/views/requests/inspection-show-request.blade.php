@@ -166,11 +166,18 @@
 
         @if ($solarPlantRequest->status == SolarPlantRequestStatus::INSPECTION)
             <div class="row mt-4">
-                <div class="col-12">
+                <div class="col-6">
                     <form method="POST"
                         action="{{ route('solar-plant-requests.inspection.result-approved', $solarPlantRequest) }}">
                         @csrf
                         <button class="btn btn-primary w-100" type="submit">تایید بازرسی</button>
+                    </form>
+                </div>
+                <div class="col-6">
+                    <form method="POST"
+                        action="{{ route('solar-plant-requests.inspection.result-declined', $solarPlantRequest) }}">
+                        @csrf
+                        <button class="btn btn-danger w-100" type="submit">عدم تایید بازرسی</button>
                     </form>
                 </div>
             </div>
