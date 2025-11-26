@@ -39,6 +39,6 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
     Route::prefix('inspection')->name('inspection.')->group(function(){
         Route::get('/', [InspectionSolarPlantRequestController::class, 'index'])->name('index');
         Route::get('{solarPlantRequest}/show', [InspectionSolarPlantRequestController::class, 'show'])->name('show');
-        Route::post('{solarPlantRequest}/send-to-inspection', [InspectionSolarPlantRequestController::class, 'sendToInspection'])->name('send-to-inspection');
+        Route::post('{solarPlantRequest}/result-approved', [InspectionSolarPlantRequestController::class, 'approvedResult'])->name('result-approved');
     });
 });

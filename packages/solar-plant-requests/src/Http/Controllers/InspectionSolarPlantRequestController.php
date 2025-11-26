@@ -35,7 +35,7 @@ class InspectionSolarPlantRequestController
 
     public function show(Request $request, SolarPlantRequest $solarPlantRequest): View|JsonResponse
     {
-        return view('solar-plant-requests::requests.contractor-show-request', [
+        return view('solar-plant-requests::requests.inspection-show-request', [
             'solarPlantRequest' => $solarPlantRequest,
             'manufacturers' => PanelManufacturerGetController::getAll(),
             'inverterManufacturers' => InverterManufacturerGetController::getAll(),
@@ -43,32 +43,15 @@ class InspectionSolarPlantRequestController
         ]);
     }
 
-    public function sendToInspection(Request $request, SolarPlantRequest $solarPlantRequest): RedirectResponse|JsonResponse
+    public function approvedResult(Request $request, SolarPlantRequest $solarPlantRequest): RedirectResponse|JsonResponse
     {
-        abort_unless(
-            $solarPlantRequest->contractor_id === $request->user()->id,
-            403,
-            'شما به این درخواست دسترسی ندارید.'
-        );
-
-        abort_unless(
-            $solarPlantRequest->status === SolarPlantRequestStatus::EQUIPMENT_INSTALLATION,
-            400,
-            'امکان ارسال برای بازرسی در این مرحله وجود ندارد.'
-        );
-
-        abort_if(
-            $solarPlantRequest->status === SolarPlantRequestStatus::INSPECTION,
-            400,
-            'این درخواست قبلاً برای بازرسی ارسال شده است.'
-        );
-
-        $solarPlantRequest->update(['status' => SolarPlantRequestStatus::INSPECTION]);
+        
+        $solarPlantRequest->update(['status' => SolarPlantRequestStatus::CERTIFICATE_ISSUED]);
 
         if ($request->wantsJson()) {
             return response()->json(['data' => $solarPlantRequest->fresh()]);
         }
 
-        return back()->with('success', 'درخواست با موفقیت برای بازرسی ارسال شد.');
+        return back()->with('success', 'درخواست با موفقیت تایید شد');
     }
 }
