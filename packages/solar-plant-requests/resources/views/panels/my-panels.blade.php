@@ -49,7 +49,7 @@
                                         <td>{{ $panel->production_year }}</td>
                                         <td>{{ $panel->expiration_year }}</td>
                                         <td>
-                                            <span class="badge bg-{{ $panel->status->color() }}">
+                                            <span class="badge">
                                                 {{ $panel->status->label() }}
                                             </span>
                                         </td>
