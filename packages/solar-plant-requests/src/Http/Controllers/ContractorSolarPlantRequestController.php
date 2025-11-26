@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use SolarPlantRequests\Http\Controllers\PanelManufacturer\GetController as PanelManufacturerGetController;
 use SolarPlantRequests\Http\Controllers\InverterManufacturer\GetController as InverterManufacturerGetController;
+use SolarPlantRequests\Http\Controllers\BatteryManufacturer\GetController as BatteryManufacturerGetController;
 use SolarPlantRequests\Models\SolarPlantRequest;
 
 class ContractorSolarPlantRequestController
@@ -36,6 +37,7 @@ class ContractorSolarPlantRequestController
             'solarPlantRequest' => $solarPlantRequest,
             'manufacturers' => PanelManufacturerGetController::getAll(),
             'inverterManufacturers' => InverterManufacturerGetController::getAll(),
+            'batteryManufacturers' => BatteryManufacturerGetController::getAll(),
         ]);
     }
 }
