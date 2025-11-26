@@ -37,7 +37,10 @@ Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-
     });
 
     Route::prefix('inverter')->name('inverter.')->group(function () {
-        Route::post('{solarPlantRequest}/store', [InverterCreateController::class, 'addInverterToRequest'])->name('store');
+        Route::get('my-inverters', [InverterCreateController::class, 'myInverters'])->name('my-inverters');
+        Route::get('create', [InverterCreateController::class, 'create'])->name('create');
+        Route::post('store', [InverterCreateController::class, 'store'])->name('store');
+        Route::post('{solarPlantRequest}/store', [InverterCreateController::class, 'addInverterToRequest'])->name('addInverterToRequest');
     });
 
     Route::prefix('inspection')->name('inspection.')->group(function () {

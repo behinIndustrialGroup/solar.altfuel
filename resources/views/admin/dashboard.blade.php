@@ -59,19 +59,33 @@
                 </div>
             @endauth
             @if (auth()->user()->role_id == 6)
-                <div class="col-sm-3 ">
-                    <!-- small box -->
+                <div class="col-sm-3">
                     <div class="small-box bg-primary">
                         <div class="inner">
                             <h6>{{ trans('پنل') }}</h6>
-
-                            <p>{{ trans('لیست پنل ها') }}</p>
+                            <p>{{ trans('لیست پنل‌ها') }}</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
-                        <a href="{{ route('solar-plant-requests.panel.my-panels') }}"
-                            class="small-box-footer">{{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i></a>
+                        <a href="{{ route('solar-plant-requests.panel.my-panels') }}" class="small-box-footer">
+                            {{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-sm-3">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h6>{{ trans('اینورتر') }}</h6>
+                            <p>{{ trans('لیست اینورترها') }}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="ion ion-bolt"></i>
+                        </div>
+                        <a href="{{ route('solar-plant-requests.inverter.my-inverters') }}" class="small-box-footer">
+                            {{ trans('مشاهده') }} <i class="fa fa-arrow-circle-left"></i>
+                        </a>
                     </div>
                 </div>
             @endauth
