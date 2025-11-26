@@ -155,7 +155,7 @@
         <div class="header">
             <img src="{{ asset('behin/logo.png') }}" alt="لوگو">
             <div class="header-title">
-                <h1>گواهی درخواست نیروگاه خورشیدی</h1>
+                <h1>گواهی سلامت نیروگاه خورشیدی</h1>
                 <p>مشخصات متقاضی و تجهیزات ثبت شده</p>
                 <span class="status-badge">وضعیت: {{ $solarPlantRequest->status?->label() }}</span>
             </div>
