@@ -6,6 +6,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
+use SolarPlantRequests\Enums\BatteryStatus;
+use SolarPlantRequests\Enums\InverterStatus;
+use SolarPlantRequests\Enums\PanelStatus;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Http\Controllers\PanelManufacturer\GetController as PanelManufacturerGetController;
 use SolarPlantRequests\Http\Controllers\InverterManufacturer\GetController as InverterManufacturerGetController;
@@ -50,7 +53,19 @@ class InspectionSolarPlantRequestController
         $solarPlantRequest->update([
             'inspector_user_id' => $request->user()->id,
             'inspector_name' => GetController::getById($request->user()->id)->name,
-            'status' => SolarPlantRequestStatus::CERTIFICATE_ISSUED
+            'status' => SolarPlantRequestStatus::CERTIFICATE_ISSUED,
+        ]);
+
+        $solarPlantRequest->panels()->update([
+            'status' => PanelStatus::USED,
+        ]);
+
+        $solarPlantRequest->inverters()->update([
+            'status' => InverterStatus::USED,
+        ]);
+
+        $solarPlantRequest->batteries()->update([
+            'status' => BatteryStatus::USED,
         ]);
 
         if ($request->wantsJson()) {
