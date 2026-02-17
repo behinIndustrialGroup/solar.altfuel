@@ -44,7 +44,8 @@
             "BaleBot\\": "packages/behin-bale-bot/src/",
             "Behin\\Ami\\": "packages/behin-ami/src/",
             "UserNotifications\\": "packages/user-notifications/src/",
-            "SolarPlantRequests\\": "packages/solar-plant-requests/src/"
+            "SolarPlantRequests\\": "packages/solar-plant-requests/src/",
+            "Behin\\SimpleWorkflow\\": "packages/behin-simple-workflow/src/"
         },
         "files": [
             "packages/behin-init/src/App/Helpers/behin-helpers.php"
