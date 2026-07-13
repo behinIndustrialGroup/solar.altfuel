@@ -118,6 +118,7 @@ return array(
     'Carbon\\' => array($vendorDir . '/nesbot/carbon/src/Carbon'),
     'Brick\\Math\\' => array($vendorDir . '/brick/math/src'),
     'Behin\\Sms\\' => array($baseDir . '/packages/behin-sms/src'),
+    'Behin\\SimpleWorkflow\\' => array($baseDir . '/packages/behin-simple-workflow/src'),
     'Behin\\Ami\\' => array($baseDir . '/packages/behin-ami/src'),
     'BehinUserRoles\\' => array($baseDir . '/packages/behin-user-roles/src'),
     'BehinLogging\\' => array($baseDir . '/packages/behin-logging/src'),

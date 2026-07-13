@@ -16,4 +16,5 @@ return [
     Behin\Ami\AmiServiceProvider::class,
     UserNotifications\Providers\UserNotificationsServiceProvider::class,
     SolarPlantRequests\SolarPlantRequestsServiceProvider::class,
+    Behin\SimpleWorkflow\SimpleWorkflowProvider::class,
 ];
