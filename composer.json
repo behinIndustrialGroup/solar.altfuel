@@ -45,7 +45,13 @@
             "Behin\\Ami\\": "packages/behin-ami/src/",
             "UserNotifications\\": "packages/user-notifications/src/",
             "SolarPlantRequests\\": "packages/solar-plant-requests/src/",
-            "Behin\\SimpleWorkflow\\": "packages/behin-simple-workflow/src/"
+            "Behin\\SimpleWorkflow\\": "packages/behin-simple-workflow/src/",
+            "PanelCatalog\\": "packages/panel-catalog/src/",
+            "InverterCatalog\\": "packages/inverter-catalog/src/",
+            "BatteryCatalog\\": "packages/battery-catalog/src/",
+            "ContractorCatalog\\": "packages/contractor-catalog/src/",
+            "InspectorCatalog\\": "packages/inspector-catalog/src/",
+            "SolarPlantEquipment\\": "packages/solar-plant-equipment/src/"
         },
         "files": [
             "packages/behin-init/src/App/Helpers/behin-helpers.php"

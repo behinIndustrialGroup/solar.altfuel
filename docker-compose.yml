@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: solar_app
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - .:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    networks:
+      - solar_network
+    depends_on:
+      - db
+      - redis
+
+  webserver:
+    image: nginx:1.25-alpine
+    container_name: solar_nginx
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - solar_network
+    depends_on:
+      - app
+
+  db:
+    image: mysql:8.0
+    container_name: solar_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: solar_local
+      MYSQL_USER: solar_user
+      MYSQL_PASSWORD: solar_pass
+      MYSQL_ROOT_PASSWORD: root_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - solar_mysql_data:/var/lib/mysql
+    networks:
+      - solar_network
+
+  redis:
+    image: redis:7-alpine
+    container_name: solar_redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    networks:
+      - solar_network
+
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: solar_phpmyadmin
+    restart: unless-stopped
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db
+      PMA_USER: solar_user
+      PMA_PASSWORD: solar_pass
+    networks:
+      - solar_network
+    depends_on:
+      - db
+
+networks:
+  solar_network:
+    driver: bridge
+
+volumes:
+  solar_mysql_data:
+    driver: local

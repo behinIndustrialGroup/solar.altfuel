@@ -9,30 +9,57 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('solar_plant_requests', function (Blueprint $table) {
-            // Applicant info
-            $table->string('applicant_type', 20)->default('individual')->after('user_id');
-            $table->string('company_name')->nullable()->after('applicant_type');
-            $table->string('registration_number')->nullable()->after('company_name');
-            $table->string('ceo_national_id', 20)->nullable()->after('registration_number');
-            $table->string('immigration_code', 20)->nullable()->after('ceo_national_id');
-            $table->string('landline', 20)->nullable()->after('immigration_code');
-
-            // Installation location
-            $table->string('province')->after('landline');
-            $table->string('city')->after('province');
-
-            // Technical specs
-            $table->string('usage_type', 20)->after('city');
-            $table->boolean('is_shared_property')->default(false)->after('usage_type');
-            $table->unsignedInteger('installation_area')->nullable()->after('is_shared_property');
-            $table->string('surface_type', 20)->after('installation_area');
-            $table->string('purpose', 20)->after('surface_type');
-            $table->unsignedInteger('capacity_kw')->after('purpose');
-            $table->boolean('has_three_phase')->default(false)->after('capacity_kw');
-            $table->boolean('wants_loan')->default(false)->after('has_three_phase');
-
-            // Request tracking
-            $table->string('unique_code', 20)->unique()->after('wants_loan');
+            if (!Schema::hasColumn('solar_plant_requests', 'applicant_type')) {
+                $table->string('applicant_type', 20)->default('individual')->after('user_id');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'company_name')) {
+                $table->string('company_name')->nullable()->after('applicant_type');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'registration_number')) {
+                $table->string('registration_number')->nullable()->after('company_name');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'ceo_national_id')) {
+                $table->string('ceo_national_id', 20)->nullable()->after('registration_number');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'immigration_code')) {
+                $table->string('immigration_code', 20)->nullable()->after('ceo_national_id');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'landline')) {
+                $table->string('landline', 20)->nullable()->after('immigration_code');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'province')) {
+                $table->string('province')->after('landline');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'city')) {
+                $table->string('city')->after('province');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'usage_type')) {
+                $table->string('usage_type', 20)->after('city');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'is_shared_property')) {
+                $table->boolean('is_shared_property')->default(false)->after('usage_type');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'installation_area')) {
+                $table->unsignedInteger('installation_area')->nullable()->after('is_shared_property');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'surface_type')) {
+                $table->string('surface_type', 20)->after('installation_area');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'purpose')) {
+                $table->string('purpose', 20)->after('surface_type');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'capacity_kw')) {
+                $table->unsignedInteger('capacity_kw')->after('purpose');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'has_three_phase')) {
+                $table->boolean('has_three_phase')->default(false)->after('capacity_kw');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'wants_loan')) {
+                $table->boolean('wants_loan')->default(false)->after('has_three_phase');
+            }
+            if (!Schema::hasColumn('solar_plant_requests', 'unique_code')) {
+                $table->string('unique_code', 20)->unique()->after('wants_loan');
+            }
         });
     }
 

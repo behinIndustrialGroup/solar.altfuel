@@ -48,3 +48,69 @@ if(!function_exists('toJalali')){
         
     }
 }
+
+if(!function_exists('toJalaliFormatted')){
+    function toJalaliFormatted($date, $format = 'Y-m-d'){
+        try{
+            $jDate = toJalali($date);
+            if ($jDate instanceof Jalalian) {
+                return $jDate->format($format);
+            }
+            return $date;
+        }catch(Exception $e){
+            return $date;
+        }
+    }
+}
+
+if(!function_exists('toGregorian')){
+    function toGregorian($jalaliDate, $format = 'Y-m-d H:i:s'){
+        try{
+            if (empty($jalaliDate) || is_null($jalaliDate)) {
+                return $jalaliDate;
+            }
+
+            $jalaliDate = convertPersianToEnglish($jalaliDate);
+
+            $detectedFormat = null;
+            $separator = '-';
+            if (strpos($jalaliDate, '/') !== false) {
+                $separator = '/';
+            }
+
+            $hasTime = strpos($jalaliDate, ':') !== false;
+            $datePart = $jalaliDate;
+            $timePart = '';
+            if ($hasTime) {
+                $parts = explode(' ', $jalaliDate, 2);
+                $datePart = trim($parts[0]);
+                $timePart = ' ' . trim($parts[1]);
+            }
+
+            $dateComponents = explode($separator, $datePart);
+            if (count($dateComponents) === 3) {
+                $year = intval($dateComponents[0]);
+                $month = intval($dateComponents[1]);
+                $day = intval($dateComponents[2]);
+
+                if ($year > 1500) {
+                    return Carbon::parse($jalaliDate)->format($format);
+                }
+
+                $gregorian = \Morilog\Jalali\CalendarUtils::toGregorian($year, $month, $day);
+                $gregorianDateStr = sprintf('%04d-%02d-%02d', $gregorian[0], $gregorian[1], $gregorian[2]) . $timePart;
+                return Carbon::parse($gregorianDateStr)->format($format);
+            }
+
+            return Carbon::parse($jalaliDate)->format($format);
+        }catch(Exception $e){
+            return $jalaliDate;
+        }
+    }
+}
+
+if(!function_exists('toGregorianDate')){
+    function toGregorianDate($jalaliDate){
+        return toGregorian($jalaliDate, 'Y-m-d');
+    }
+}

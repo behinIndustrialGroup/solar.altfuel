@@ -5,6 +5,7 @@ namespace SolarPlantRequests\Http\Controllers;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
 use SolarPlantRequests\Http\Requests\StoreSolarPlantRequestRequest;
@@ -28,12 +29,13 @@ class SolarPlantRequestController
             return response()->json(['data' => $requests]);
         }
 
-        return view('solar-plant-requests::requests.index', [
+        return view('solar-plant-requests::requests.my-requests', [
             'requests' => $requests,
         ]);
     }
 
-    public function store(Request $request): View|JsonResponse
+    
+    public function store(StoreSolarPlantRequestRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -101,6 +103,36 @@ class SolarPlantRequestController
         $solarPlantRequest->save();
 
         return response()->json($solarPlantRequest->fresh());
+    }
+
+    public function downloadFile(Request $request): \Symfony\Component\HttpFoundation\StreamedResponse|\Illuminate\Http\Response
+    {
+        $path = $request->query('path', '');
+
+        // Validate path — must start with solar-plant-requests/ to prevent traversal
+        if (!$path || !str_starts_with($path, 'solar-plant-requests/')) {
+            abort(403);
+        }
+
+        if (!\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+            abort(404, 'فایل یافت نشد.');
+        }
+
+        return \Illuminate\Support\Facades\Storage::disk('public')->download($path, basename($path));
+    }
+
+    public function detail(Request $request, SolarPlantRequest $solarPlantRequest): View
+    {
+        abort_unless(
+            $solarPlantRequest->user_id === $request->user()->id
+            || SolarPlantRequest::userHasRole($request->user(), 'leader'),
+            403,
+            'شما دسترسی به این درخواست ندارید.'
+        );
+
+        return view('solar-plant-requests::requests.detail', [
+            'req' => $solarPlantRequest,
+        ]);
     }
 
     public function show(Request $request, SolarPlantRequest $solarPlantRequest): View

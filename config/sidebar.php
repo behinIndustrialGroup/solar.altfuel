@@ -96,6 +96,15 @@ return [
             ]
         ],
 
+        'panel-catalog' => [
+            'icon' => 'solar_power',
+            'fa_name' => 'کاتالوگ پنل',
+            'route-name' => 'panel-catalog.index',
+            'submenu' => [
+                'index' => [ 'fa_name' => 'لیست پنل‌ها', 'route-name' => 'panel-catalog.index' ],
+                'create' => [ 'fa_name' => 'افزودن پنل جدید', 'route-name' => 'panel-catalog.create' ],
+            ]
+        ],
         'exit' => [
             'icon' => 'logout',
             'fa_name' => 'خروج',

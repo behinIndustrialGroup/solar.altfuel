@@ -55,9 +55,18 @@
 
 <body class="bg-gray-50 text-gray-800 min-h-screen">
     <header class="bg-gradient-to-l from-amber-400 via-yellow-300 to-lime-300 text-gray-900">
-        <div class="container px-6 py-8">
-            <h1 class="text-2xl md:text-3xl font-bold">ثبت درخواست نیروگاه خورشیدی</h1>
-            <p class="mt-2 text-sm md:text-base">لطفاً اطلاعات زیر را در ۴ مرحله تکمیل کنید.</p>
+        <div class="container px-6 py-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-2xl md:text-3xl font-bold">ثبت درخواست نیروگاه خورشیدی</h1>
+                <p class="mt-2 text-sm md:text-base">لطفاً اطلاعات زیر را در ۴ مرحله تکمیل کنید.</p>
+            </div>
+            <a href="{{ route('solar-plant-requests.index') }}"
+               class="flex items-center gap-2 bg-gray-900 text-white px-5 py-2.5 rounded-lg font-semibold text-sm hover:bg-gray-700 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                بازگشت
+            </a>
         </div>
     </header>
 
@@ -85,10 +94,18 @@
 
         {{-- Error Display --}}
         @if ($errors->any())
-            <div class="mb-6 rounded-lg bg-red-100 text-red-800 px-4 py-3 text-sm space-y-1">
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
+            <div class="mb-6 rounded-lg bg-red-50 border border-red-300 text-red-800 px-4 py-4 text-sm">
+                <div class="flex items-center gap-2 font-semibold mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+                    </svg>
+                    لطفاً موارد زیر را تصحیح کنید:
+                </div>
+                <ul class="list-disc pr-5 space-y-1">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
             </div>
         @endif
 
@@ -99,7 +116,7 @@
             </div>
         @endif
 
-        <form id="multi-step-form" method="POST" action="{{ route('solar-plant-requests.store') }}" class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
+        <form id="multi-step-form" method="POST" action="{{ route('solar-plant-requests.store') }}" enctype="multipart/form-data" class="bg-white rounded-2xl shadow-xl p-6 md:p-8">
             @csrf
 
             {{-- Step 1: Applicant Info --}}
@@ -135,102 +152,111 @@
 
                 {{-- Individual Fields --}}
                 <div id="fields-individual" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نام</label>
                         <input type="text" name="first_name" value="{{ old('first_name') }}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('first_name') border-red-500 @enderror">
+                        @error('first_name') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نام خانوادگی</label>
                         <input type="text" name="last_name" value="{{ old('last_name') }}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('last_name') border-red-500 @enderror">
+                        @error('last_name') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">کد ملی</label>
                         <input type="text" name="national_code" value="{{ old('national_code') }}" dir="ltr" inputmode="numeric" maxlength="10"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('national_code') border-red-500 @enderror">
+                        @error('national_code') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">شناسه قبض برق</label>
                         <input type="text" name="bill_identifier" value="{{ old('bill_identifier') }}" dir="ltr"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('bill_identifier') border-red-500 @enderror">
+                        @error('bill_identifier') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">شماره موبایل</label>
                         <input type="text" name="mobile" value="{{ old('mobile') }}" dir="ltr" inputmode="tel"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('mobile') border-red-500 @enderror">
+                        @error('mobile') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">تلفن ثابت (اختیاری)</label>
                         <input type="text" name="landline" value="{{ old('landline') }}" dir="ltr"
                             class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
                     </div>
                 </div>
 
-                {{-- Company Fields --}}
+                {{-- Company Fields (disabled by default, enabled by JS when selected) --}}
                 <div id="fields-company" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نام شرکت</label>
-                        <input type="text" name="company_name" value="{{ old('company_name') }}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="company_name" value="{{ old('company_name') }}" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('company_name') border-red-500 @enderror">
+                        @error('company_name') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">شماره ثبت شرکت</label>
-                        <input type="text" name="registration_number" value="{{ old('registration_number') }}" dir="ltr"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="registration_number" value="{{ old('registration_number') }}" dir="ltr" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('registration_number') border-red-500 @enderror">
+                        @error('registration_number') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">شماره موبایل</label>
-                        <input type="text" name="mobile" value="{{ old('mobile') }}" dir="ltr" inputmode="tel"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                    <div class="space-y-1">
+                        <label class="block text-sm font-medium text-gray-700" >شماره موبایل مدیرعامل</label>
+                        <input type="text" name="mobile" value="{{ old('mobile') }}" dir="ltr" inputmode="tel" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('mobile') border-red-500 @enderror">
+                        @error('mobile') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">شناسه مدیر عامل</label>
-                        <input type="text" name="ceo_national_id" value="{{ old('ceo_national_id') }}" dir="ltr" maxlength="10"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                    </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">شناسه قبض برق</label>
-                        <input type="text" name="bill_identifier" value="{{ old('bill_identifier') }}" dir="ltr"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="bill_identifier" value="{{ old('bill_identifier') }}" dir="ltr" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('bill_identifier') border-red-500 @enderror">
+                        @error('bill_identifier') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">تلفن ثابت (اختیاری)</label>
-                        <input type="text" name="landline" value="{{ old('landline') }}" dir="ltr"
+                        <input type="text" name="landline" value="{{ old('landline') }}" dir="ltr" disabled
                             class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
                     </div>
                 </div>
 
-                {{-- Foreigner Fields --}}
+                {{-- Foreigner Fields (disabled by default, enabled by JS when selected) --}}
                 <div id="fields-foreigner" class="hidden grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نام</label>
-                        <input type="text" name="first_name" value="{{ old('first_name') }}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="first_name" value="{{ old('first_name') }}" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('first_name') border-red-500 @enderror">
+                        @error('first_name') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نام خانوادگی</label>
-                        <input type="text" name="last_name" value="{{ old('last_name') }}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="last_name" value="{{ old('last_name') }}" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('last_name') border-red-500 @enderror">
+                        @error('last_name') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">کد اتباع</label>
-                        <input type="text" name="immigration_code" value="{{ old('immigration_code') }}" dir="ltr"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="immigration_code" value="{{ old('immigration_code') }}" dir="ltr" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('immigration_code') border-red-500 @enderror">
+                        @error('immigration_code') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">شناسه قبض برق</label>
-                        <input type="text" name="bill_identifier" value="{{ old('bill_identifier') }}" dir="ltr"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="bill_identifier" value="{{ old('bill_identifier') }}" dir="ltr" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('bill_identifier') border-red-500 @enderror">
+                        @error('bill_identifier') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">شماره موبایل</label>
-                        <input type="text" name="mobile" value="{{ old('mobile') }}" dir="ltr" inputmode="tel"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        <input type="text" name="mobile" value="{{ old('mobile') }}" dir="ltr" inputmode="tel" disabled
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('mobile') border-red-500 @enderror">
+                        @error('mobile') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">تلفن ثابت (اختیاری)</label>
-                        <input type="text" name="landline" value="{{ old('landline') }}" dir="ltr"
+                        <input type="text" name="landline" value="{{ old('landline') }}" dir="ltr" disabled
                             class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
                     </div>
                 </div>
@@ -248,25 +274,29 @@
                 <h2 class="text-xl font-bold mb-6">محل نصب</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">استان</label>
                         <input type="text" name="province" value="{{ old('province') }}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('province') border-red-500 @enderror">
+                        @error('province') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">شهر</label>
                         <input type="text" name="city" value="{{ old('city') }}"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('city') border-red-500 @enderror">
+                        @error('city') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">کد پستی</label>
                         <input type="text" name="postal_code" value="{{ old('postal_code') }}" dir="ltr" maxlength="10"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('postal_code') border-red-500 @enderror">
+                        @error('postal_code') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
-                    <div class="space-y-2 md:col-span-2">
+                    <div class="space-y-1 md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">آدرس دقیق</label>
                         <textarea name="address" rows="3"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">{{ old('address') }}</textarea>
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('address') border-red-500 @enderror">{{ old('address') }}</textarea>
+                        @error('address') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -287,10 +317,10 @@
                 <h2 class="text-xl font-bold mb-6">مشخصات فنی</h2>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نوع کاربری</label>
                         <select name="usage_type"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('usage_type') border-red-500 @enderror">
                             <option value="">انتخاب کنید</option>
                             <option value="villa" {{ old('usage_type') === 'villa' ? 'selected' : '' }}>ویلایی</option>
                             <option value="industrial" {{ old('usage_type') === 'industrial' ? 'selected' : '' }}>صنعتی</option>
@@ -298,9 +328,10 @@
                             <option value="agriculture" {{ old('usage_type') === 'agriculture' ? 'selected' : '' }}>کشاورزی</option>
                             <option value="apartment" {{ old('usage_type') === 'apartment' ? 'selected' : '' }}>آپارتمان</option>
                         </select>
+                        @error('usage_type') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نوع ملک مشاع؟</label>
                         <div class="flex gap-4 mt-2">
                             <label class="flex items-center gap-2">
@@ -314,44 +345,49 @@
                                 <span>خیر</span>
                             </label>
                         </div>
+                        @error('is_shared_property') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">مساحت تقریبی محل نصب (متر مربع)</label>
                         <input type="number" name="installation_area" value="{{ old('installation_area') }}" min="0"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('installation_area') border-red-500 @enderror">
+                        @error('installation_area') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">نوع سطح محل نصب</label>
                         <select name="surface_type"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('surface_type') border-red-500 @enderror">
                             <option value="">انتخاب کنید</option>
                             <option value="flat" {{ old('surface_type') === 'flat' ? 'selected' : '' }}>تخت</option>
                             <option value="sloped" {{ old('surface_type') === 'sloped' ? 'selected' : '' }}>شیبدار</option>
                             <option value="ground" {{ old('surface_type') === 'ground' ? 'selected' : '' }}>زمین</option>
                             <option value="other" {{ old('surface_type') === 'other' ? 'selected' : '' }}>سایر</option>
                         </select>
+                        @error('surface_type') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">هدف</label>
                         <select name="purpose"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('purpose') border-red-500 @enderror">
                             <option value="">انتخاب کنید</option>
                             <option value="off_grid" {{ old('purpose') === 'off_grid' ? 'selected' : '' }}>مصرف شخصی (Off-grid)</option>
                             <option value="on_grid" {{ old('purpose') === 'on_grid' ? 'selected' : '' }}>فروش به شبکه (On-grid)</option>
                             <option value="hybrid" {{ old('purpose') === 'hybrid' ? 'selected' : '' }}>هیبرید (Hybrid)</option>
                         </select>
+                        @error('purpose') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">ظرفیت (کیلو وات)</label>
                         <input type="number" name="capacity_kw" value="{{ old('capacity_kw') }}" min="1"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('capacity_kw') border-red-500 @enderror">
+                        @error('capacity_kw') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">برق ۳ فاز دارید؟</label>
                         <div class="flex gap-4 mt-2">
                             <label class="flex items-center gap-2">
@@ -365,9 +401,10 @@
                                 <span>خیر</span>
                             </label>
                         </div>
+                        @error('has_three_phase') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2">
+                    <div class="space-y-1">
                         <label class="block text-sm font-medium text-gray-700">تمایل به دریافت وام دارید؟</label>
                         <div class="flex gap-4 mt-2">
                             <label class="flex items-center gap-2">
@@ -381,12 +418,14 @@
                                 <span>خیر</span>
                             </label>
                         </div>
+                        @error('wants_loan') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
 
-                    <div class="space-y-2 md:col-span-2">
+                    <div class="space-y-1 md:col-span-2">
                         <label class="block text-sm font-medium text-gray-700">توضیحات</label>
                         <textarea name="description" rows="3"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">{{ old('description') }}</textarea>
+                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500 @error('description') border-red-500 @enderror">{{ old('description') }}</textarea>
+                        @error('description') <p class="text-red-600 text-xs mt-1">{{ $message }}</p> @enderror
                     </div>
                 </div>
 
@@ -411,26 +450,48 @@
                     <ul class="text-sm text-blue-700 space-y-1 list-disc pr-5">
                         <li>تصاویر باید واضح و با کیفیت باشند.</li>
                         <li>از زوایای مختلف محل نصب عکس بگیرید.</li>
-                        <li>تصویر قبض برق و مدارک هویتی را آپلود کنید.</li>
-                        <li>فرمت‌های مجاز: JPG, PNG, PDF</li>
-                        <li>حداکثر حجم هر فایل: ۵ مگابایت</li>
+                        <li>فرمت‌های مجاز: JPG, PNG</li>
+                        <li>حداکثر حجم هر فایل: ۵ مگابایت — حداکثر ۴ فایل</li>
+                        <li>آپلود تصاویر اختیاری است.</li>
                     </ul>
                 </div>
 
-                <div class="space-y-4">
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">تصاویر محل نصب</label>
-                        <input type="file" name="images[]" multiple accept="image/*"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                        <p class="text-xs text-gray-500">می‌توانید چند تصویر انتخاب کنید.</p>
+                {{-- Images section --}}
+                <div class="space-y-3 mb-6">
+                    <label class="block text-sm font-semibold text-gray-700">تصاویر محل نصب <span class="text-gray-400 font-normal">(اختیاری، حداکثر ۴ تصویر)</span></label>
+                    <div id="images-container" class="space-y-2">
+                        <div class="image-row flex items-center gap-2">
+                            <input type="file" name="images[]" accept="image/jpeg,image/png"
+                                class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <span class="text-xs text-gray-400">تصویر ۱</span>
+                        </div>
                     </div>
+                    <button type="button" id="add-image-btn" onclick="addImageRow()"
+                        class="flex items-center gap-1.5 text-sm text-amber-600 border border-amber-300 bg-amber-50 px-4 py-2 rounded-lg hover:bg-amber-100 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        افزودن تصویر دیگر
+                    </button>
+                </div>
 
-                    <div class="space-y-2">
-                        <label class="block text-sm font-medium text-gray-700">مدارک هویتی</label>
-                        <input type="file" name="documents[]" multiple accept="image/*,.pdf"
-                            class="w-full border rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-amber-500">
-                        <p class="text-xs text-gray-500">کارت ملی، گذرنامه، یا سایر مدارک هویتی.</p>
+                {{-- Documents section --}}
+                <div class="space-y-3">
+                    <label class="block text-sm font-semibold text-gray-700">مدارک هویتی <span class="text-gray-400 font-normal">(اختیاری، حداکثر ۴ فایل)</span></label>
+                    <div id="documents-container" class="space-y-2">
+                        <div class="doc-row flex items-center gap-2">
+                            <input type="file" name="documents[]" accept="image/jpeg,image/png,application/pdf"
+                                class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                            <span class="text-xs text-gray-400">مدرک ۱</span>
+                        </div>
                     </div>
+                    <button type="button" id="add-doc-btn" onclick="addDocRow()"
+                        class="flex items-center gap-1.5 text-sm text-amber-600 border border-amber-300 bg-amber-50 px-4 py-2 rounded-lg hover:bg-amber-100 transition">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        افزودن مدرک دیگر
+                    </button>
                 </div>
 
                 <div class="flex justify-between mt-8">
@@ -449,9 +510,9 @@
 
     <footer class="bg-gray-900 text-gray-100 mt-12">
         <div class="container px-6 py-6 flex flex-col md:flex-row items-center justify-between gap-4 text-sm">
-            <div>گروه صنعتی بهین انرژی</div>
+            <div>اتحادیه کشوری سوختهای جایگزین</div>
             <div class="flex gap-4">
-                <span>پشتیبانی: 021-91307571</span>
+                <!-- <span>پشتیبانی: 021-91307571</span> -->
                 <span>ایمیل: info@altfuel.ir</span>
             </div>
         </div>
@@ -460,6 +521,24 @@
     <script>
         let currentStep = 1;
         const totalSteps = 4;
+
+        // Map field names to their step number
+        const fieldStepMap = {
+            // Step 1
+            applicant_type: 1,
+            first_name: 1, last_name: 1, national_code: 1,
+            company_name: 1, registration_number: 1,
+            immigration_code: 1,
+            mobile: 1, landline: 1, bill_identifier: 1,
+            // Step 2
+            province: 2, city: 2, postal_code: 2, address: 2,
+            // Step 3
+            usage_type: 3, is_shared_property: 3, installation_area: 3,
+            surface_type: 3, purpose: 3, capacity_kw: 3,
+            has_three_phase: 3, wants_loan: 3, description: 3,
+            // Step 4
+            images: 4, documents: 4,
+        };
 
         function showStep(step) {
             document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
@@ -505,23 +584,107 @@
             showStep(step);
         }
 
-        // Applicant type toggle
+        // Applicant type toggle — also disables inputs in hidden sections
+        // so duplicate field names don't conflict on form submit
+        function switchApplicantType(type) {
+            const sections = ['individual', 'company', 'foreigner'];
+            sections.forEach(function(section) {
+                const el = document.getElementById('fields-' + section);
+                if (section === type) {
+                    el.classList.remove('hidden');
+                    el.querySelectorAll('input, select, textarea').forEach(function(input) {
+                        input.disabled = false;
+                    });
+                } else {
+                    el.classList.add('hidden');
+                    el.querySelectorAll('input, select, textarea').forEach(function(input) {
+                        input.disabled = true;
+                    });
+                }
+            });
+        }
+
         document.querySelectorAll('input[name="applicant_type"]').forEach(radio => {
             radio.addEventListener('change', function() {
-                const type = this.value;
-
-                // Hide all fields
-                document.getElementById('fields-individual').classList.add('hidden');
-                document.getElementById('fields-company').classList.add('hidden');
-                document.getElementById('fields-foreigner').classList.add('hidden');
-
-                // Show selected fields
-                document.getElementById('fields-' + type).classList.remove('hidden');
+                switchApplicantType(this.value);
             });
         });
 
-        // Initialize
-        showStep(1);
+        // On page load: restore applicant type and jump to first step with errors
+        (function init() {
+            // Restore applicant type from old input
+            const selectedType = document.querySelector('input[name="applicant_type"]:checked');
+            if (selectedType) {
+                switchApplicantType(selectedType.value);
+            }
+
+            // If there are server-side errors, jump to the earliest step that has an error
+            const errorFields = Array.from(document.querySelectorAll('[data-field-error]'))
+                .map(el => el.dataset.fieldError);
+
+            @if ($errors->any())
+                const errorKeys = @json(array_keys($errors->messages()));
+                let targetStep = totalSteps;
+                errorKeys.forEach(function(field) {
+                    const step = fieldStepMap[field];
+                    if (step && step < targetStep) {
+                        targetStep = step;
+                    }
+                });
+                showStep(targetStep);
+            @else
+                showStep(1);
+            @endif
+        })();
+
+        // ---- Dynamic file rows ----
+        const MAX_FILES = 4;
+
+        function addImageRow() {
+            const container = document.getElementById('images-container');
+            const count = container.querySelectorAll('.image-row').length;
+            if (count >= MAX_FILES) return;
+
+            const row = document.createElement('div');
+            row.className = 'image-row flex items-center gap-2';
+            row.innerHTML = `
+                <input type="file" name="images[]" accept="image/jpeg,image/png"
+                    class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                <span class="text-xs text-gray-400">تصویر ${count + 1}</span>
+                <button type="button" onclick="this.parentElement.remove(); updateAddImageBtn();"
+                    class="text-red-400 hover:text-red-600 text-lg leading-none">✕</button>
+            `;
+            container.appendChild(row);
+            updateAddImageBtn();
+        }
+
+        function updateAddImageBtn() {
+            const count = document.getElementById('images-container').querySelectorAll('.image-row').length;
+            document.getElementById('add-image-btn').style.display = count >= MAX_FILES ? 'none' : '';
+        }
+
+        function addDocRow() {
+            const container = document.getElementById('documents-container');
+            const count = container.querySelectorAll('.doc-row').length;
+            if (count >= MAX_FILES) return;
+
+            const row = document.createElement('div');
+            row.className = 'doc-row flex items-center gap-2';
+            row.innerHTML = `
+                <input type="file" name="documents[]" accept="image/jpeg,image/png,application/pdf"
+                    class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-amber-500">
+                <span class="text-xs text-gray-400">مدرک ${count + 1}</span>
+                <button type="button" onclick="this.parentElement.remove(); updateAddDocBtn();"
+                    class="text-red-400 hover:text-red-600 text-lg leading-none">✕</button>
+            `;
+            container.appendChild(row);
+            updateAddDocBtn();
+        }
+
+        function updateAddDocBtn() {
+            const count = document.getElementById('documents-container').querySelectorAll('.doc-row').length;
+            document.getElementById('add-doc-btn').style.display = count >= MAX_FILES ? 'none' : '';
+        }
     </script>
 </body>
 

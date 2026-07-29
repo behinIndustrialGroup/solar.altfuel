@@ -1,0 +1,335 @@
+@extends('behin-layouts.app')
+
+@section('content')
+    <div class="container-fluid">
+        @if (session()->has('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+
+        @if (session()->has('error'))
+            <div class="alert alert-danger">{{ session('error') }}</div>
+        @endif
+
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5 class="mb-0">ویرایش باتری - {{ $battery->brand }} {{ $battery->model_name }}</h5>
+                <a href="{{ route('battery-catalog.show', $battery) }}" class="btn btn-info">
+                    <i class="fa fa-eye ms-1"></i> مشاهده جزئیات
+                </a>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ route('battery-catalog.update', $battery) }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">اطلاعات پایه</legend>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">برند <span class="text-danger">*</span></label>
+                                <input type="text" name="brand" class="form-control" value="{{ old('brand', $battery->brand) }}" required>
+                                @error('brand') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">نام شرکت سازنده <span class="text-danger">*</span></label>
+                                <input type="text" name="manufacture" class="form-control" value="{{ old('manufacture', $battery->manufacture) }}" required>
+                                @error('manufacture') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">کشور تولید <span class="text-danger">*</span></label>
+                                <input type="text" name="country_of_manufacture" class="form-control" value="{{ old('country_of_manufacture', $battery->country_of_manufacture) }}" required>
+                                @error('country_of_manufacture') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">نام مدل <span class="text-danger">*</span></label>
+                                <input type="text" name="model_name" class="form-control" value="{{ old('model_name', $battery->model_name) }}" required>
+                                @error('model_name') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">کد مدل <span class="text-danger">*</span></label>
+                                <input type="text" name="model_code" class="form-control" value="{{ old('model_code', $battery->model_code) }}" required>
+                                @error('model_code') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">نوع باتری <span class="text-danger">*</span></label>
+                                <select name="battery_type" class="form-control select2" required>
+                                    <option value="">-- انتخاب کنید --</option>
+                                    @foreach($batteryTypes as $type)
+                                        <option value="{{ $type }}" {{ old('battery_type', $battery->battery_type) == $type ? 'selected' : '' }}>{{ $type }}</option>
+                                    @endforeach
+                                </select>
+                                @error('battery_type') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">ظرفیت و ولتاژ</legend>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">ظرفیت انرژی (kWh) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="energy_capacity_kwh" class="form-control" value="{{ old('energy_capacity_kwh', $battery->energy_capacity_kwh) }}" required>
+                                @error('energy_capacity_kwh') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">ظرفیت (Ah) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="capacity_ah" class="form-control" value="{{ old('capacity_ah', $battery->capacity_ah) }}" required>
+                                @error('capacity_ah') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">ولتاژ نامی (V) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="nominal_voltage" class="form-control" value="{{ old('nominal_voltage', $battery->nominal_voltage) }}" required>
+                                @error('nominal_voltage') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">شارژ و دشارژ</legend>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">حداکثر جریان شارژ (A) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="max_charge_current" class="form-control" value="{{ old('max_charge_current', $battery->max_charge_current) }}" required>
+                                @error('max_charge_current') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">حداکثر جریان دشارژ (A) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="max_discharge_current" class="form-control" value="{{ old('max_discharge_current', $battery->max_discharge_current) }}" required>
+                                @error('max_discharge_current') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">عملکرد</legend>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">تعداد سیکل عمر <span class="text-danger">*</span></label>
+                                <input type="number" name="cycle_life" class="form-control" value="{{ old('cycle_life', $battery->cycle_life) }}" required min="0">
+                                @error('cycle_life') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label">عمق دشارژ DOD (%) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="depth_of_discharge" class="form-control" value="{{ old('depth_of_discharge', $battery->depth_of_discharge) }}" required min="0" max="100">
+                                @error('depth_of_discharge') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">قابلیت توسعه</legend>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">قابلیت توسعه</label>
+                                <select name="expandable" class="form-control" id="expandable">
+                                    <option value="0" {{ old('expandable', $battery->expandable ? '1' : '0') == '0' ? 'selected' : '' }}>خیر</option>
+                                    <option value="1" {{ old('expandable', $battery->expandable ? '1' : '0') == '1' ? 'selected' : '' }}>بله</option>
+                                </select>
+                                @error('expandable') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-4" id="max_parallel_container">
+                                <label class="form-label">حداکثر تعداد باتری قابل اتصال</label>
+                                <input type="number" name="max_parallel_units" class="form-control" value="{{ old('max_parallel_units', $battery->max_parallel_units) }}" min="1">
+                                @error('max_parallel_units') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">حفاظت و ارتباطات</legend>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">درجه حفاظت IP <span class="text-danger">*</span></label>
+                                <select name="ip_rating" class="form-control" required>
+                                    <option value="">-- انتخاب کنید --</option>
+                                    @foreach($ipRatings as $rating)
+                                        <option value="{{ $rating }}" {{ old('ip_rating', $battery->ip_rating) == $rating ? 'selected' : '' }}>{{ $rating }}</option>
+                                    @endforeach
+                                </select>
+                                @error('ip_rating') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label">پروتکل‌های ارتباطی (چند انتخابی)</label>
+                                <select name="communication_protocols[]" class="form-control select2" multiple>
+                                    @foreach($communicationProtocols as $protocol)
+                                        <option value="{{ $protocol }}" {{ in_array($protocol, old('communication_protocols', $battery->communication_protocols ?? [])) ? 'selected' : '' }}>{{ $protocol }}</option>
+                                    @endforeach
+                                </select>
+                                @error('communication_protocols') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">مشخصات فیزیکی</legend>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">ابعاد <span class="text-danger">*</span></label>
+                                <input type="text" name="dimensions" class="form-control" value="{{ old('dimensions', $battery->dimensions) }}" required placeholder="مثال: 600x400x200 mm">
+                                @error('dimensions') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">وزن (kg) <span class="text-danger">*</span></label>
+                                <input type="number" step="0.01" name="weight" class="form-control" value="{{ old('weight', $battery->weight) }}" required>
+                                @error('weight') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="text-center my-3">
+                        <button type="button" class="btn btn-info btn-lg" onclick="document.getElementById('part2').scrollIntoView({behavior: 'smooth'});">
+                            <i class="fa fa-arrow-down ms-1"></i> ادامه فرم (گارانتی و تاییدیه‌ها)
+                        </button>
+                    </div>
+
+                    <hr id="part2" class="my-4">
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">گارانتی و استانداردها</legend>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label">مدت گارانتی (سال) <span class="text-danger">*</span></label>
+                                <input type="number" name="warranty_years" class="form-control" value="{{ old('warranty_years', $battery->warranty_years) }}" required min="0">
+                                @error('warranty_years') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">استانداردها (چند انتخابی)</label>
+                                <div class="row">
+                                    @foreach($standards as $standard)
+                                        <div class="col-md-3 mb-2">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" name="standards[]" value="{{ $standard }}" id="standard_{{ $loop->index }}" {{ in_array($standard, old('standards', $battery->standards ?? [])) ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="standard_{{ $loop->index }}">
+                                                    {{ $standard }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                                @error('standards') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">دیتاشیت و توضیحات</legend>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label class="form-label">فایل دیتاشیت (PDF)</label>
+                                @if($battery->datasheet_path)
+                                    <div class="mb-2">
+                                        <a href="{{ asset('storage/' . $battery->datasheet_path) }}" target="_blank" class="btn btn-sm btn-outline-info">
+                                            <i class="fa fa-file-pdf-o ms-1"></i> مشاهده فایل فعلی
+                                        </a>
+                                    </div>
+                                @endif
+                                <input type="file" name="datasheet_path" class="form-control" accept=".pdf">
+                                <small class="text-muted">در صورت عدم انتخاب، فایل قبلی حفظ می‌شود</small>
+                                @error('datasheet_path') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label">توضیحات</label>
+                                <textarea name="notes" class="form-control" rows="3">{{ old('notes', $battery->notes) }}</textarea>
+                                @error('notes') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="mb-4">
+                        <legend class="font-weight-bold text-primary" style="font-size:1rem; border-bottom: 2px solid #1976d2; padding-bottom:5px;">تاییدیه آزمایشگاه و اتحادیه</legend>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label">تاییدیه آزمایشگاه دارد؟</label>
+                                <select name="lab_certified" class="form-control" id="lab_certified">
+                                    <option value="0" {{ old('lab_certified', $battery->lab_certified ? '1' : '0') == '0' ? 'selected' : '' }}>خیر</option>
+                                    <option value="1" {{ old('lab_certified', $battery->lab_certified ? '1' : '0') == '1' ? 'selected' : '' }}>بله</option>
+                                </select>
+                                @error('lab_certified') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-3" id="lab_name_container">
+                                <label class="form-label">نام آزمایشگاه</label>
+                                <select name="lab_name" class="form-control select2" id="lab_name">
+                                    <option value="">-- انتخاب کنید --</option>
+                                    @foreach($labs as $lab)
+                                        <option value="{{ $lab }}" {{ old('lab_name', $battery->lab_name) == $lab ? 'selected' : '' }}>{{ $lab }}</option>
+                                    @endforeach
+                                </select>
+                                @error('lab_name') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">مورد تایید اتحادیه</label>
+                                <select name="union_approved" class="form-control" id="union_approved">
+                                    <option value="0" {{ old('union_approved', $battery->union_approved ? '1' : '0') == '0' ? 'selected' : '' }}>خیر</option>
+                                    <option value="1" {{ old('union_approved', $battery->union_approved ? '1' : '0') == '1' ? 'selected' : '' }}>بله</option>
+                                </select>
+                                <small class="text-muted">خودکار محاسبه می‌شود</small>
+                                @error('union_approved') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label">تاریخ تایید اتحادیه</label>
+                                <input type="text" name="union_approval_date" class="form-control persian-date" value="{{ old('union_approval_date', $battery->union_approval_date ? toJalaliFormatted($battery->union_approval_date) : '') }}">
+                                @error('union_approval_date') <div class="text-danger small">{{ $message }}</div> @enderror
+                            </div>
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    <i class="fa fa-info-circle ms-1"></i>
+                                    <strong>توجه:</strong> در صورتی که باتری تاییدیه آزمایشگاه داشته باشد، نام آزمایشگاه مشخص شود و دیتاشیت بارگذاری شود، به صورت خودکار وضعیت "تایید اتحادیه" فعال می‌شود.
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="mt-4 text-end">
+                        <a href="{{ route('battery-catalog.index') }}" class="btn btn-secondary ms-2">بازگشت</a>
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fa fa-save ms-1"></i> ذخیره تغییرات
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            function toggleLabName() {
+                if ($('#lab_certified').val() === '1') {
+                    $('#lab_name_container').show();
+                } else {
+                    $('#lab_name_container').hide();
+                    $('#lab_name').val('').trigger('change');
+                }
+            }
+
+            $('#lab_certified').on('change', toggleLabName);
+            toggleLabName();
+
+            function toggleMaxParallel() {
+                if ($('#expandable').val() === '1') {
+                    $('#max_parallel_container').show();
+                } else {
+                    $('#max_parallel_container').hide();
+                    $('input[name="max_parallel_units"]').val('');
+                }
+            }
+
+            $('#expandable').on('change', toggleMaxParallel);
+            toggleMaxParallel();
+
+            function checkUnionApproval() {
+                var labCertified = $('#lab_certified').val() === '1';
+                var labName = $('#lab_name').val();
+                
+                if (labCertified && labName) {
+                    $('#union_approved').val('1');
+                } else {
+                    $('#union_approved').val('0');
+                }
+            }
+
+            $('#lab_certified, #lab_name').on('change', checkUnionApproval);
+        });
+    </script>
+@endsection

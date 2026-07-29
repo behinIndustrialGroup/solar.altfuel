@@ -1,0 +1,18 @@
+{
+    "name": "behin/solar-plant-equipment",
+    "description": "Solar Plant Installed Equipment Management - Panels, Inverters, Batteries and Projects",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "SolarPlantEquipment\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SolarPlantEquipment\\SolarPlantEquipmentServiceProvider"
+            ]
+        }
+    }
+}

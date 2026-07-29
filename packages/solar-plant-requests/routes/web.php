@@ -12,7 +12,9 @@ use SolarPlantRequests\Http\Controllers\SolarPlantRequestController;
 Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-plant-requests.')->group(function () {
     Route::get('/apply', [SolarPlantRequestController::class, 'apply'])->name('apply');
     Route::get('/', [SolarPlantRequestController::class, 'index'])->name('index');
+    Route::get('{solarPlantRequest}/detail', [SolarPlantRequestController::class, 'detail'])->name('detail');
     Route::get('{solarPlantRequest}/show', [SolarPlantRequestController::class, 'show'])->name('show');
+    Route::get('file/download', [SolarPlantRequestController::class, 'downloadFile'])->name('file.download');
     Route::post('/', [SolarPlantRequestController::class, 'store'])->name('store');
 
     Route::prefix('all-requests')->name('all-requests.')->group(function () {

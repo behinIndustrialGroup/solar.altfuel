@@ -1,0 +1,21 @@
+{
+    "name": "behin/inspector-catalog",
+    "description": "Inspector catalog management package for solar energy systems",
+    "type": "library",
+    "require": {
+        "php": "^8.1",
+        "illuminate/support": "^10.0|^11.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "InspectorCatalog\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "InspectorCatalog\\InspectorCatalogServiceProvider"
+            ]
+        }
+    }
+}

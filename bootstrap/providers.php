@@ -17,4 +17,10 @@ return [
     UserNotifications\Providers\UserNotificationsServiceProvider::class,
     SolarPlantRequests\SolarPlantRequestsServiceProvider::class,
     Behin\SimpleWorkflow\SimpleWorkflowProvider::class,
+    PanelCatalog\PanelCatalogServiceProvider::class,
+    InverterCatalog\InverterCatalogServiceProvider::class,
+    BatteryCatalog\BatteryCatalogServiceProvider::class,
+    ContractorCatalog\ContractorCatalogServiceProvider::class,
+    InspectorCatalog\InspectorCatalogServiceProvider::class,
+    SolarPlantEquipment\SolarPlantEquipmentServiceProvider::class,
 ];

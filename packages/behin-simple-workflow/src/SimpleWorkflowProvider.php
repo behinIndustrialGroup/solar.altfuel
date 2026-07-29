@@ -6,23 +6,14 @@ use Illuminate\Support\ServiceProvider;
 
 class SimpleWorkflowProvider extends ServiceProvider
 {
-    /**
-     * Register services.
-     *
-     * @return void
-     */
     public function register()
     {
         //
     }
 
-    /**
-     * Bootstrap services.
-     *
-     * @return void
-     */
     public function boot()
     {
+        require_once __DIR__ . '/Helper/behin-simple-workflow.php';
         $this->loadMigrationsFrom(__DIR__. '/Migrations');
         $this->loadRoutesFrom(__DIR__ . '/Routes/web.php');
         $this->loadViewsFrom(__DIR__. '/Views', 'SimpleWorkflowView');

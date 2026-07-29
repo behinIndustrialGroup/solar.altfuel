@@ -23,22 +23,28 @@ class OtpLoginController extends Controller
             'phone' => ['required','string'],
         ]);
         $phone = convertPersianToEnglish($request->phone);
+
+        // پیدا کردن role_id معتبر (اولین role موجود)
+        $defaultRoleId = \DB::table('behin_roles')->value('id');
+
         $user = User::firstOrCreate(
             ['email' => $phone],
             [
                 'name' => $phone,
                 'password' => bcrypt(str()->random(12)),
-                'role_id' => 3
+                'role_id' => $defaultRoleId
             ]
         );
         $otp = random_int(100000, 999999);
         $user->reset_password_code = $otp;
         $user->save();
-        $msg = (string) view('SmsTempView::otp', compact('otp'));
-        SmsController::send($user->email, $msg);
+
+        // SMS غیرفعال است - کد OTP در لاگ نوشته می‌شود
+        Log::info("OTP for {$phone}: {$otp}");
+        // $msg = (string) view('SmsTempView::otp', compact('otp'));
+        // SmsController::send($user->email, $msg);
         
         return $this->view($user->email);
-        return response()->json(['message' => 'کد ارسال شد.']);
     }
 
     public function verify(Request $request)

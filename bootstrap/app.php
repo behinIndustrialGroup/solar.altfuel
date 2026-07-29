@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\ConvertJalaliDatesToGregorian;
 use BehinInit\App\Http\Middleware\Access;
 use BehinLogging\Middlewares\Logging;
 use Illuminate\Foundation\Application;
@@ -13,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->append(ConvertJalaliDatesToGregorian::class);
         // $middleware->append(Access::class);
         $middleware->append(Logging::class);
         $middleware->alias([
