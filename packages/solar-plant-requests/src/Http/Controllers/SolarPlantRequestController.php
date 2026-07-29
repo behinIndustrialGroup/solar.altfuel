@@ -3,9 +3,11 @@
 namespace SolarPlantRequests\Http\Controllers;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
+use SolarPlantRequests\Http\Requests\StoreSolarPlantRequestRequest;
 use SolarPlantRequests\Models\SolarPlantRequest;
 use SolarPlantRequests\Http\Controllers\PanelManufacturer\GetController as PanelManufacturerGetController;
 use SolarPlantRequests\Http\Controllers\InverterManufacturer\GetController as InverterManufacturerGetController;
@@ -33,24 +35,48 @@ class SolarPlantRequestController
 
     public function store(Request $request): View|JsonResponse
     {
-        $validated = $request->validate([
-            'first_name' => ['required', 'string', 'max:255'],
-            'last_name' => ['required', 'string', 'max:255'],
-            'mobile' => ['required', 'string', 'max:20'],
-            'national_code' => ['required', 'string', 'max:20'],
-            'postal_code' => ['required', 'string', 'max:20'],
-            'address' => ['required', 'string'],
-            'bill_identifier' => ['nullable', 'string', 'max:255'],
-            'area' => ['nullable', 'integer', 'min:0'],
-        ]);
+        $validated = $request->validated();
 
-        $solarPlantRequest = SolarPlantRequest::create([
+        // Handle image uploads
+        $imagePaths = [];
+        foreach ($request->file('images', []) as $file) {
+            if ($file && $file->isValid()) {
+                $imagePaths[] = $file->store('solar-plant-requests/images', 'public');
+            }
+        }
+
+        // Handle document uploads
+        $documentPaths = [];
+        foreach ($request->file('documents', []) as $file) {
+            if ($file && $file->isValid()) {
+                $documentPaths[] = $file->store('solar-plant-requests/documents', 'public');
+            }
+        }
+
+        // Remove file arrays from validated data (not direct DB columns)
+        unset($validated['images'], $validated['documents']);
+    public function apply(): View
+    {
+        return view('solar-plant-requests::requests.apply');
+    }
+
+    public function store(StoreSolarPlantRequestRequest $request): RedirectResponse
+    {
+        $validated = $request->validated();
+
+        SolarPlantRequest::create([
             ...$validated,
-            'user_id' => $request->user()->id,
-            'status' => SolarPlantRequestStatus::UNDER_REVIEW,
+            'user_id'   => $request->user()->id,
+            'status'    => SolarPlantRequestStatus::UNDER_REVIEW,
+            'images'    => $imagePaths ?: null,
+            'documents' => $documentPaths ?: null,
         ]);
 
-        return $this->index($request);
+        return redirect()
+            ->route('solar-plant-requests.index')
+            ->with('status', 'درخواست شما با موفقیت ثبت شد. کد پیگیری در زیر قابل مشاهده است.');
+            ->route('solar-plant-requests.apply')
+            ->with('status', 'درخواست شما با موفقیت ثبت شد. کد پیگیری شما در پنل کاربری قابل مشاهده است.');
     }
 
     public function assignContractor(Request $request, SolarPlantRequest $solarPlantRequest): JsonResponse

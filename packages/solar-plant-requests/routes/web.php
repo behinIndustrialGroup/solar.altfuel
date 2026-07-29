@@ -10,6 +10,7 @@ use SolarPlantRequests\Http\Controllers\InspectionSolarPlantRequestController;
 use SolarPlantRequests\Http\Controllers\SolarPlantRequestController;
 
 Route::middleware(['web', 'auth'])->prefix('solar-plant-requests')->name('solar-plant-requests.')->group(function () {
+    Route::get('/apply', [SolarPlantRequestController::class, 'apply'])->name('apply');
     Route::get('/', [SolarPlantRequestController::class, 'index'])->name('index');
     Route::get('{solarPlantRequest}/show', [SolarPlantRequestController::class, 'show'])->name('show');
     Route::post('/', [SolarPlantRequestController::class, 'store'])->name('store');

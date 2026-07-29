@@ -7,19 +7,28 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use SolarPlantRequests\Enums\ApplicantType;
+use SolarPlantRequests\Enums\PurposeType;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
-use SolarPlantRequests\Models\Panel;
-use SolarPlantRequests\Models\Inverter;
-use SolarPlantRequests\Models\Battery;
+use SolarPlantRequests\Enums\SurfaceType;
+use SolarPlantRequests\Enums\UsageType;
 
 class SolarPlantRequest extends Model
 {
     protected $fillable = [
         'user_id',
+        'applicant_type',
         'first_name',
         'last_name',
         'mobile',
         'national_code',
+        'company_name',
+        'registration_number',
+        'ceo_national_id',
+        'immigration_code',
+        'landline',
+        'province',
+        'city',
         'postal_code',
         'address',
         'bill_identifier',
@@ -32,10 +41,31 @@ class SolarPlantRequest extends Model
     ];
 
     protected $casts = [
+        'applicant_type' => ApplicantType::class,
+        'usage_type' => UsageType::class,
+        'surface_type' => SurfaceType::class,
+        'purpose' => PurposeType::class,
         'status' => SolarPlantRequestStatus::class,
     ];
 
     protected $appends = ['status_label'];
+
+    protected static function booted(): void
+    {
+        static::creating(function (SolarPlantRequest $model) {
+            if (empty($model->unique_code)) {
+                $model->unique_code = self::generateUniqueCode();
+            }
+        });
+    }
+
+    public static function generateUniqueCode(): string
+    {
+        $prefix = 'SPR';
+        $timestamp = time();
+        $random = strtoupper(substr(bin2hex(random_bytes(3)), 0, 4));
+        return $prefix . $timestamp . $random;
+    }
 
     public function user(): BelongsTo
     {
