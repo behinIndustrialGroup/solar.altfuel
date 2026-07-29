@@ -20,13 +20,27 @@ class InspectionSolarPlantRequestController
 {
     public function index(Request $request): View|JsonResponse
     {
+        abort_unless(
+            SolarPlantRequest::userHasRole($request->user(), 'inspector')
+            || SolarPlantRequest::userHasRole($request->user(), 'leader'),
+            403,
+            'شما دسترسی به این صفحه ندارید.'
+        );
+
         $user = $request->user();
 
-        $requests = SolarPlantRequest::query()
-            ->where('contractor_id', $user->id)
-            ->latest()
-            ->get();
+        $query = SolarPlantRequest::query()
+            ->where('status', SolarPlantRequestStatus::INSPECTION)
+            ->latest();
 
+        if (!SolarPlantRequest::userHasRole($user, 'leader')) {
+            $query->where(function ($q) use ($user) {
+                $q->where('inspector_user_id', $user->id)
+                    ->orWhereNull('inspector_user_id');
+            });
+        }
+
+        $requests = $query->get();
 
         if ($request->wantsJson()) {
             return response()->json(['data' => $requests]);
@@ -39,6 +53,19 @@ class InspectionSolarPlantRequestController
 
     public function show(Request $request, SolarPlantRequest $solarPlantRequest): View|JsonResponse
     {
+        abort_unless(
+            SolarPlantRequest::userHasRole($request->user(), 'inspector')
+            || SolarPlantRequest::userHasRole($request->user(), 'leader'),
+            403,
+            'شما دسترسی به این صفحه ندارید.'
+        );
+
+        abort_unless(
+            $solarPlantRequest->status === SolarPlantRequestStatus::INSPECTION,
+            400,
+            'این درخواست در مرحله بازرسی نیست.'
+        );
+
         return view('solar-plant-requests::requests.inspection-show-request', [
             'solarPlantRequest' => $solarPlantRequest,
             'manufacturers' => PanelManufacturerGetController::getAll(),
@@ -49,7 +76,19 @@ class InspectionSolarPlantRequestController
 
     public function approvedResult(Request $request, SolarPlantRequest $solarPlantRequest): RedirectResponse|JsonResponse
     {
-        
+        abort_unless(
+            SolarPlantRequest::userHasRole($request->user(), 'inspector')
+            || SolarPlantRequest::userHasRole($request->user(), 'leader'),
+            403,
+            'شما دسترسی به این عملیات ندارید.'
+        );
+
+        abort_unless(
+            $solarPlantRequest->status === SolarPlantRequestStatus::INSPECTION,
+            400,
+            'این درخواست در مرحله بازرسی نیست.'
+        );
+
         $solarPlantRequest->update([
             'inspector_user_id' => $request->user()->id,
             'inspector_name' => GetController::getById($request->user()->id)->name,
@@ -72,22 +111,34 @@ class InspectionSolarPlantRequestController
             return response()->json(['data' => $solarPlantRequest->fresh()]);
         }
 
-        return back()->with('success', 'درخواست با موفقیت تایید شد');
+        return back()->with('success', 'درخواست با موفقیت تایید شد و گواهی صادر گردید.');
     }
 
     public function declinedResult(Request $request, SolarPlantRequest $solarPlantRequest): RedirectResponse|JsonResponse
     {
-        
+        abort_unless(
+            SolarPlantRequest::userHasRole($request->user(), 'inspector')
+            || SolarPlantRequest::userHasRole($request->user(), 'leader'),
+            403,
+            'شما دسترسی به این عملیات ندارید.'
+        );
+
+        abort_unless(
+            $solarPlantRequest->status === SolarPlantRequestStatus::INSPECTION,
+            400,
+            'این درخواست در مرحله بازرسی نیست.'
+        );
+
         $solarPlantRequest->update([
             'inspector_user_id' => $request->user()->id,
             'inspector_name' => GetController::getById($request->user()->id)->name,
-            'status' => SolarPlantRequestStatus::EQUIPMENT_INSTALLATION
+            'status' => SolarPlantRequestStatus::EQUIPMENT_INSTALLATION,
         ]);
 
         if ($request->wantsJson()) {
             return response()->json(['data' => $solarPlantRequest->fresh()]);
         }
 
-        return back()->with('success', 'درخواست با موفقیت تایید شد');
+        return back()->with('success', 'درخواست بازرسی رد شد و برای اصلاح به پیمانکار بازگردانده شد.');
     }
 }

@@ -34,29 +34,6 @@ class SolarPlantRequestController
         ]);
     }
 
-    
-    public function store(StoreSolarPlantRequestRequest $request): RedirectResponse
-    {
-        $validated = $request->validated();
-
-        // Handle image uploads
-        $imagePaths = [];
-        foreach ($request->file('images', []) as $file) {
-            if ($file && $file->isValid()) {
-                $imagePaths[] = $file->store('solar-plant-requests/images', 'public');
-            }
-        }
-
-        // Handle document uploads
-        $documentPaths = [];
-        foreach ($request->file('documents', []) as $file) {
-            if ($file && $file->isValid()) {
-                $documentPaths[] = $file->store('solar-plant-requests/documents', 'public');
-            }
-        }
-
-        // Remove file arrays from validated data (not direct DB columns)
-        unset($validated['images'], $validated['documents']);
     public function apply(): View
     {
         return view('solar-plant-requests::requests.apply');
@@ -65,6 +42,22 @@ class SolarPlantRequestController
     public function store(StoreSolarPlantRequestRequest $request): RedirectResponse
     {
         $validated = $request->validated();
+
+        $imagePaths = [];
+        foreach ($request->file('images', []) as $file) {
+            if ($file && $file->isValid()) {
+                $imagePaths[] = $file->store('solar-plant-requests/images', 'public');
+            }
+        }
+
+        $documentPaths = [];
+        foreach ($request->file('documents', []) as $file) {
+            if ($file && $file->isValid()) {
+                $documentPaths[] = $file->store('solar-plant-requests/documents', 'public');
+            }
+        }
+
+        unset($validated['images'], $validated['documents']);
 
         SolarPlantRequest::create([
             ...$validated,
@@ -76,8 +69,6 @@ class SolarPlantRequestController
 
         return redirect()
             ->route('solar-plant-requests.index')
-            ->with('status', 'درخواست شما با موفقیت ثبت شد. کد پیگیری در زیر قابل مشاهده است.');
-            ->route('solar-plant-requests.apply')
             ->with('status', 'درخواست شما با موفقیت ثبت شد. کد پیگیری شما در پنل کاربری قابل مشاهده است.');
     }
 
@@ -109,16 +100,15 @@ class SolarPlantRequestController
     {
         $path = $request->query('path', '');
 
-        // Validate path — must start with solar-plant-requests/ to prevent traversal
         if (!$path || !str_starts_with($path, 'solar-plant-requests/')) {
             abort(403);
         }
 
-        if (!\Illuminate\Support\Facades\Storage::disk('public')->exists($path)) {
+        if (!Storage::disk('public')->exists($path)) {
             abort(404, 'فایل یافت نشد.');
         }
 
-        return \Illuminate\Support\Facades\Storage::disk('public')->download($path, basename($path));
+        return Storage::disk('public')->download($path, basename($path));
     }
 
     public function detail(Request $request, SolarPlantRequest $solarPlantRequest): View
