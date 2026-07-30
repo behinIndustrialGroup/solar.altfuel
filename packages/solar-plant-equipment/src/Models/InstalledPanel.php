@@ -36,4 +36,9 @@ class InstalledPanel extends Model
     {
         return $this->belongsTo(SolarProject::class, 'project_id');
     }
+
+    public function catalog(): BelongsTo
+    {
+        return $this->belongsTo(\PanelCatalog\Models\PanelCatalog::class, 'panel_model_id');
+    }
 }

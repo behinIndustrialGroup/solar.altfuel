@@ -51,7 +51,8 @@
             "BatteryCatalog\\": "packages/battery-catalog/src/",
             "ContractorCatalog\\": "packages/contractor-catalog/src/",
             "InspectorCatalog\\": "packages/inspector-catalog/src/",
-            "SolarPlantEquipment\\": "packages/solar-plant-equipment/src/"
+            "SolarPlantEquipment\\": "packages/solar-plant-equipment/src/",
+            "ProjectInspection\\": "packages/project-inspection/src/"
         },
         "files": [
             "packages/behin-init/src/App/Helpers/behin-helpers.php"

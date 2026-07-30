@@ -133,6 +133,7 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
             'Psr\\EventDispatcher\\' => 20,
             'Psr\\Container\\' => 14,
             'Psr\\Clock\\' => 10,
+            'ProjectInspection\\' => 18,
             'PhpParser\\' => 10,
             'PhpOption\\' => 10,
             'PhpOffice\\PhpSpreadsheet\\' => 25,
@@ -472,6 +473,10 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         array (
             0 => __DIR__ . '/..' . '/psr/clock/src',
         ),
+        'ProjectInspection\\' =>
+        array (
+            0 => __DIR__ . '/../..' . '/packages/project-inspection/src',
+        ),
         'PhpParser\\' =>
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
@@ -792,6 +797,7 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'App\\Http\\Controllers\\InstallerRegistrationController' => __DIR__ . '/../..' . '/app/Http/Controllers/InstallerRegistrationController.php',
         'App\\Http\\Controllers\\ProfileController' => __DIR__ . '/../..' . '/app/Http/Controllers/ProfileController.php',
         'App\\Http\\Controllers\\SmeRegistrationController' => __DIR__ . '/../..' . '/app/Http/Controllers/SmeRegistrationController.php',
+        'App\\Http\\Middleware\\ConvertJalaliDatesToGregorian' => __DIR__ . '/../..' . '/app/Http/Middleware/ConvertJalaliDatesToGregorian.php',
         'App\\Http\\Requests\\Auth\\LoginRequest' => __DIR__ . '/../..' . '/app/Http/Requests/Auth/LoginRequest.php',
         'App\\Http\\Requests\\ProfileUpdateRequest' => __DIR__ . '/../..' . '/app/Http/Requests/ProfileUpdateRequest.php',
         'App\\Http\\Requests\\StoreInstallerApplicationRequest' => __DIR__ . '/../..' . '/app/Http/Requests/StoreInstallerApplicationRequest.php',
@@ -6515,6 +6521,9 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'PhpParser\\PrettyPrinter\\Standard' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/PrettyPrinter/Standard.php',
         'PhpParser\\Token' => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser/Token.php',
         'PhpToken' => __DIR__ . '/..' . '/symfony/polyfill-php80/Resources/stubs/PhpToken.php',
+        'ProjectInspection\\Http\\Controllers\\ProjectInspectionController' => __DIR__ . '/../..' . '/packages/project-inspection/src/Http/Controllers/ProjectInspectionController.php',
+        'ProjectInspection\\Models\\ProjectInspection' => __DIR__ . '/../..' . '/packages/project-inspection/src/Models/ProjectInspection.php',
+        'ProjectInspection\\ProjectInspectionServiceProvider' => __DIR__ . '/../..' . '/packages/project-inspection/src/ProjectInspectionServiceProvider.php',
         'Psr\\Clock\\ClockInterface' => __DIR__ . '/..' . '/psr/clock/src/ClockInterface.php',
         'Psr\\Container\\ContainerExceptionInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerExceptionInterface.php',
         'Psr\\Container\\ContainerInterface' => __DIR__ . '/..' . '/psr/container/src/ContainerInterface.php',
@@ -7104,6 +7113,9 @@ class ComposerStaticInitf86875715c5b32c6021b837db7efc70f
         'SebastianBergmann\\Type\\UnknownType' => __DIR__ . '/..' . '/sebastian/type/src/type/UnknownType.php',
         'SebastianBergmann\\Type\\VoidType' => __DIR__ . '/..' . '/sebastian/type/src/type/VoidType.php',
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
+        'SolarPlantEquipment\\Http\\Controllers\\InstalledBatteryController' => __DIR__ . '/../..' . '/packages/solar-plant-equipment/src/Http/Controllers/InstalledBatteryController.php',
+        'SolarPlantEquipment\\Http\\Controllers\\InstalledInverterController' => __DIR__ . '/../..' . '/packages/solar-plant-equipment/src/Http/Controllers/InstalledInverterController.php',
+        'SolarPlantEquipment\\Http\\Controllers\\InstalledPanelController' => __DIR__ . '/../..' . '/packages/solar-plant-equipment/src/Http/Controllers/InstalledPanelController.php',
         'SolarPlantEquipment\\Http\\Controllers\\SolarProjectController' => __DIR__ . '/../..' . '/packages/solar-plant-equipment/src/Http/Controllers/SolarProjectController.php',
         'SolarPlantEquipment\\Models\\InstalledBattery' => __DIR__ . '/../..' . '/packages/solar-plant-equipment/src/Models/InstalledBattery.php',
         'SolarPlantEquipment\\Models\\InstalledInverter' => __DIR__ . '/../..' . '/packages/solar-plant-equipment/src/Models/InstalledInverter.php',

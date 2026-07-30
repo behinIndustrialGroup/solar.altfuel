@@ -4,35 +4,205 @@
 
 @section('style')
 <style>
+    body {
+        direction: rtl;
+        text-align: right;
+    }
+    .solar-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(255, 152, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+    .solar-card-header {
+        background: linear-gradient(90deg, #FFB74D 0%, #FF9800 100%);
+        color: #fff;
+        padding: 1rem 1.25rem;
+        border: none;
+    }
+    .solar-card-header h6 {
+        margin: 0;
+        font-weight: 700;
+        font-size: 0.95rem;
+    }
+    .solar-card-header i {
+        margin-left: 0.5rem;
+    }
+    .solar-card-body {
+        padding: 1.5rem;
+        background: #fff;
+    }
     .section-card {
-        border-right: 4px solid #1976d2;
+        border: none;
+        border-right: 4px solid #FF9800;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        background: #fff;
+        margin-bottom: 1.5rem;
     }
     .section-title {
-        color: #1976d2;
+        color: #FF9800;
         font-weight: 700;
         font-size: 1rem;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
+        display: flex;
+        align-items: center;
     }
+    .section-title i {
+        margin-left: 0.5rem;
+    }
+    .form-group {
+        margin-bottom: 1.25rem;
+    }
+    .form-group label {
+        font-weight: 600;
+        color: #424242;
+        margin-bottom: 0.5rem;
+        display: inline-block;
+    }
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+        padding: 0.55rem 0.85rem;
+        transition: all 0.2s ease;
+    }
+    .form-control:focus {
+        border-color: #FF9800;
+        box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.15);
+        outline: none;
+    }
+    .form-control.is-invalid {
+        border-color: #e53935;
+    }
+    .form-control.is-invalid:focus {
+        box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.15);
+    }
+    .select2-container--default .select2-selection--single,
     .select2-container--default .select2-selection--multiple {
+        border-radius: 8px !important;
+        border: 1px solid #e0e0e0 !important;
         min-height: 38px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
+        transition: all 0.2s ease;
+    }
+    .select2-container--default .select2-selection--single:focus,
+    .select2-container--default.select2-container--focus .select2-selection--multiple,
+    .select2-container--default.select2-container--open .select2-selection--single {
+        border-color: #FF9800 !important;
+        box-shadow: 0 0 0 3px rgba(255, 152, 0, 0.15) !important;
     }
     .select2-container--default .select2-selection--multiple .select2-selection__choice {
-        background-color: #1976d2;
-        border-color: #1565c0;
+        background-color: #FF9800;
+        border-color: #F57C00;
         color: #fff;
-        border-radius: 3px;
-        padding: 0 8px;
+        border-radius: 6px;
+        padding: 2px 10px;
+        margin-top: 4px;
+        margin-right: 4px;
     }
     .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
         color: #fff;
-        margin-left: 4px;
+        margin-left: 6px;
+        float: right;
     }
-    .badge-count {
-        font-size: 0.75rem;
-        padding: 3px 8px;
-        border-radius: 10px;
+    .select2-container {
+        width: 100% !important;
+    }
+    .wizard-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem 0 1rem;
+        margin-bottom: 1rem;
+    }
+    .wizard-step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 2;
+    }
+    .wizard-circle {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #FFB74D 0%, #FF9800 100%);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 12px rgba(255, 152, 0, 0.35);
+        border: 3px solid #fff;
+    }
+    .wizard-label {
+        margin-top: 0.6rem;
+        font-size: 0.85rem;
+        font-weight: 700;
+        color: #616161;
+        white-space: nowrap;
+    }
+    .wizard-line {
+        flex: 1;
+        max-width: 120px;
+        height: 3px;
+        border-top: 3px dashed #FFB74D;
+        margin: 0 0.75rem;
+        margin-bottom: 2.5rem;
+    }
+    .btn-solar {
+        background: linear-gradient(90deg, #FF9800 0%, #F57C00 100%);
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        padding: 0.65rem 2rem;
+        font-weight: 700;
+        font-size: 0.95rem;
+        box-shadow: 0 4px 14px rgba(255, 152, 0, 0.35);
+        transition: all 0.2s ease;
+    }
+    .btn-solar:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(255, 152, 0, 0.45);
+        color: #fff;
+    }
+    .btn-solar:active {
+        transform: translateY(0);
+    }
+    .btn-cancel {
+        border-radius: 8px;
+        padding: 0.65rem 1.5rem;
+        font-weight: 600;
+        color: #757575;
+        border: 1px solid #e0e0e0;
+        background: #fff;
+        transition: all 0.2s ease;
+    }
+    .btn-cancel:hover {
+        background: #fafafa;
+        color: #424242;
+        border-color: #bdbdbd;
+    }
+    .page-header-card {
+        border: none;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+        box-shadow: 0 2px 12px rgba(255, 152, 0, 0.1);
+        margin-bottom: 1.5rem;
+    }
+    .page-header-card .card-body {
+        padding: 1.25rem 1.5rem;
+    }
+    .alert-danger {
+        border-radius: 12px;
+        border-right: 4px solid #e53935;
+    }
+    textarea.form-control {
+        resize: vertical;
+    }
+    .text-muted-small {
+        font-size: 0.8rem;
     }
 </style>
 @endsection
@@ -41,26 +211,49 @@
 <div class="row">
     <div class="col-12">
 
-        {{-- Page Header --}}
-        <div class="card card-primary card-outline mb-3">
-            <div class="card-header d-flex align-items-center justify-content-between">
-                <div>
-                    <h3 class="card-title mb-0">
-                        <i class="fa fa-plus-circle text-primary ml-2"></i>
-                        ثبت پروژه جدید نیروگاه خورشیدی
-                    </h3>
+        <div class="page-header-card">
+            <div class="card-body d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <div style="width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#FFB74D,#FF9800);display:flex;align-items:center;justify-content:center;margin-left:1rem;">
+                        <i class="fa fa-sun-o text-white" style="font-size:1.4rem;"></i>
+                    </div>
+                    <div>
+                        <h3 class="card-title mb-0" style="color:#E65100;font-weight:800;font-size:1.2rem;">
+                            ثبت پروژه جدید نیروگاه خورشیدی
+                        </h3>
+                        <p class="mb-0 mt-1" style="color:#EF6C00;font-size:0.85rem;">
+                            اطلاعات پایه پروژه را در فرم زیر وارد کنید
+                        </p>
+                    </div>
                 </div>
                 <a href="{{ route('solar-plant-equipment.projects.index') }}"
-                   class="btn btn-sm btn-outline-secondary">
+                   class="btn btn-cancel btn-sm">
                     <i class="fa fa-list ml-1"></i> لیست پروژه‌ها
                 </a>
+            </div>
+        </div>
+
+        <div class="wizard-container">
+            <div class="wizard-step">
+                <div class="wizard-circle">۱</div>
+                <div class="wizard-label">اطلاعات پایه</div>
+            </div>
+            <div class="wizard-line"></div>
+            <div class="wizard-step">
+                <div class="wizard-circle">۲</div>
+                <div class="wizard-label">زمانبندی و موقعیت</div>
+            </div>
+            <div class="wizard-line"></div>
+            <div class="wizard-step">
+                <div class="wizard-circle">۳</div>
+                <div class="wizard-label">گواهی و توضیحات</div>
             </div>
         </div>
 
         @if ($errors->any())
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <h5><i class="icon fa fa-ban"></i> خطا در ثبت اطلاعات</h5>
+                <h5><i class="icon fa fa-ban ml-1"></i> خطا در ثبت اطلاعات</h5>
                 <ul class="mb-0 pr-3">
                     @foreach ($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -74,14 +267,12 @@
 
             <div class="row">
 
-                {{-- ========== RIGHT COLUMN ========== --}}
                 <div class="col-md-6">
 
-                    {{-- درخواست --}}
-                    <div class="card section-card mb-3">
-                        <div class="card-body">
+                    <div class="section-card">
+                        <div class="card-body p-4">
                             <div class="section-title">
-                                <i class="fa fa-file-text-o ml-1"></i> درخواست مرتبط
+                                <i class="fa fa-file-text-o"></i> درخواست مرتبط
                             </div>
                             <div class="form-group mb-0">
                                 <label for="request_id">انتخاب درخواست ثبت‌شده</label>
@@ -105,18 +296,17 @@
                                 @error('request_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">
+                                <small class="form-text text-muted text-muted-small mt-2">
                                     می‌توانید پروژه را بدون درخواست ثبت کنید و بعداً تخصیص دهید.
                                 </small>
                             </div>
                         </div>
                     </div>
 
-                    {{-- پیمانکار --}}
-                    <div class="card section-card mb-3">
-                        <div class="card-body">
+                    <div class="section-card">
+                        <div class="card-body p-4">
                             <div class="section-title">
-                                <i class="fa fa-building ml-1"></i> پیمانکار
+                                <i class="fa fa-building"></i> پیمانکار
                             </div>
                             <div class="form-group mb-0">
                                 <label for="contractor_id">انتخاب پیمانکار</label>
@@ -140,11 +330,10 @@
                         </div>
                     </div>
 
-                    {{-- بازرس --}}
-                    <div class="card section-card mb-3">
-                        <div class="card-body">
+                    <div class="section-card">
+                        <div class="card-body p-4">
                             <div class="section-title">
-                                <i class="fa fa-search ml-1"></i> بازرس
+                                <i class="fa fa-search"></i> بازرس
                             </div>
                             <div class="form-group mb-0">
                                 <label for="inspector_id">انتخاب بازرس</label>
@@ -164,7 +353,7 @@
                                 @error('inspector_id')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
-                                <small class="form-text text-muted">
+                                <small class="form-text text-muted text-muted-small mt-2">
                                     فقط کاربرانی با نقش بازرس نمایش داده می‌شوند.
                                 </small>
                             </div>
@@ -173,25 +362,110 @@
 
                 </div>
 
-                {{-- ========== LEFT COLUMN ========== --}}
                 <div class="col-md-6">
 
-                    {{-- خلاصه انتخاب‌ها --}}
-                    <div class="card bg-light mb-3">
-                        <div class="card-body py-3">
-                            <h6 class="font-weight-bold text-secondary mb-3">
-                                <i class="fa fa-info-circle ml-1"></i> خلاصه تجهیزات انتخاب‌شده
-                            </h6>
-                            <div class="d-flex flex-wrap gap-2" style="gap:.5rem;display:flex;flex-wrap:wrap;">
-                                <span class="badge badge-primary badge-count" id="panelCount">
-                                    <i class="fa fa-sun-o ml-1"></i> پنل: <span id="panelCountNum">0</span> مدل
-                                </span>
-                                <span class="badge badge-warning badge-count" id="inverterCount">
-                                    <i class="fa fa-bolt ml-1"></i> اینورتر: <span id="inverterCountNum">0</span> مدل
-                                </span>
-                                <span class="badge badge-success badge-count" id="batteryCount">
-                                    <i class="fa fa-battery-full ml-1"></i> باتری: <span id="batteryCountNum">0</span> مدل
-                                </span>
+                    <div class="section-card">
+                        <div class="card-body p-4">
+                            <div class="section-title">
+                                <i class="fa fa-calendar"></i> تاریخ‌ها و وضعیت پروژه
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="installation_start_date">تاریخ شروع نصب</label>
+                                        <input type="date" name="installation_start_date" id="installation_start_date"
+                                               class="form-control @error('installation_start_date') is-invalid @enderror"
+                                               value="{{ old('installation_start_date') }}">
+                                        @error('installation_start_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="installation_end_date">تاریخ پایان نصب</label>
+                                        <input type="date" name="installation_end_date" id="installation_end_date"
+                                               class="form-control @error('installation_end_date') is-invalid @enderror"
+                                               value="{{ old('installation_end_date') }}">
+                                        @error('installation_end_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-0">
+                                        <label for="commissioning_date">تاریخ بهره برداری</label>
+                                        <input type="date" name="commissioning_date" id="commissioning_date"
+                                               class="form-control @error('commissioning_date') is-invalid @enderror"
+                                               value="{{ old('commissioning_date') }}">
+                                        @error('commissioning_date')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group mb-0">
+                                        <label for="status">وضعیت پروژه</label>
+                                        <select name="status" id="status"
+                                                class="form-control select2-single @error('status') is-invalid @enderror">
+                                            @foreach (\SolarPlantEquipment\Models\SolarProject::getStatuses() as $key => $label)
+                                                <option value="{{ $key }}"
+                                                    {{ old('status', 'in_progress') == $key ? 'selected' : '' }}>
+                                                    {{ $label }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('status')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-body p-4">
+                            <div class="section-title">
+                                <i class="fa fa-map-marker"></i> موقعیت جغرافیایی و قرارداد
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="latitude">عرض جغرافیایی (Latitude)</label>
+                                        <input type="number" step="any" name="latitude" id="latitude"
+                                               class="form-control @error('latitude') is-invalid @enderror"
+                                               placeholder="مثلاً 35.6892000"
+                                               value="{{ old('latitude') }}">
+                                        @error('latitude')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="longitude">طول جغرافیایی (Longitude)</label>
+                                        <input type="number" step="any" name="longitude" id="longitude"
+                                               class="form-control @error('longitude') is-invalid @enderror"
+                                               placeholder="مثلاً 51.3890000"
+                                               value="{{ old('longitude') }}">
+                                        @error('longitude')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group mb-0">
+                                <label for="satba_contract_number">شماره قرارداد ساتبا <span class="text-muted text-muted-small">(در صورت وجود)</span></label>
+                                <input type="text" name="satba_contract_number" id="satba_contract_number"
+                                       class="form-control @error('satba_contract_number') is-invalid @enderror"
+                                       placeholder="شماره قرارداد ساتبا"
+                                       value="{{ old('satba_contract_number') }}">
+                                @error('satba_contract_number')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
                         </div>
                     </div>
@@ -199,113 +473,67 @@
                 </div>
             </div>
 
-            {{-- ========== PANELS ========== --}}
-            <div class="card section-card mb-3">
-                <div class="card-header">
-                    <div class="section-title mb-0">
-                        <i class="fa fa-sun-o ml-1"></i> مدل‌های پنل نصب‌شده
+            <div class="section-card mb-4">
+                <div class="card-body p-4">
+                    <div class="section-title">
+                        <i class="fa fa-id-card-o"></i> گواهی سلامت و توضیحات پروژه
                     </div>
-                </div>
-                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="health_card_no">شماره گواهی سلامت</label>
+                                <input type="text" name="health_card_no" id="health_card_no"
+                                       class="form-control @error('health_card_no') is-invalid @enderror"
+                                       placeholder="شماره گواهی سلامت"
+                                       value="{{ old('health_card_no') }}">
+                                @error('health_card_no')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="health_card_issue_date">تاریخ صدور گواهی سلامت</label>
+                                <input type="date" name="health_card_issue_date" id="health_card_issue_date"
+                                       class="form-control @error('health_card_issue_date') is-invalid @enderror"
+                                       value="{{ old('health_card_issue_date') }}">
+                                @error('health_card_issue_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="health_card_expiry_date">تاریخ انقضای گواهی سلامت</label>
+                                <input type="date" name="health_card_expiry_date" id="health_card_expiry_date"
+                                       class="form-control @error('health_card_expiry_date') is-invalid @enderror"
+                                       value="{{ old('health_card_expiry_date') }}">
+                                @error('health_card_expiry_date')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
                     <div class="form-group mb-0">
-                        <label for="installed_panel_ids">انتخاب مدل‌های پنل (می‌توانید چند مدل انتخاب کنید)</label>
-                        <select name="installed_panel_ids[]"
-                                id="installed_panel_ids"
-                                class="form-control select2-multi @error('installed_panel_ids') is-invalid @enderror"
-                                multiple="multiple">
-                            @foreach ($panels as $panel)
-                                <option value="{{ $panel->id }}"
-                                    {{ in_array($panel->id, old('installed_panel_ids', [])) ? 'selected' : '' }}>
-                                    {{ $panel->brand }} — {{ $panel->model }}
-                                    ({{ $panel->rated_power_wp }} Wp | {{ $panel->panel_type }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('installed_panel_ids')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
+                        <label for="description">توضیحات</label>
+                        <textarea name="description" id="description" rows="4"
+                                  class="form-control @error('description') is-invalid @enderror"
+                                  placeholder="توضیحات تکمیلی مربوط به پروژه...">{{ old('description') }}</textarea>
+                        @error('description')
+                            <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
-                        <small class="form-text text-muted">
-                            مدل‌های پنل از کاتالوگ پنل‌ها انتخاب می‌شوند. برای جزئیات هر پنل (شماره سریال، بخش، استرینگ) از بخش «پنل‌های نصب‌شده» اقدام کنید.
-                        </small>
                     </div>
                 </div>
             </div>
 
-            {{-- ========== INVERTERS ========== --}}
-            <div class="card section-card mb-3">
-                <div class="card-header">
-                    <div class="section-title mb-0">
-                        <i class="fa fa-bolt ml-1"></i> مدل‌های اینورتر نصب‌شده
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="form-group mb-0">
-                        <label for="installed_inverter_ids">انتخاب مدل‌های اینورتر</label>
-                        <select name="installed_inverter_ids[]"
-                                id="installed_inverter_ids"
-                                class="form-control select2-multi @error('installed_inverter_ids') is-invalid @enderror"
-                                multiple="multiple">
-                            @foreach ($inverters as $inverter)
-                                <option value="{{ $inverter->id }}"
-                                    {{ in_array($inverter->id, old('installed_inverter_ids', [])) ? 'selected' : '' }}>
-                                    {{ $inverter->brand }} — {{ $inverter->model_name }}
-                                    ({{ $inverter->rated_power_kw }} kW | {{ $inverter->inverter_type }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('installed_inverter_ids')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                        @enderror
-                        <small class="form-text text-muted">
-                            برای ثبت جزئیات هر اینورتر (شماره سریال، Equipment Tag، محل نصب) از بخش «اینورترهای نصب‌شده» استفاده کنید.
-                        </small>
-                    </div>
-                </div>
-            </div>
-
-            {{-- ========== BATTERIES ========== --}}
-            <div class="card section-card mb-3">
-                <div class="card-header">
-                    <div class="section-title mb-0">
-                        <i class="fa fa-battery-full ml-1"></i> مدل‌های باتری نصب‌شده
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="form-group mb-0">
-                        <label for="installed_battery_ids">انتخاب مدل‌های باتری</label>
-                        <select name="installed_battery_ids[]"
-                                id="installed_battery_ids"
-                                class="form-control select2-multi @error('installed_battery_ids') is-invalid @enderror"
-                                multiple="multiple">
-                            @foreach ($batteries as $battery)
-                                <option value="{{ $battery->id }}"
-                                    {{ in_array($battery->id, old('installed_battery_ids', [])) ? 'selected' : '' }}>
-                                    {{ $battery->brand }} — {{ $battery->model_name }}
-                                    ({{ $battery->energy_capacity_kwh }} kWh | {{ $battery->battery_type }})
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('installed_battery_ids')
-                            <div class="invalid-feedback d-block">{{ $message }}</div>
-                        @enderror
-                        <small class="form-text text-muted">
-                            برای ثبت جزئیات هر باتری (شماره سریال، Equipment Tag، محل نصب) از بخش «باتری‌های نصب‌شده» استفاده کنید.
-                        </small>
-                    </div>
-                </div>
-            </div>
-
-            {{-- Submit --}}
-            <div class="card mb-4">
-                <div class="card-body d-flex justify-content-between align-items-center">
-                    <button type="submit" class="btn btn-primary btn-lg px-5">
-                        <i class="fa fa-save ml-2"></i> ثبت پروژه
-                    </button>
-                    <a href="{{ route('solar-plant-equipment.projects.index') }}"
-                       class="btn btn-outline-secondary">
-                        <i class="fa fa-times ml-1"></i> انصراف
-                    </a>
-                </div>
+            <div class="mb-5 d-flex align-items-center justify-content-start">
+                <button type="submit" class="btn-solar ml-3">
+                    <i class="fa fa-save ml-2"></i> ثبت پروژه
+                </button>
+                <a href="{{ route('solar-plant-equipment.projects.index') }}"
+                   class="btn-cancel">
+                    <i class="fa fa-times ml-1"></i> انصراف
+                </a>
             </div>
 
         </form>
@@ -318,35 +546,19 @@
 <script>
 $(document).ready(function () {
 
-    // Initialize single selects
-    $('#request_id, #contractor_id, #inspector_id').select2({
+    $('#request_id, #contractor_id, #inspector_id, #status, .select2-single').select2({
         placeholder: 'جستجو کنید...',
         allowClear: true,
         width: '100%',
         language: { noResults: function () { return 'نتیجه‌ای یافت نشد'; } }
     });
 
-    // Initialize multi selects
     $('.select2-multi').select2({
         placeholder: 'انتخاب کنید...',
         allowClear: true,
         width: '100%',
         language: { noResults: function () { return 'نتیجه‌ای یافت نشد'; } }
     });
-
-    // Live counter update
-    function updateCounts() {
-        var panels   = $('#installed_panel_ids').val()   ? $('#installed_panel_ids').val().length   : 0;
-        var inverters= $('#installed_inverter_ids').val()? $('#installed_inverter_ids').val().length : 0;
-        var batteries= $('#installed_battery_ids').val() ? $('#installed_battery_ids').val().length  : 0;
-
-        $('#panelCountNum').text(panels);
-        $('#inverterCountNum').text(inverters);
-        $('#batteryCountNum').text(batteries);
-    }
-
-    $('#installed_panel_ids, #installed_inverter_ids, #installed_battery_ids').on('change', updateCounts);
-    updateCounts();
 
 });
 </script>

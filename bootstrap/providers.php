@@ -23,4 +23,5 @@ return [
     ContractorCatalog\ContractorCatalogServiceProvider::class,
     InspectorCatalog\InspectorCatalogServiceProvider::class,
     SolarPlantEquipment\SolarPlantEquipmentServiceProvider::class,
+    ProjectInspection\ProjectInspectionServiceProvider::class,
 ];

@@ -12,6 +12,7 @@ Route::middleware(['web', 'auth'])->prefix('admin/solar-projects')->name('solar-
     Route::get('/',              [SolarProjectController::class, 'index'])->name('index');
     Route::get('create',         [SolarProjectController::class, 'create'])->name('create');
     Route::post('/',             [SolarProjectController::class, 'store'])->name('store');
+    Route::get('{project}/health-certificate', [SolarProjectController::class, 'healthCertificate'])->name('health-certificate');
     Route::get('{project}',      [SolarProjectController::class, 'show'])->name('show');
     Route::get('{project}/edit', [SolarProjectController::class, 'edit'])->name('edit');
     Route::put('{project}',      [SolarProjectController::class, 'update'])->name('update');

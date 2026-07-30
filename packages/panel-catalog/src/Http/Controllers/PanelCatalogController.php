@@ -85,6 +85,15 @@ class PanelCatalogController
             ->with('success', 'پنل جدید با موفقیت ثبت شد.');
     }
 
+    public function destroy(PanelCatalog $panel)
+    {
+        $panel->delete();
+
+        return redirect()
+            ->route('panel-catalog.index')
+            ->with('success', 'پنل با موفقیت حذف شد.');
+    }
+
     public function lastRecord(): JsonResponse
     {
         $panel = PanelCatalog::query()->latest()->first();

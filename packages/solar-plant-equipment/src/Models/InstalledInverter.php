@@ -48,4 +48,9 @@ class InstalledInverter extends Model
     {
         return $this->belongsTo(SolarProject::class, 'project_id');
     }
+
+    public function catalog(): BelongsTo
+    {
+        return $this->belongsTo(\InverterCatalog\Models\InverterCatalog::class, 'inverter_model_id');
+    }
 }

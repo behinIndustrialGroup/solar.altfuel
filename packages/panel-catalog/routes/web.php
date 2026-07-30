@@ -7,5 +7,6 @@ Route::middleware(['web', 'auth'])->prefix('admin/panel-catalog')->name('panel-c
     Route::get('/', [PanelCatalogController::class, 'index'])->name('index');
     Route::get('create', [PanelCatalogController::class, 'create'])->name('create');
     Route::post('store', [PanelCatalogController::class, 'store'])->name('store');
+    Route::delete('{panel}', [PanelCatalogController::class, 'destroy'])->name('destroy');
     Route::get('last-record', [PanelCatalogController::class, 'lastRecord'])->name('last-record');
 });

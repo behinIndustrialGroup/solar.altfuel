@@ -46,4 +46,9 @@ class InstalledBattery extends Model
     {
         return $this->belongsTo(SolarProject::class, 'project_id');
     }
+
+    public function catalog(): BelongsTo
+    {
+        return $this->belongsTo(\BatteryCatalog\Models\BatteryCatalog::class, 'battery_model_id');
+    }
 }

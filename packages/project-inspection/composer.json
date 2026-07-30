@@ -1,0 +1,18 @@
+{
+    "name": "behin/project-inspection",
+    "description": "Solar Project Inspection Management Package - Inspector can record site visit results for assigned projects",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ProjectInspection\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "ProjectInspection\\ProjectInspectionServiceProvider"
+            ]
+        }
+    }
+}
