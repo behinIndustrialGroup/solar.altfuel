@@ -252,14 +252,14 @@
                                                    style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #039BE5; color: #039BE5; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.25s ease;"
                                                    onmouseover="this.style.background='#039BE5'; this.style.color='#fff';"
                                                    onmouseout="this.style.background='transparent'; this.style.color='#039BE5';">
-                                                    <i class="fa fa-eye" style="font-size: 13px;"></i>
+                                                    <i  style="font-size: 10px;">مشاهده</i>
                                                 </a>
                                                 <a href="{{ route('solar-plant-equipment.projects.edit', $project) }}"
                                                    class="btn btn-sm" title="ویرایش"
                                                    style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #FB8C00; color: #FB8C00; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.25s ease;"
                                                    onmouseover="this.style.background='#FB8C00'; this.style.color='#fff';"
                                                    onmouseout="this.style.background='transparent'; this.style.color='#FB8C00';">
-                                                    <i class="fa fa-edit" style="font-size: 13px;"></i>
+                                                    <i style="font-size: 10px;">ویرایش</i>
                                                 </a>
                                             </div>
                                         </td>
@@ -288,7 +288,7 @@ $(document).ready(function () {
         language: {
             url: '//cdn.datatables.net/plug-ins/1.13.4/i18n/fa.json'
         },
-        order: [[0, 'desc']],
+        order: [[8, 'desc']],
         pageLength: 15,
         dom: 'Bfrtip',
         buttons: [
