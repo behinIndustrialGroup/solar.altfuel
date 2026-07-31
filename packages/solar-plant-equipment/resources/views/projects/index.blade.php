@@ -119,56 +119,94 @@
                         <table class="table table-hover" id="projectsTable" style="margin: 0; border-collapse: separate; border-spacing: 0;">
                             <thead>
                                 <tr style="background: #FFF3E0;">
-                                    <th style="width:60px; padding: 16px 12px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">#</th>
-                                    <th style="padding: 16px 12px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">کد درخواست</th>
-                                    <th style="padding: 16px 12px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">پیمانکار</th>
-                                    <th style="padding: 16px 12px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">بازرس</th>
-                                    <th style="padding: 16px 12px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">وضعیت</th>
-                                    <th style="padding: 16px 12px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">تجهیزات</th>
-                                    <th style="padding: 16px 12px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">تاریخ ثبت</th>
-                                    <th style="width:140px; padding: 16px 12px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">عملیات</th>
+                                    <th style="width:50px; padding: 14px 10px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">#</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">کد پروژه</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">کد تقاضا</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">نام متقاضی</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">پیمانکار</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">بازرس</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">وضعیت</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">تجهیزات</th>
+                                    <th style="padding: 14px 10px; color: #E65100; font-weight: 700; border-bottom: 2px solid #FFE0B2;">تاریخ ثبت</th>
+                                    <th style="width:130px; padding: 14px 10px; color: #E65100; font-weight: 700; text-align: center; border-bottom: 2px solid #FFE0B2;">عملیات</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($projects as $project)
+                                    @php
+                                        $req = $project->request;
+                                        $applicantName = null;
+                                        $requestCode = null;
+                                        if ($req) {
+                                            $requestCode = $req->unique_code;
+                                            $type = is_object($req->applicant_type) ? ($req->applicant_type->value ?? $req->applicant_type) : $req->applicant_type;
+                                            if ($type === 'company' && !empty($req->company_name)) {
+                                                $applicantName = trim($req->company_name);
+                                            } else {
+                                                $full = trim(($req->first_name ?? '') . ' ' . ($req->last_name ?? ''));
+                                                $applicantName = $full ?: null;
+                                            }
+                                        }
+                                    @endphp
                                     <tr style="transition: background 0.2s ease;"
                                         onmouseover="this.style.background='#FFF8E1';"
                                         onmouseout="this.style.background='#fff';">
-                                        <td style="padding: 14px 12px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5; color: #666; font-weight: 600;">{{ $loop->iteration }}</td>
-                                        <td style="padding: 14px 12px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
-                                            @if ($project->request_id)
-                                                <span style="display: inline-block; padding: 6px 14px; background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); color: #E65100; border-radius: 8px; font-weight: 600; font-size: 13px;">
-                                                    #{{ $project->request_id }}
+                                        <td style="padding: 12px 10px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5; color: #666; font-weight: 600;">{{ $loop->iteration }}</td>
+                                        <td style="padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                            <span style="display: inline-block; padding: 5px 12px; background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); color: #0D47A1; border-radius: 8px; font-weight: 600; font-size: 12px; font-family: 'Courier New', monospace;">
+                                                PRJ-{{ $project->id }}
+                                            </span>
+                                        </td>
+                                        <td style="padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                            @if ($requestCode)
+                                                <span style="display: inline-block; padding: 5px 12px; background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%); color: #E65100; border-radius: 8px; font-weight: 600; font-size: 12px; font-family: 'Courier New', monospace; letter-spacing: 0.3px;">
+                                                    {{ $requestCode }}
                                                 </span>
                                             @else
-                                                <span style="color: #bdbdbd;">—</span>
+                                                <span style="color: #bdbdbd; font-size: 13px;">—</span>
                                             @endif
                                         </td>
-                                        <td style="padding: 14px 12px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
-                                            @if ($project->contractor_id)
-                                                <span style="display: inline-block; padding: 6px 14px; background: #F5F5F5; color: #616161; border-radius: 8px; font-weight: 500; font-size: 13px;">
+                                        <td style="padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                            @if ($applicantName)
+                                                <div class="d-flex align-items-center">
+                                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #8E24AA 0%, #6A1B9A 100%); display: flex; align-items: center; justify-content: center; margin-left: 10px; flex-shrink: 0;">
+                                                        <i class="fa fa-user" style="font-size: 13px; color: #fff;"></i>
+                                                    </div>
+                                                    <span style="color: #333; font-weight: 500; font-size: 13px;">{{ $applicantName }}</span>
+                                                </div>
+                                            @else
+                                                <span style="color: #bdbdbd; font-size: 13px;">—</span>
+                                            @endif
+                                        </td>
+                                        <td style="padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                            @if ($project->contractor)
+                                                <span style="color: #455A64; font-weight: 500; font-size: 13px;">
+                                                    {{ $project->contractor->company_name ?? $project->contractor->name ?? '#' . $project->contractor_id }}
+                                                </span>
+                                            @elseif ($project->contractor_id)
+                                                <span style="display: inline-block; padding: 5px 12px; background: #F5F5F5; color: #616161; border-radius: 8px; font-weight: 500; font-size: 12px;">
                                                     #{{ $project->contractor_id }}
                                                 </span>
                                             @else
-                                                <span style="color: #bdbdbd;">—</span>
+                                                <span style="color: #bdbdbd; font-size: 13px;">—</span>
                                             @endif
                                         </td>
-                                        <td style="padding: 14px 12px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                        <td style="padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
                                             @if ($project->inspector)
                                                 <div class="d-flex align-items-center">
-                                                    <div style="width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #1E88E5 0%, #1565C0 100%); display: flex; align-items: center; justify-content: center; margin-left: 10px;">
-                                                        <i class="fa fa-user" style="font-size: 14px; color: #fff;"></i>
+                                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, #1E88E5 0%, #1565C0 100%); display: flex; align-items: center; justify-content: center; margin-left: 10px; flex-shrink: 0;">
+                                                        <i class="fa fa-user" style="font-size: 13px; color: #fff;"></i>
                                                     </div>
-                                                    <span style="color: #333; font-weight: 500;">{{ optional($project->inspector)->name }}</span>
+                                                    <span style="color: #333; font-weight: 500; font-size: 13px;">{{ optional($project->inspector)->name }}</span>
                                                 </div>
                                             @else
-                                                <span style="color: #bdbdbd;">—</span>
+                                                <span style="color: #bdbdbd; font-size: 13px;">—</span>
                                             @endif
                                         </td>
-                                        <td style="padding: 14px 12px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                        <td style="padding: 12px 10px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
                                             {!! $project->status_label !!}
                                         </td>
-                                        <td style="padding: 14px 12px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                        <td style="padding: 12px 10px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
                                             <div style="display: flex; flex-direction: column; gap: 4px; align-items: center;">
                                                 @php
                                                     $panelCount = count($project->installed_panel_ids ?? []);
@@ -176,52 +214,52 @@
                                                     $batteryCount = count($project->installed_battery_ids ?? []);
                                                 @endphp
                                                 @if($panelCount > 0 || $inverterCount > 0 || $batteryCount > 0)
-                                                    <span style="font-size: 13px; color: #424242; font-weight: 500;">
+                                                    <span style="font-size: 12px; color: #424242; font-weight: 500;">
                                                         @if($panelCount > 0)
-                                                            <span style="display: inline-flex; align-items: center; gap: 4px; margin-left: 8px;">
+                                                            <span style="display: inline-flex; align-items: center; gap: 3px; margin-left: 6px;">
                                                                 <i class="fa fa-solar-panel" style="color: #FF9800;"></i>
                                                                 {{ $panelCount }} پنل
                                                             </span>
                                                         @endif
                                                         @if($inverterCount > 0)
-                                                            <span style="display: inline-flex; align-items: center; gap: 4px; margin-left: 8px;">
+                                                            <span style="display: inline-flex; align-items: center; gap: 3px; margin-left: 6px;">
                                                                 <i class="fa fa-bolt" style="color: #FB8C00;"></i>
                                                                 {{ $inverterCount }} اینورتر
                                                             </span>
                                                         @endif
                                                         @if($batteryCount > 0)
-                                                            <span style="display: inline-flex; align-items: center; gap: 4px;">
+                                                            <span style="display: inline-flex; align-items: center; gap: 3px;">
                                                                 <i class="fa fa-battery-full" style="color: #43A047;"></i>
                                                                 {{ $batteryCount }} باتری
                                                             </span>
                                                         @endif
                                                     </span>
                                                 @else
-                                                    <span style="color: #bdbdbd; font-size: 13px;">بدون تجهیز</span>
+                                                    <span style="color: #bdbdbd; font-size: 12px;">بدون تجهیز</span>
                                                 @endif
                                             </div>
                                         </td>
-                                        <td style="padding: 14px 12px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                        <td style="padding: 12px 10px; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
                                             <div class="d-flex align-items-center">
-                                                <i class="fa fa-calendar-alt ml-2" style="color: #FFB74D;"></i>
-                                                <span style="color: #424242; font-weight: 500;">{{ \Morilog\Jalali\Jalalian::fromDateTime($project->created_at)->format('Y/m/d') }}</span>
+                                                <i class="fa fa-calendar-alt ml-2" style="color: #FFB74D; font-size: 13px;"></i>
+                                                <span style="color: #424242; font-weight: 500; font-size: 13px;">{{ \Morilog\Jalali\Jalalian::fromDateTime($project->created_at)->format('Y/m/d') }}</span>
                                             </div>
                                         </td>
-                                        <td style="padding: 14px 12px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
-                                            <div style="display: flex; gap: 8px; justify-content: center;">
+                                        <td style="padding: 12px 10px; text-align: center; vertical-align: middle; border-bottom: 1px solid #f5f5f5;">
+                                            <div style="display: flex; gap: 6px; justify-content: center;">
                                                 <a href="{{ route('solar-plant-equipment.projects.show', $project) }}"
                                                    class="btn btn-sm" title="مشاهده"
-                                                   style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #039BE5; color: #039BE5; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.25s ease;"
+                                                   style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #039BE5; color: #039BE5; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.25s ease;"
                                                    onmouseover="this.style.background='#039BE5'; this.style.color='#fff';"
                                                    onmouseout="this.style.background='transparent'; this.style.color='#039BE5';">
-                                                    <i class="fa fa-eye" style="font-size: 14px;"></i>
+                                                    <i class="fa fa-eye" style="font-size: 13px;"></i>
                                                 </a>
                                                 <a href="{{ route('solar-plant-equipment.projects.edit', $project) }}"
                                                    class="btn btn-sm" title="ویرایش"
-                                                   style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #FB8C00; color: #FB8C00; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.25s ease;"
+                                                   style="width: 36px; height: 36px; border-radius: 50%; border: 2px solid #FB8C00; color: #FB8C00; background: transparent; display: inline-flex; align-items: center; justify-content: center; transition: all 0.25s ease;"
                                                    onmouseover="this.style.background='#FB8C00'; this.style.color='#fff';"
                                                    onmouseout="this.style.background='transparent'; this.style.color='#FB8C00';">
-                                                    <i class="fa fa-edit" style="font-size: 14px;"></i>
+                                                    <i class="fa fa-edit" style="font-size: 13px;"></i>
                                                 </a>
                                             </div>
                                         </td>

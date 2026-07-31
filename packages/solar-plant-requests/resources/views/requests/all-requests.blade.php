@@ -152,7 +152,7 @@
                                 جزئیات
                             </a>
 
-                            {{-- Assign contractor --}}
+                            <!-- {{-- Assign contractor --}}
                             @if ($req->status == SolarPlantRequestStatus::UNDER_REVIEW)
                                 <form method="POST"
                                       action="{{ route('solar-plant-requests.all-requests.assign-contractor', $req) }}"
@@ -199,7 +199,7 @@
                     </div>
                 @endforeach
             </div>
-        @endif
+        @endif -->
 
     </main>
 

@@ -3,7 +3,7 @@
 return [
     'roles' => [
         'leader' => [1],
-        'contractor' => [2],
-        'inspector' => [3],
+        'contractor' => [2, 1],
+        'inspector' => [13, 1],
     ],
 ];

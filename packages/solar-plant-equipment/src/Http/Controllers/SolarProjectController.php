@@ -30,7 +30,10 @@ class SolarProjectController
 
     public function index(): View
     {
-        $projects = SolarProject::query()->latest()->paginate(15);
+        $projects = SolarProject::query()
+            ->with(['request', 'contractor', 'inspector'])
+            ->latest()
+            ->paginate(15);
 
         return view('solar-plant-equipment::projects.index', compact('projects'));
     }

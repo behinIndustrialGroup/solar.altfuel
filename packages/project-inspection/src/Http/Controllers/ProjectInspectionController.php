@@ -13,16 +13,26 @@ use SolarPlantEquipment\Models\SolarProject;
 class ProjectInspectionController
 {
     private const INSPECTOR_ROLE_ID = 13;
+    private const ADMIN_ROLE_ID = 1;
+
+    private function isAdmin(): bool
+    {
+        $user = Auth::user();
+        return $user && (int) $user->role_id === self::ADMIN_ROLE_ID;
+    }
 
     private function getInspectorProjects()
     {
         $userId = Auth::id();
-
-        return SolarProject::query()
-            ->where('inspector_id', $userId)
+        $query = SolarProject::query()
             ->latest()
-            ->with(['request', 'contractor', 'inspector'])
-            ->paginate(15);
+            ->with(['request', 'contractor', 'inspector']);
+
+        if (!$this->isAdmin()) {
+            $query->where('inspector_id', $userId);
+        }
+
+        return $query->paginate(15);
     }
 
     public function index(): View
@@ -37,12 +47,15 @@ class ProjectInspectionController
                 ->count();
         }
 
-        $recentInspections = ProjectInspection::query()
-            ->where('inspector_id', $userId)
+        $recentQuery = ProjectInspection::query()
             ->latest()
-            ->with('project')
-            ->take(10)
-            ->get();
+            ->with('project');
+
+        if (!$this->isAdmin()) {
+            $recentQuery->where('inspector_id', $userId);
+        }
+
+        $recentInspections = $recentQuery->take(10)->get();
 
         return view('project-inspection::inspections.index', compact(
             'projects',
@@ -54,26 +67,31 @@ class ProjectInspectionController
     public function create(Request $request): View
     {
         $userId = Auth::id();
+        $isAdmin = $this->isAdmin();
 
         $projectQuery = SolarProject::query()
-            ->where('inspector_id', $userId)
             ->with(['request', 'contractor', 'installedPanels', 'installedInverters', 'installedBatteries']);
+
+        if (!$isAdmin) {
+            $projectQuery->where('inspector_id', $userId);
+        }
 
         if ($request->filled('project_id')) {
             $project = (clone $projectQuery)
                 ->where('id', $request->project_id)
                 ->firstOrFail();
         } else {
-            $project = $projectQuery->first();
+            $project = $projectQuery->latest()->first();
             if (!$project) {
-                abort(404, 'هیچ پروژه‌ای برای شما اختصاص داده نشده است.');
+                abort(404, 'هیچ پروژه‌ای برای بازرسی یافت نشد.');
             }
         }
 
-        $availableProjects = SolarProject::query()
-            ->where('inspector_id', $userId)
-            ->latest()
-            ->get();
+        $availableProjects = SolarProject::query();
+        if (!$isAdmin) {
+            $availableProjects->where('inspector_id', $userId);
+        }
+        $availableProjects = $availableProjects->latest()->get();
 
         return view('project-inspection::inspections.create', compact(
             'project',
@@ -84,15 +102,19 @@ class ProjectInspectionController
     public function store(Request $request): RedirectResponse
     {
         $userId = Auth::id();
+        $isAdmin = $this->isAdmin();
 
         $validated = $request->validate([
             'project_id' => [
                 'required',
                 'integer',
                 'exists:solar_projects,id',
-                function ($attribute, $value, $fail) use ($userId) {
+                function ($attribute, $value, $fail) use ($userId, $isAdmin) {
                     $project = SolarProject::query()->find($value);
-                    if (!$project || $project->inspector_id !== $userId) {
+                    if (!$project) {
+                        $fail('پروژه یافت نشد.');
+                    }
+                    if (!$isAdmin && $project && $project->inspector_id !== $userId) {
                         $fail('این پروژه متعلق به شما نیست.');
                     }
                 },
@@ -246,7 +268,7 @@ class ProjectInspectionController
     {
         $userId = Auth::id();
 
-        if ($inspection->inspector_id !== $userId) {
+        if (!$this->isAdmin() && $inspection->inspector_id !== $userId) {
             abort(403, 'شما مجاز به مشاهده این بازرسی نیستید.');
         }
 
