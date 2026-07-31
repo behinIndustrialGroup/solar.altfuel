@@ -7,6 +7,15 @@ use SolarPlantRequests\Enums\ApplicantType;
 
 class StoreSolarPlantRequestRequest extends FormRequest
 {
+    /** @var array لیست ۳۱ استان ایران برای اعتبارسنجی انتخابی فیلد استان */
+    public const IRAN_PROVINCES = [
+        'آذربایجان شرقی', 'آذربایجان غربی', 'اردبیل', 'اصفهان', 'البرز', 'ایلام', 'بوشهر',
+        'تهران', 'چهارمحال و بختیاری', 'خراسان جنوبی', 'خراسان رضوی', 'خراسان شمالی',
+        'خوزستان', 'زنجان', 'سمنان', 'سیستان و بلوچستان', 'فارس', 'قزوین', 'قم',
+        'کردستان', 'کرمان', 'کرمانشاه', 'کهگیلویه و بویراحمد', 'گلستان', 'گیلان',
+        'لرستان', 'مازندران', 'مرکزی', 'هرمزگان', 'همدان', 'یزد',
+    ];
+
     public function authorize(): bool
     {
         return true;
@@ -24,7 +33,7 @@ class StoreSolarPlantRequestRequest extends FormRequest
             'bill_identifier' => ['nullable', 'string', 'max:255'],
 
             // Installation location
-            'province' => ['required', 'string', 'max:100'],
+            'province' => ['required', 'string', 'max:100', 'in:' . implode(',', self::IRAN_PROVINCES)],
             'city' => ['required', 'string', 'max:100'],
             'postal_code' => ['required', 'digits:10'],
             'address' => ['required', 'string'],
@@ -99,7 +108,8 @@ class StoreSolarPlantRequestRequest extends FormRequest
             'bill_identifier.max'          => 'شناسه قبض برق نمی‌تواند بیش از ۲۵۵ کاراکتر باشد.',
 
             // location
-            'province.required'            => 'لطفاً نام استان را وارد کنید.',
+            'province.required'            => 'لطفاً استان را از لیست انتخاب کنید.',
+            'province.in'                  => 'استان انتخاب‌شده معتبر نیست. لطفاً استان را از لیست انتخاب کنید.',
             'city.required'                => 'لطفاً نام شهر را وارد کنید.',
             'postal_code.required'         => 'وارد کردن کد پستی الزامی است.',
             'postal_code.digits'              => 'کد پستی باید 10 رقم باشد',

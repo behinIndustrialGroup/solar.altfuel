@@ -11,40 +11,99 @@
     <title>@yield('title')</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome 6 CDN (برای پشتیبانی از آیکون‌های جدید fa-solar-panel, fa-clipboard-check و ...) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Font Awesome 4 (قدیمی برای سازگاری) -->
-    <link rel="stylesheet" href="{{ asset('behin/behin-dist/plugins/font-awesome/css/font-awesome.min.css')  . '?' . config('app.version') }}">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+
+    <!-- ========== فونت آیکون‌ها (همان ساختار Material Icons هدر — فقط از CDN معتبر) ========== -->
+    <!-- Font Awesome 6.5.1 CDN — پشتیبانی از همه نسخه‌ها: fa fa-home | fa-home | fa-solid fa-home | fa-brand -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" media="all">
+    <!-- Ionicons 2.0.1 CDN — برای ion-bag, ion-battery-full و ... -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" media="all">
+    <!-- Font Awesome 4 Legacy — فقط پشتیبان موردی برای کلاس‌های خیلی قدیمی بدون تداخل با FA6 -->
+    <link rel="stylesheet" href="{{ asset('behin/behin-dist/plugins/font-awesome/css/font-awesome.min.css')  . '?' . config('app.version') }}" media="all">
+
     <style>
-        /* سازگاری آیکون‌های قدیمی fa fa-* با Font Awesome 6 */
-        .fa, .far, .fas, .fab, .fal, .fat {
+        /* ============================================================
+           اطمینان قطعی از نمایش آیکون‌ها — مثل ساختار Material Icons هدر
+           ============================================================ */
+
+        /* ۱) ریست اولیه برای همه خانواده‌های Font Awesome */
+        .fa,
+        .fas,
+        .far,
+        .fal,
+        .fat,
+        .fa-solid,
+        .fa-regular,
+        .fa-light,
+        .fa-thin,
+        .fa-duotone,
+        .fab,
+        .fa-brands {
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            font-weight: normal;
+            line-height: 1;
+            vertical-align: middle;
+            text-rendering: auto;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            speak: none;
         }
+
+        /* ۲) کلاس تک پیشوند `fa-home` (بدون `fa fa-`) — در FA6 با این فرم قابل استفاده است */
+        [class^="fa-"]:not([class*="fa "]) {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Solid", "FontAwesome", sans-serif;
+            font-weight: 900 !important;
+        }
+
+        /* ۳) کلاس استاندارد قدیمی `fa fa-home` — مهم‌ترین مورد استفاده در سایت */
         .fa {
-            font-family: "Font Awesome 6 Free", "FontAwesome";
-            font-weight: 900;
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Solid", "FontAwesome", sans-serif !important;
+            font-weight: 900 !important;
+            font-style: normal;
         }
-        /* آیکون‌های برند (Brand) در FA6 */
-        .fa.fa-whatsapp,
-        .fa.fa-facebook,
-        .fa.fa-facebook-f,
-        .fa.fa-twitter,
-        .fa.fa-instagram,
-        .fa.fa-telegram,
-        .fa.fa-linkedin,
-        .fa.fa-youtube,
-        .fa.fa-google,
-        .fa.fa-github {
-            font-family: "Font Awesome 6 Brands";
-            font-weight: 400;
+
+        /* ۴) خانواده Solid و Regular */
+        .fa-solid, .fas {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Solid", "FontAwesome", sans-serif !important;
+            font-weight: 900 !important;
         }
-        /* اطمینان از نمایش ionicons */
-        .ion {
+        .fa-regular, .far {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Regular", "FontAwesome", sans-serif !important;
+            font-weight: 400 !important;
+        }
+
+        /* ۵) خانواده برندها — WhatsApp, Instagram و ... */
+        .fa-brands, .fab {
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Brands Regular", sans-serif !important;
+            font-weight: 400 !important;
+        }
+
+        /* ۶) اطمینان برای آیکون‌های برند با فرم قدیمی */
+        .fa-whatsapp,
+        .fa-facebook,
+        .fa-facebook-f,
+        .fa-twitter,
+        .fa-instagram,
+        .fa-telegram,
+        .fa-telegram-plane,
+        .fa-linkedin,
+        .fa-linkedin-in,
+        .fa-youtube,
+        .fa-google,
+        .fa-github,
+        .fa-pinterest,
+        .fa-tiktok {
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Brands Regular", sans-serif !important;
+            font-weight: 400 !important;
+        }
+
+        /* ۷) Ionicons — مثل Material Icons هدر */
+        .ion,
+        [class^="ion-"],
+        [class*=" ion-"] {
             display: inline-block;
-            font-family: "Ionicons";
+            font-family: "Ionicons", sans-serif !important;
             speak: none;
             font-style: normal;
             font-weight: normal;
@@ -52,7 +111,9 @@
             text-transform: none;
             text-rendering: auto;
             line-height: 1;
+            vertical-align: middle;
             -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
     </style>
     <!-- Theme style -->
@@ -78,6 +139,77 @@
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('behin/behin-dist/plugins/select2/select2.min.css') }}">
     <link rel="stylesheet" href="{{ asset('behin/behin-dist/persian-date-picker/persian-datepicker.css') }}">
+
+    <!-- ============================================================
+         تثبیت نهایی آیکون‌ها — بعد از همه CSS ها (مثل Material Icons در انتهای هدر)
+         این بلاک قطعی‌ترین لایه است و هیچ CSS بعدی نمی‌تواند آن را override کند
+         ============================================================ -->
+    <style>
+        /* ---- Font Awesome 6 — قطعی ترین لایه ---- */
+        .fa,
+        .fas, .fa-solid,
+        .far, .fa-regular,
+        .fab, .fa-brands,
+        [class^="fa-"],
+        [class*=" fa-"] {
+            display: inline-block !important;
+            font-style: normal !important;
+            font-variant: normal !important;
+            line-height: 1 !important;
+            vertical-align: middle !important;
+            text-rendering: auto !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+        }
+
+        /* کلاس `fa fa-*` قدیمی — مهم ترین بخشی که در سایت زیاد استفاده شده */
+        .fa {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Solid", "FontAwesome", sans-serif !important;
+            font-weight: 900 !important;
+        }
+
+        /* خانواده Solid (کلید اصلی) */
+        .fas, .fa-solid {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Solid", "FontAwesome", sans-serif !important;
+            font-weight: 900 !important;
+        }
+
+        /* خانواده Regular */
+        .far, .fa-regular {
+            font-family: "Font Awesome 6 Free", "Font Awesome 6 Regular", "FontAwesome", sans-serif !important;
+            font-weight: 400 !important;
+        }
+
+        /* خانواده برندها (WhatsApp, Telegram و ...) */
+        .fab, .fa-brands,
+        .fa-whatsapp, .fa-telegram, .fa-telegram-plane,
+        .fa-instagram, .fa-facebook, .fa-facebook-f,
+        .fa-twitter, .fa-linkedin, .fa-linkedin-in,
+        .fa-youtube, .fa-google, .fa-github,
+        .fa-pinterest, .fa-tiktok {
+            font-family: "Font Awesome 6 Brands", "Font Awesome 6 Brands Regular", sans-serif !important;
+            font-weight: 400 !important;
+        }
+
+        /* ---- Ionicons — قطعی ترین لایه (مثل `ion ion-bag`) ---- */
+        .ion,
+        [class^="ion-"],
+        [class*=" ion-"] {
+            display: inline-block !important;
+            font-family: "Ionicons", sans-serif !important;
+            speak: none !important;
+            font-style: normal !important;
+            font-weight: normal !important;
+            font-variant: normal !important;
+            text-transform: none !important;
+            text-rendering: auto !important;
+            line-height: 1 !important;
+            vertical-align: middle !important;
+            -webkit-font-smoothing: antialiased !important;
+            -moz-osx-font-smoothing: grayscale !important;
+        }
+    </style>
+
     @yield('style')
 
     <script src="{{ asset('behin/behin-dist/plugins/jquery/jquery.min.js') . '?' . config('app.version') }}"></script>

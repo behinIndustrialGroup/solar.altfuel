@@ -70,6 +70,19 @@
             animation: spin 20s linear infinite;
         }
 
+        .welcome-logo {
+            width: 96px;
+            height: 96px;
+            max-width: 96px;
+            max-height: 96px;
+            object-fit: contain;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 16px;
+            padding: 6px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+        }
+
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
@@ -391,8 +404,32 @@
 
         <div class="welcome-card">
             <div class="welcome-content">
-                <div class="row align-items-center">
-                    <div class="col-lg-7 col-md-8 col-sm-12">
+                @php
+                    $dashboardLogoPaths = [
+                        'behin/images/logo-union.png',
+                        'behin/images/logo.png',
+                        'behin/images/ieeu-logo.png',
+                        'behin/logo.png',
+                    ];
+                    $dashboardLogo = null;
+                    foreach ($dashboardLogoPaths as $lp) {
+                        if (file_exists(public_path($lp))) {
+                            $dashboardLogo = $lp;
+                            break;
+                        }
+                    }
+                @endphp
+
+                <div class="row align-items-center g-3">
+                    {{-- ستون اول: لوگو --}}
+                    @if ($dashboardLogo)
+                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-4 col-12 d-flex justify-content-center justify-content-md-start">
+                            <img src="{{ asset($dashboardLogo) }}" alt="لوگوی اتحادیه" class="welcome-logo">
+                        </div>
+                    @endif
+
+                    {{-- ستون دوم: متن خوش آمد و آیکون خورشید --}}
+                    <div class="@if ($dashboardLogo) col-xl-6 col-lg-6 col-md-6 col-sm-8 @else col-lg-7 col-md-8 @endif col-12">
                         <div class="d-flex align-items-start">
                             <i class="fa fa-sun-o welcome-icon ms-4 flex-shrink-0 mt-1"></i>
                             <div>
@@ -401,7 +438,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-5 col-md-4 col-sm-12 mt-4 mt-md-0">
+
+                    {{-- ستون سوم: تاریخ و ساعت --}}
+                    <div class="@if ($dashboardLogo) col-xl-4 col-lg-4 col-md-3 @else col-lg-5 col-md-4 @endif col-sm-12 mt-2 mt-lg-0">
                         <div class="row g-3">
                             <div class="col-6">
                                 <div class="date-time-box text-center">
@@ -567,17 +606,23 @@
 
             <div class="quick-link-card">
                 <h3 class="section-title mb-4"><i class="fa fa-compass"></i>دسترسی سریع</h3>
-
-                <h5 class="role-section-title mb-3 mt-2"><i class="fa fa-clipboard-check ms-2" style="color:#E53935;"></i>بازرسی پروژه</h5>
-                <div class="row g-3 mb-5">
-                    <div class="col-12">
-                        <a href="{{ route('project-inspection.inspections.index') }}" class="quick-link-btn ql-red">
-                            <div class="ql-icon"><i class="fa fa-clipboard-check"></i></div>
-                            <div class="ql-text">ثبت بازرسی پروژه<small>گزارش بازرسی و نظارت فنی بر نیروگاه خورشیدی</small></div>
-                            <i class="fa fa-angle-left ql-arrow"></i>
-                        </a>
-                    </div>
+            @if (auth()->user()->role_id == 13 || auth()->user()->role_id == 1)
+                <div class="old-small-box-wrap">
+                    <h4 class="role-section-title">بخش‌های مخصوص بازرس</h4>
+                        <h5 class="role-section-title mb-3 mt-2"><i class="fa fa-clipboard-check ms-2" style="color:#E53935;"></i>بازرسی پروژه</h5>
+                        <div class="row g-3 mb-5">
+                            <div class="col-12">
+                                <a href="{{ route('project-inspection.inspections.index') }}" class="quick-link-btn ql-red">
+                                    <div class="ql-icon"><i class="fa fa-clipboard-check"></i></div>
+                                    <div class="ql-text">ثبت بازرسی پروژه<small>گزارش بازرسی و نظارت فنی بر نیروگاه خورشیدی</small></div>
+                                    <i class="fa fa-angle-left ql-arrow"></i>
+                                </a>
+                            </div>
+                        </div>
                 </div>
+            @endif                
+
+
 
                 @if (auth()->user()->role_id == 1)
                     <h5 class="role-section-title mb-3"><i class="fa fa-folder-open ms-2" style="color:#1976D2;"></i>مدیریت پروژه‌ها و درخواست‌ها</h5>
@@ -605,19 +650,19 @@
                         </div>
                     </div>
 
-                    <h5 class="role-section-title mb-3"><i class="fa fa-users ms-2" style="color:#7B1FA2;"></i>کاتالوگ افراد</h5>
+                    <h5 class="role-section-title mb-3"><i class="fa fa-users ms-2" style="color:#7B1FA2;"></i>لیست افراد</h5>
                     <div class="row g-3 mb-5">
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <a href="{{ route('contractor-catalog.index') }}" class="quick-link-btn ql-purple">
                                 <div class="ql-icon"><i class="ion ion-person-stalker"></i></div>
-                                <div class="ql-text">کاتالوگ پیمانکار<small>مدیریت و مشاهده اطلاعات پیمانکاران</small></div>
+                                <div class="ql-text">لیست پیمانکاران<small>مدیریت و مشاهده اطلاعات پیمانکاران</small></div>
                                 <i class="fa fa-angle-left ql-arrow"></i>
                             </a>
                         </div>
                         <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                             <a href="{{ route('inspector-catalog.index') }}" class="quick-link-btn ql-teal">
                                 <div class="ql-icon"><i class="fa fa-user-check"></i></div>
-                                <div class="ql-text">کاتالوگ بازرس‌ها<small>مدیریت و مشاهده اطلاعات بازرس‌های سامانه</small></div>
+                                <div class="ql-text">لیست بازرس‌ها<small>مدیریت و مشاهده اطلاعات بازرس‌های سامانه</small></div>
                                 <i class="fa fa-angle-left ql-arrow"></i>
                             </a>
                         </div>
@@ -649,7 +694,7 @@
                     </div>
                 @endif
 
-                @if (auth()->user()->role_id == 1 || auth()->user()->role_id == 13)
+                @if (auth()->user()->role_id == 1)
                     <div class="row g-3">
                         <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12">
                             <a href="{{ url('/admin/seed-mock-data') }}" class="quick-link-btn ql-dark">
@@ -660,12 +705,6 @@
                         </div>
                     </div>
                 @endif
-            </div>
-        @endif
-
-        @if (auth()->user()->role_id == 13)
-            <div class="old-small-box-wrap">
-                <h4 class="role-section-title">بخش‌های مخصوص بازرس</h4>
             </div>
         @endif
 

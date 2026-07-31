@@ -46,23 +46,20 @@
             margin-bottom: 10px;
         }
 
-        .cert-header .union-logo {
+        .cert-header .cert-logo {
             position: absolute;
-            top: 12px;
+            top: 10px;
             left: 18px;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: #0c6e46;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 11.5px;
-            line-height: 1.2;
-            text-align: center;
-            padding: 3px;
+            width: 72px;
+            height: 72px;
+            max-width: 72px;
+            max-height: 72px;
+            object-fit: contain;
+            background: #fff;
+            border: 1px solid #cfd8dc;
+            border-radius: 10px;
+            padding: 5px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
         }
 
         .cert-header h1 {
@@ -362,7 +359,27 @@
 
     {{-- هدر گواهی --}}
     <div class="cert-header">
-        <div class="union-logo">اتحادیه<br/>سوخت‌های<br/>جایگزین</div>
+        {{-- لوگوی رسمی سمت چپ هدر (جایگزین نماد متنی قبلی) --}}
+        @php
+            $logoPaths = [
+                'behin/images/logo-union.png',
+                'behin/images/logo.png',
+                'behin/images/ieeu-logo.png',
+                'behin/logo.png',
+            ];
+            $selectedLogo = null;
+            foreach ($logoPaths as $lp) {
+                $fullPath = public_path($lp);
+                if (file_exists($fullPath)) {
+                    $selectedLogo = $lp;
+                    break;
+                }
+            }
+        @endphp
+        @if ($selectedLogo)
+            <img src="{{ asset($selectedLogo) }}" alt="لوگوی اتحادیه" class="cert-logo">
+        @endif
+
         <h1>گواهی سلامت نیروگاه خورشیدی</h1>
         <h2>سامانه جامع خورشیدی اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته</h2>
         <div class="cert-code-row">
