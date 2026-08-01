@@ -37,9 +37,6 @@
 
         @php
             $totalInverters = $inverters->total();
-            $unionApproved = \Packages\InverterCatalog\Models\Inverter::where('union_approved', 1)->count();
-            $labCertified = \Packages\InverterCatalog\Models\Inverter::where('lab_certified', 1)->count();
-            $uniqueBrands = \Packages\InverterCatalog\Models\Inverter::distinct()->count('brand');
         @endphp
 
         <div class="row g-4 mb-4">

@@ -11,24 +11,41 @@
     </style>
 </head>
 
-<body class="bg-gradient-to-br from-blue-600 via-purple-600 to-red-600 min-h-screen flex flex-col justify-between">
+<body class="bg-gray-50 text-gray-800 min-h-screen flex flex-col">
+
+    <!-- Header inspired by request apply page -->
+    <header class="bg-gradient-to-l from-amber-400 via-yellow-300 to-lime-300 text-gray-900">
+        <div class="container mx-auto px-6 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="text-center md:text-right">
+                <h1 class="text-2xl md:text-3xl font-bold">سامانه جامع اطلاعات پروژه‌های خورشیدی NSIS</h1>
+                <p class="mt-2 text-sm md:text-base text-gray-800">National Solar Information System</p>
+            </div>
+            @php
+                $logoPath = public_path('behin/images/logo-union.png');
+                $logoUrl = asset('behin/images/logo-union.png');
+            @endphp
+            @if(file_exists($logoPath))
+                <img src="{{ $logoUrl }}" alt="لوگو اتحادیه کشوری سوخت‌های جایگزین" class="h-20 w-auto object-contain">
+            @endif
+        </div>
+    </header>
 
     <!-- Center Login Box -->
-    <main class="flex-grow flex items-center justify-center px-4 py-10">
+    <main class="flex-grow flex items-center justify-center px-4 py-12">
         <div class="bg-white w-full max-w-md p-8 rounded-2xl shadow-xl text-gray-800">
 
-            <h1 class="text-2xl font-extrabold text-center mb-2">سامانه جامع اطلاعات پروژه‌های خورشیدی</h1>
-            <h2 class="text-center text-sm text-gray-600 mb-8 tracking-wide">National Solar Information System</h2>
+            <h1 class="text-xl md:text-2xl font-extrabold text-center mb-2 text-amber-600">ورود به سامانه</h1>
+            <h2 class="text-center text-sm text-gray-600 mb-8 tracking-wide">برای ادامه شماره موبایل خود را وارد کنید.</h2>
 
             <form method="POST" action="{{ route('otp.send') }}" class="flex flex-col gap-4">
                 @csrf
-                <label for="phone" class="text-sm font-semibold">شماره موبایل</label>
+                <label for="phone" class="text-sm font-semibold text-gray-700">شماره موبایل</label>
                 <input type="text" name="phone" id="phone" dir="ltr" inputmode="numeric"
                     placeholder="مثال: 09123456789"
-                    class="p-3 border rounded-lg text-center tracking-wide" required>
+                    class="w-full border rounded-lg px-4 py-3 text-center tracking-wide focus:outline-none focus:ring-2 focus:ring-amber-500" required>
 
                 <button
-                    class="bg-purple-600 text-white py-3 rounded-lg font-bold hover:bg-purple-700 transition duration-200">
+                    class="bg-gray-900 text-white py-3 rounded-lg font-bold hover:bg-gray-700 transition duration-200">
                     دریافت کد تأیید
                 </button>
             </form>
@@ -36,22 +53,33 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-10 mt-10">
+    <footer class="bg-white text-gray-800 py-10 mt-10 border-t-4 border-amber-400 shadow-[0_-10px_30px_rgba(245,158,11,0.08)]">
+        <div class="h-1 w-full bg-gradient-to-l from-amber-400 via-yellow-300 to-lime-300 mb-8"></div>
         <div class="container mx-auto px-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <div>
-                    <h3 class="font-bold text-lg mb-2">سامانه جامع اطلاعات خورشیدی NSIS</h3>
-                    <p class="text-sm opacity-80 leading-6">سامانه رسمی اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته.</p>
+                    <h3 class="font-bold text-lg mb-2 text-amber-600">سامانه جامع اطلاعات خورشیدی NSIS</h3>
+                    <p class="text-sm text-gray-600 leading-6">سامانه رسمی اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته.</p>
                 </div>
 
                 <div>
-                    <h4 class="font-semibold mb-2">تماس</h4>
-                    <p class="text-sm opacity-80 leading-6">تلفن: 02191013791</p>
+                    <h4 class="font-semibold mb-2 text-amber-600">تماس</h4>
+                    <p class="text-sm text-gray-600 leading-6">تلفن: 02191013791</p>
+                </div>
+
+                <div class="flex justify-center md:justify-end items-center">
+                    @php
+                        $logoPath = public_path('behin/images/logo-union.png');
+                        $logoUrl = asset('behin/images/logo-union.png');
+                    @endphp
+                    @if(file_exists($logoPath))
+                        <img src="{{ $logoUrl }}" alt="لوگو اتحادیه کشوری سوخت‌های جایگزین" class="h-20 w-auto object-contain">
+                    @endif
                 </div>
             </div>
 
-            <div class="text-center text-sm text-gray-400 mt-8">© تمامی حقوق متعلق به اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته است.</div>
+            <div class="text-center text-sm text-gray-500 mt-8 pt-6 border-t border-amber-100">© تمامی حقوق متعلق به اتحادیه کشوری سوخت‌های جایگزین و خدمات وابسته است.</div>
         </div>
     </footer>
 

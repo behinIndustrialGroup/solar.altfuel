@@ -19,7 +19,26 @@ class InverterCatalogController
             ->orderBy('created_at', 'desc')
             ->paginate(20);
 
-        return view('inverter-catalog::inverters.index', compact('inverters'));
+        $unionApproved = InverterCatalog::query()
+            ->where('lab_certified', 1)
+            ->whereNotNull('lab_name')
+            ->whereNotNull('datasheet_path')
+            ->count();
+
+        $labCertified = InverterCatalog::query()
+            ->where('lab_certified', 1)
+            ->count();
+
+        $uniqueBrands = InverterCatalog::query()
+            ->distinct('brand')
+            ->count('brand');
+
+        return view('inverter-catalog::inverters.index', compact(
+            'inverters',
+            'unionApproved',
+            'labCertified',
+            'uniqueBrands'
+        ));
     }
 
     /**

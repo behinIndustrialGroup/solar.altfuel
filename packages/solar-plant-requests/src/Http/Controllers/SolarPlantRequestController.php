@@ -2,9 +2,11 @@
 
 namespace SolarPlantRequests\Http\Controllers;
 
+use Behin\Sms\Controllers\SmsController;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 use SolarPlantRequests\Enums\SolarPlantRequestStatus;
@@ -59,13 +61,32 @@ class SolarPlantRequestController
 
         unset($validated['images'], $validated['documents']);
 
-        SolarPlantRequest::create([
+        $solarPlantRequest = SolarPlantRequest::create([
             ...$validated,
             'user_id'   => $request->user()->id,
             'status'    => SolarPlantRequestStatus::UNDER_REVIEW,
             'images'    => $imagePaths ?: null,
             'documents' => $documentPaths ?: null,
         ]);
+
+        try {
+            $mobile = function_exists('convertPersianToEnglish')
+                ? convertPersianToEnglish($solarPlantRequest->mobile)
+                : $solarPlantRequest->mobile;
+
+            $message = "سامانه جامع اتحادیه سوخت‌های جایگزین و خدمات وابسته\nدرخواست نیروگاه خورشیدی شما با کد {$solarPlantRequest->unique_code} با موفقیت در سامانه ثبت شد.\nجهت پیگیری وضعیت از پنل کاربری خود وارد شوید.";
+
+            if ($mobile) {
+                SmsController::send($mobile, $message);
+            }
+        } catch (\Throwable $e) {
+            Log::warning('ارسال اس‌ام‌اس تایید ثبت درخواست ناموفق بود.', [
+                'request_id'  => $solarPlantRequest->id,
+                'unique_code' => $solarPlantRequest->unique_code,
+                'mobile'      => $solarPlantRequest->mobile,
+                'error'       => $e->getMessage(),
+            ]);
+        }
 
         return redirect()
             ->route('solar-plant-requests.index')
